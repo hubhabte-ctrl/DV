@@ -1,0 +1,763 @@
+/* =============================================================
+   tokens.css — Synced with tokens.json (PRD-Build-Studio-Brand-Elevation.md)
+   Palette: Obsidian/Slate/Graphite/Stone neutrals + Petrol Blue primary accent.
+   Dark & Light modes are equal first-class variants (PRD §1 Mode Rule).
+   BANNED: neon accents, high-saturation primaries, commodity tech terminology.
+   Plan 06 §3.1 step 2 · Doc 05 §10 · FR-191 · IL-13
+   ============================================================= */
+
+/* ── Structural tokens (--bs-color-*, --bs-typography-*, --bs-space-*, etc.) ── */
+:root {
+  --bs-color-bg-selection: oklch(0.48 0.10 198 / 0.28);
+  --bs-color-bg-overlay: oklch(0.10 0.009 220 / 0.88);
+  --bs-color-accent-wash: oklch(0.28 0.07 198 / 0.20);
+  --bs-color-accent-override: oklch(0.60 0.08 295);
+  --bs-color-accent-overrideFocus: oklch(0.60 0.08 295 / 0.25);
+  --bs-color-accent-clay: oklch(0.58 0.12 44);
+  --bs-color-accent-claySoft: oklch(0.66 0.10 44);
+  --bs-color-accent-clayWash: oklch(0.58 0.12 44 / 0.16);
+  --bs-color-accent-waypoint: oklch(0.62 0.10 200);
+  --bs-color-accent-waypointWash: oklch(0.62 0.10 200 / 0.16);
+  --bs-color-state-info: oklch(0.58 0.12 230);
+  --bs-color-state-infoWash: oklch(0.28 0.05 230 / 0.40);
+  --bs-color-state-success: oklch(0.60 0.12 152);
+  --bs-color-state-successWash: oklch(0.28 0.06 152 / 0.38);
+  --bs-color-state-successGlow: oklch(0.60 0.12 152 / 0.25);
+  --bs-color-state-warning: oklch(0.68 0.12 60);
+  --bs-color-state-warningWash: oklch(0.30 0.06 60 / 0.38);
+  --bs-color-state-warningGlow: oklch(0.68 0.12 60 / 0.25);
+  --bs-color-state-danger: oklch(0.56 0.16 25);
+  --bs-color-state-dangerWash: oklch(0.30 0.07 25 / 0.38);
+  --bs-color-state-dangerGlow: oklch(0.56 0.16 25 / 0.25);
+  --bs-color-save-saved: oklch(0.60 0.12 152);
+  --bs-color-save-saving: oklch(0.68 0.12 60);
+  --bs-color-save-unsaved: oklch(0.78 0.008 220);
+  --bs-color-save-offline: oklch(0.68 0.12 60);
+  --bs-color-save-failed: oklch(0.56 0.16 25);
+  --bs-color-viewport-gizmoX: #e05a6a;
+  --bs-color-viewport-gizmoY: #4dba6a;
+  --bs-color-viewport-gizmoZ: #4a8fdf;
+  --bs-typography-fontFamily-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --bs-typography-fontFamily-disp: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --bs-typography-fontFamily-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bs-typography-size-xs: 11px;
+  --bs-typography-size-sm: 12px;
+  --bs-typography-size-md: 13px;
+  --bs-typography-size-lg: 14px;
+  --bs-typography-size-xl: 16px;
+  --bs-typography-size-xxl: 18px;
+  --bs-typography-weight-regular: 400;
+  --bs-typography-weight-medium: 450;
+  --bs-typography-weight-semibold: 600;
+  --bs-typography-weight-bold: 700;
+  --bs-typography-lineHeight-tight: 1.2;
+  --bs-typography-lineHeight-normal: 1.5;
+  --bs-space-0: 0px;
+  --bs-space-1: 4px;
+  --bs-space-2: 8px;
+  --bs-space-3: 12px;
+  --bs-space-4: 16px;
+  --bs-space-5: 20px;
+  --bs-space-6: 24px;
+  --bs-space-8: 32px;
+  --bs-space-9: 48px;
+  --bs-space-10: 64px;
+  --bs-space-11: 96px;
+  --bs-radius-xs: 4px;
+  --bs-radius-sm: 6px;
+  --bs-radius-md: 8px;
+  --bs-radius-lg: 10px;
+  --bs-radius-xl: 14px;
+  --bs-radius-full: 999px;
+  --bs-shadow-focus: 0 0 0 3px oklch(0.46 0.10 198 / 0.45);
+  --bs-motion-duration-fast: 120ms;
+  --bs-motion-duration-normal: 180ms;
+  --bs-motion-duration-slow: 320ms;
+  --bs-motion-easing-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --bs-motion-easing-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --bs-motion-easing-easeIn: cubic-bezier(0.65, 0, 0.35, 1);
+  --bs-size-topBarH: var(--topbar-h);  /* bridge → 60px (SSOT --topbar-h) */
+  --bs-size-timelineH: 230px;
+  --bs-size-statusBarH: 26px;
+  --bs-size-leftRailW: 340px;
+  --bs-size-inspectorW: 300px;
+  --bs-size-controlH: 28px;
+  --bs-size-controlHLg: 32px;
+}
+
+/* ── Forma semantic tokens: shared scale + dark theme (default) ── */
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --fs-00: .6875rem;
+  --fs-0: .75rem;
+  --fs-1: .8125rem;
+  --fs-2: .875rem;
+  --fs-3: 1rem;
+  --fs-4: 1.125rem;
+  --fs-5: 1.375rem;
+  --fs-6: 1.75rem;
+  --fs-7: 2.25rem;
+  --fs-8: 3rem;
+  --fs-9: 3.75rem;
+  --track-tight: -.02em;
+  --track-tighter: -.032em;
+  --track-wide: .02em;
+  /* PRD Brand Elevation: de-saturated studio accent hues — no neon/high-chroma.
+     The `*-soft` washes are deliberately NOT declared here. The seven pale
+     values that used to sit on these lines were shadowed by the dark
+     translucent set below (`:193-199`) — same `:root`, equal specificity, later
+     wins — so they never applied anywhere. They are light-mode values and now
+     live in the `[data-theme='light']` block with the other light washes. */
+  --teal: oklch(.58 .08 195);
+  --violet: oklch(.55 .08 295);
+  --amber: oklch(.65 .10 55);
+  --success: oklch(.60 .12 152);
+  --warning: oklch(.68 .12 60);
+  --error: oklch(.56 .16 25);
+  --info: oklch(.58 .12 230);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+  --dur-instant: 80ms;
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-moderate: 240ms;
+  --dur-slow: 320ms;
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+  --r-2xl: 18px;
+  --r-full: 999px;
+  --sp-1: 2px;
+  --sp-2: 4px;
+  --sp-3: 6px;
+  --sp-4: 8px;
+  --sp-5: 10px;
+  --sp-6: 12px;
+  --sp-7: 14px;
+  --sp-8: 16px;
+  --sp-9: 20px;
+  --sp-10: 24px;
+  --sp-11: 32px;
+  --sp-12: 40px;
+  --sp-13: 48px;
+  --sp-14: 64px;
+  --sp-15: 80px;
+  --sp-16: 96px;
+  --z-sticky: 20;
+  --z-dropdown: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+  /* Only `--ink-faint` survives from the PRD dark-mode neutral ramp — every
+     other neutral and accent on this layer was a dead oklch declaration
+     superseded by the SSOT `:root` further down the file (T2.3). */
+  --ink-faint: oklch(.480 .010 220);
+  /* Dark `*-soft` washes. Light counterparts live in `[data-theme='light']`. */
+  --teal-soft: oklch(.26 .05 195 / .4);
+  --violet-soft: oklch(.26 .05 295 / .4);
+  --amber-soft: oklch(.28 .055 55 / .4);
+  --success-soft: oklch(.26 .06 152 / .38);
+  --warning-soft: oklch(.28 .06 60 / .38);
+  --error-soft: oklch(.28 .07 25 / .38);
+  --info-soft: oklch(.26 .05 230 / .4);
+  --shadow-pop: 0 22px 52px oklch(0 0 0 /.65), 0 8px 18px oklch(0 0 0 /.44);
+  --shadow-focus: 0 0 0 3px var(--accent-ring);
+  --bs-color-bg-app: var(--shell);
+  --bs-color-bg-panel: var(--surface);
+  --bs-color-bg-panelRaised: var(--surface-2);
+  --bs-color-bg-inset: var(--surface-3);
+  --bs-color-bg-hover: oklch(0.95 0.004 220 / 0.06);
+  --bs-color-bg-active: oklch(0.95 0.004 220 / 0.12);
+  --bs-color-border-subtle: var(--border);
+  --bs-color-border-default: var(--border-2);
+  /* Pinned literal, NOT var(--ink-3). This bridge aliased a BORDER role onto
+     the ink (text) ramp — a Layer A mis-alias predating the SSOT. Lifting
+     --ink-3 for WCAG AA (audit issue 14) would otherwise have repainted every
+     strong border in dark mode, a change with no accessibility rationale. The
+     literal preserves the previously resolved value exactly. Phase 2 repoints
+     this to --color-border-strong and deletes it. */
+  --bs-color-border-strong: #5a626f;
+  --bs-color-border-focus: var(--accent);
+  --bs-color-text-primary: var(--ink);
+  --bs-color-text-secondary: var(--ink-2);
+  --bs-color-text-muted: var(--ink-3);
+  --bs-color-text-onAccent: var(--on-accent);
+  --bs-color-text-inverse: var(--surface);
+  --bs-color-accent-primary: var(--accent);
+  --bs-color-accent-primaryHover: var(--accent-hi);
+  --bs-color-accent-primaryActive: var(--accent-lo);
+  --bs-color-accent-dim: var(--accent-soft);
+  --bs-color-viewport-canvasBg: var(--shell);
+  --bs-shadow-e1: var(--shadow-sm);
+  --bs-shadow-e2: var(--shadow-md);
+  --bs-shadow-e3: var(--shadow-lg);
+  --bs-shadow-e4: var(--shadow-pop);
+  /* Ruler: Obsidian dark palette */
+  --bs-ruler-bg: #0C0F14;
+  --bs-ruler-border: #1E2430;
+  --bs-ruler-tick: #465060;
+  --bs-ruler-label: #7A8898;
+  --bs-ruler-cursor: var(--accent);
+}
+
+/* ── Forma semantic tokens: light theme overrides (PRD §1 — equal first-class variant) ── */
+[data-theme='light'] {
+  /* Light counterparts for the two legacy tokens the SSOT layer does not
+     re-declare. Every other neutral/accent/shadow that used to sit here was a
+     dead oklch declaration superseded by the SSOT `[data-theme='light']`
+     block further down the file (T2.3). */
+  --ink-faint: oklch(.70 .008 220);
+  --shadow-pop: 0 20px 48px oklch(.16 .02 220 /.16), 0 8px 16px oklch(.16 .02 220 /.08);
+  --shadow-focus: 0 0 0 3px var(--accent-ring);
+  --bs-color-bg-app: var(--shell);
+  --bs-color-bg-panel: var(--surface);
+  --bs-color-bg-panelRaised: var(--surface-2);
+  --bs-color-bg-inset: var(--surface-3);
+  --bs-color-bg-hover: rgba(0, 0, 0, 0.04);
+  --bs-color-bg-active: rgba(0, 0, 0, 0.08);
+  --bs-color-border-subtle: var(--border);
+  --bs-color-border-default: var(--border-2);
+  /* Pinned literal — see the dark-mode counterpart above for why. */
+  --bs-color-border-strong: #475569;
+  --bs-color-border-focus: var(--accent);
+  --bs-color-text-primary: var(--ink);
+  --bs-color-text-secondary: var(--ink-2);
+  --bs-color-text-muted: var(--ink-3);
+  --bs-color-text-onAccent: var(--on-accent);
+  --bs-color-text-inverse: var(--on-accent);
+  --bs-color-accent-primary: var(--accent);
+  --bs-color-accent-primaryHover: var(--accent-hi);
+  --bs-color-accent-primaryActive: var(--accent-lo);
+  --bs-color-accent-dim: var(--accent-soft);
+  --bs-color-viewport-canvasBg: var(--shell);
+  --bs-shadow-e1: var(--shadow-sm);
+  --bs-shadow-e2: var(--shadow-md);
+  --bs-shadow-e3: var(--shadow-lg);
+  --bs-shadow-e4: var(--shadow-pop);
+  /* Ruler: Linen light palette */
+  --bs-ruler-bg: #F3F5F7;
+  --bs-ruler-border: #D0D5DE;
+  --bs-ruler-tick: #6B7280;
+  --bs-ruler-label: #4B5563;
+  --bs-ruler-cursor: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SSOT DESIGN TOKENS — UI_UX Design System (Single Source of Truth)
+   Sourced from: UI_UX/src/design-system/tokens/
+   These are the canonical tokens consumed by every migrated section.
+   Bridge aliases (--ink, --surface, etc.) kept for legacy components.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── SSOT Raw Palette + Semantic Aliases (Dark, default) ── */
+:root {
+  /* ── Raw Palette ── */
+  --bg-0: #0C0F14;   /* Obsidian */
+  --bg-1: #1A1F26;   /* Slate Charcoal */
+  --bg-2: #2B313A;   /* Graphite */
+  --bg-3: #3E444D;   /* Stone */
+  --bg-4: #313840;   /* Stone mid — hover */
+  --bg-5: #464d57;   /* Stone bright — active */
+  --canvas-bg: #0C0F14;
+
+  /* Border */
+  --line-1: #2D3644;   /* Panel boundaries */
+  --line-2: #3E4A5C;   /* Default cards/inputs */
+  --line-3: #52627A;   /* Strong — hover/active */
+
+  /* Ink — dark ramp, re-spaced for WCAG AA (audit issue 14).
+     Measured against --bg-1 (#1A1F26), the panel surface that carries almost
+     all body and helper text. The previous --ink-3 sat at 2.69:1 — below AA
+     for any text size — and --ink-2 at 5.22:1 dropped to 4.13:1 on --bg-2.
+     Lifting --ink-3 alone would have closed the tier gap to 1.26:1 (two
+     visually identical greys), so both steps moved and hue/saturation were
+     held constant. Ratios on --bg-1 are now 10.38 / 7.01 / 4.62 with ~1.5×
+     separation per tier. Light mode already cleared AA (6.11–9.93) and is
+     unchanged. Verify with: node scripts/check-contrast.mjs */
+  --ink-0: #F4F5F7;
+  --ink-1: #c8cdd6;
+  --ink-2: #A3A9B3;
+  --ink-3: #7E8897;
+
+  /* Primary Accent: Petrol Blue */
+  --accent-br:      #2A7D7A;   /* bright/hover teal */
+  --accent-dim-hex: #0d3d4a;   /* deep focus */
+  --accent-wash:    rgba(22, 90, 109, 0.14);
+  --accent-wash-s:  rgba(22, 90, 109, 0.26);
+
+  /* Danger */
+  --red:        #6D2E3A;
+  --red-br:     #934050;
+  --red-wash:   rgba(109, 46, 58, 0.12);
+  --red-wash-s: rgba(109, 46, 58, 0.22);
+  --red-line:   rgba(109, 46, 58, 0.28);
+  --red-line-s: rgba(109, 46, 58, 0.45);
+
+  /* Studio Accents */
+  --green:        #5a8f6e;
+  --green-wash:   rgba(90, 143, 110, 0.14);
+  --green-line:   rgba(90, 143, 110, 0.30);
+  --blue:         #4f7a9e;
+  --blue-wash:    rgba(79, 122, 158, 0.14);
+  --blue-line:    rgba(79, 122, 158, 0.30);
+  --violet-hex:   #7a62a8;
+  --violet-wash-hex: rgba(122, 98, 168, 0.14);
+  --violet-line-hex: rgba(122, 98, 168, 0.30);
+  --violet-line-s: rgba(155, 127, 199, 0.35);
+  --teal-hex:     #2A7D7A;
+  --teal-br:      #35968f;              /* brighter teal — hover state */
+  --teal-wash-hex: rgba(42, 125, 122, 0.14);
+  --teal-line-hex: rgba(42, 125, 122, 0.30);
+  --teal-line-s:  rgba(42, 125, 122, 0.35);
+  /* Opaque-enough teal for a badge floating over an arbitrary material fill
+     (SSOT material-studio.css L380: rgba(42,125,122,0.85)). */
+  --teal-wash-strong: rgba(42, 125, 122, 0.85);
+  --amber-hex:    #a8895a;
+  --amber-wash-hex: rgba(168, 137, 90, 0.14);
+  --amber-line-hex: rgba(168, 137, 90, 0.30);
+  --mauve:        #7B6D7E;
+
+  --mauve-wash:   rgba(123, 109, 126, 0.14);
+
+  /* ── SSOT Semantic Token Aliases ── */
+  /* Text */
+  --color-text-primary:   var(--ink-0);
+  --color-text-secondary: var(--ink-1);
+  --color-text-tertiary:  var(--ink-2);
+  --color-text-muted:     var(--ink-3);
+  --color-text-accent:    var(--accent-br);
+  --color-text-danger:    var(--red-br);
+  --color-text-on-accent: #FFFFFF;
+
+  /* Surface */
+  --color-surface-base:    var(--bg-0);
+  --color-surface-panel:   var(--bg-1);
+  --color-surface-card:    var(--bg-2);
+  --color-surface-control: var(--bg-3);
+  --color-surface-hover:   var(--bg-4);
+  --color-surface-active:  var(--bg-5);
+
+  /* Border */
+  --color-border-subtle:  var(--line-1);
+  --color-border-default: var(--line-2);
+  --color-border-strong:  var(--line-3);
+  --color-border-on-fill: rgba(255, 255, 255, 0.12);
+
+  /* Overlays */
+  --color-overlay:       rgba(0, 0, 0, 0.60);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.70);
+
+  /* Selection */
+  --color-selection-bg:    rgba(22, 90, 109, 0.06);
+  --color-selection-bg-sm: rgba(22, 90, 109, 0.04);
+
+  /* 3D Axis */
+  --color-axis-x:      #a06060;
+  --color-axis-x-wash: rgba(160, 96, 96, 0.10);
+  --color-axis-y:      #5a8f70;
+  --color-axis-y-wash: rgba(90, 143, 112, 0.10);
+  --color-axis-z:      #5878a0;
+  --color-axis-z-wash: rgba(88, 120, 160, 0.10);
+
+  /* Smart Guide */
+  --color-guide:      #FF3B30;
+  --color-guide-glow: rgba(255, 59, 48, 0.6);
+
+  /* ── SSOT Typography ── */
+  --font:         'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font);
+  /* Governance §3.3/§3.4: IBM Plex Mono is the one mono face (code · tokens · IDs · metrics). */
+  --mono:         'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --text-display:     32px;
+  --text-heading-lg:  20px;
+  --text-heading:     16px;
+  --text-body:        14px;
+  --text-body-sm:     13px;
+  --text-brand:       15px;
+  --text-caption:     12px;
+  --text-caption-sm:  11px;
+  --text-label:       11px;
+
+  /* ── Sub-11px steps — RETIRED, aliased to the floor (audit issue 6) ────────
+     11px is the smallest size this UI renders. The four steps below defined
+     9–10.5px text and were live at ~190 call sites, though the true count is
+     roughly 8 distinct rules replicated across five studio stylesheet copies.
+
+     Their VALUES are collapsed to --text-label rather than their NAMES being
+     deleted, so no call site changes and the floor takes effect everywhere at
+     once. Phase 2 codemods the references and deletes these four lines.
+
+     Do NOT add a new declaration below --text-label. */
+  --text-label-sm:    var(--text-label);   /* was 10.5px */
+  --text-mono-label:  var(--text-label);   /* was 10px */
+  --text-micro:       var(--text-label);   /* was 10px */
+  --text-nano:        var(--text-label);   /* was 9px */
+
+  --leading-tight:   1.16;
+  --leading-snug:    1.3;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.6;
+
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Field-label weight. Light-on-dark text optically thins, so dark mode
+     carries one extra weight step to render at the same perceived weight as
+     light mode. Overridden in [data-theme='light'] below. (Audit issue 11) */
+  --weight-label: var(--weight-medium);
+
+  --tracking-tight:   -0.01em;
+  --tracking-normal:   0;
+  --tracking-wide:     0.01em;
+  --tracking-wider:    0.03em;
+  /* Was "uppercase labels". The chrome that consumed it is Title Case now, so
+     nothing in the UI should reference this. Kept declared only because Layer A
+     bridges still resolve it; Phase 2 deletes it. Do NOT add new consumers. */
+  --tracking-widest:   0.08em;
+  --tracking-label:    0.04em;
+  --tracking-section:  0.06em;
+  --tracking-heading:  0.07em;
+
+  /* ── UI Role tokens ───────────────────────────────────────────────────────
+     The four-tier hierarchy the interface promises: Page Title → Section Title
+     → Control Label → Value. These ALIAS the scale above rather than declaring
+     new sizes, so the ramp stays the single source of truth and a role can be
+     repointed in one line.
+
+     Consume these in chrome instead of reaching for --text-* directly. That is
+     what makes the hierarchy greppable: `--ui-title-section` states intent,
+     `--text-heading` only states a size.
+
+     The value tier sits one step ABOVE its label (13px vs 12px). Inputs are the
+     thing being manipulated, so they must out-rank the word describing them —
+     the previous scale had both at 11px, which is why nothing read as primary.
+
+     All roles are Title Case by contract. No --ui-* role may carry
+     `text-transform: uppercase`; scripts/check-ui-chrome.mjs enforces it. */
+  --ui-title-page:     var(--text-heading-lg);   /* 20px — workspace identity  */
+  --ui-title-section:  var(--text-heading);      /* 16px — groups controls     */
+  --ui-title-object:   var(--text-body);         /* 14px — selected object     */
+  --ui-eyebrow:        var(--text-label);        /* 11px — muted kind line     */
+  --ui-label-control:  var(--text-caption);      /* 12px — names one control   */
+  --ui-value:          var(--text-body-sm);      /* 13px — the interaction     */
+
+  /* ── SSOT Spacing (4px base) ── */
+  /* Sub-scale hairline gap. The SSOT uses a bare 1px in the few places a step
+     of 2px is too large to separate stacked label/value text
+     (e.g. Inspector.css L99). Tokenised so no literal reaches a stylesheet. */
+  --space-hair: 1px;
+  --space-1:  2px;
+  --space-2:  4px;
+  --space-3:  6px;
+  --space-4:  8px;
+  --space-5:  10px;
+  --space-6:  12px;
+  --space-7:  14px;
+  --space-8:  16px;
+  --space-9:  20px;
+  --space-10: 24px;
+  --space-11: 28px;
+  --space-12: 32px;
+  --space-13: 40px;
+  --space-14: 48px;
+  --space-15: 56px;
+  --space-16: 64px;
+
+  /* ── SSOT Layout Dimensions ── */
+  --topbar-h:    60px;
+  --rail-w:      64px;
+  --layers-w:    276px;
+  --insp-w:      340px;
+  --dock-h:      46px;
+  --dock-h-tall: 340px;
+  --statusbar-h: 24px;
+
+  /* ── SSOT Component Dimensions ── */
+  --icon-btn-size:    34px;
+  --icon-btn-size-sm: 22px;
+  --icon-btn-radius:  8px;
+  --rail-btn-size:    42px;
+  --rail-btn-radius:  11px;
+  --ring-width:       2px;
+  --ring-width-lg:    3px;
+
+  /* ── SSOT Activity Rail Element Dimensions (reference shell.css `.rail*`) ── */
+  --rail-sep-w:            24px;  /* separator hairline width */
+  --rail-active-bar-w:     2px;   /* .rail-btn.active::before indicator */
+  --rail-active-bar-inset: 10px;  /* indicator top/bottom inset */
+  /* Indicator offset into the rail gutter. SSOT uses -12px paired with
+     `overflow:hidden` on .rail to clip the 1px that bleeds past the rail
+     edge — but that same clip also hides the .rail-tooltip flyouts. Pinned
+     to -11px (exactly the (--rail-w - --rail-btn-size)/2 gutter) so the bar
+     sits flush without needing the clip. */
+  --rail-active-bar-x:     -11px;
+  --rail-tooltip-gap:      10px;  /* flyout distance from the rail edge */
+
+  /* Settings popover anchored to the rail floor (SSOT `.settings-pop`,
+     reference shell.css:283-294). */
+  --rail-popover-x:        54px;  /* left offset from the rail's own box */
+  --rail-popover-w:        224px; /* fixed panel width */
+  --rail-popover-slide:    8px;   /* enter/exit translateX distance */
+
+  /* ── SSOT Icon Glyph Scale (reference components.css `svg.i[data-size]`) ── */
+  --icon-10: 10px;
+  --icon-11: 11px;
+  --icon-12: 12px;
+  --icon-13: 13px;
+  --icon-14: 14px;
+  --icon-16: 16px;
+  --icon-18: 18px;
+  --icon-20: 20px;
+
+  /* ── SSOT Top Bar Element Dimensions (reference shell.css) ── */
+  --brand-mark-size: 32px;
+  --divider-v-h:     24px;
+  --status-dot-size: 6px;
+  --chip-h:          24px;
+  --avatar-size:     28px;
+  --avatar-overlap:  -8px;
+
+  /* ── SSOT Material Preview Dimensions (reference material-studio.css)
+     Fixed square geometry — a sphere/badge must stay circular, so these are
+     dimensions rather than spacing steps. ── */
+  --size-material-sphere: 84px;
+  --size-badge:           18px;
+  --size-badge-sm:        16px;
+  /* Square icon tile in the inspector object header (SSOT Inspector.css L92). */
+  --size-obj-icon:        28px;
+
+  /* ── Responsive material-card grid ──
+     The SSOT hardcodes `grid-template-columns: 1fr 1fr` (reference
+     material-studio.css L216) and sizes the tile from its column
+     (`width: 100%; aspect-ratio: 1/1`). That reads correctly only at the
+     reference app's fixed ~330px inspector, where a track lands at ~146px and
+     a tile at ~134px. The production inspector is resizable and materially
+     wider, so the same rules scale every tile without bound.
+
+     These two tokens preserve the SSOT's *rendered* geometry while letting the
+     column COUNT absorb extra width instead of the item size: the track floor
+     is the SSOT track width, the tile ceiling is the SSOT tile width. */
+  --size-material-card-min: 134px;
+  --size-material-tile-max: 140px;
+
+  /* ── SSOT Brand Wordmark (reference shell.css `.bn-main`/`.bn-amp`/`.bn-sub`)
+     Off-scale literals that belong to the logotype only — tokenised here so no
+     component file carries a hardcoded font-size (governance §9). ── */
+  --text-wordmark:      14.5px;
+  --tracking-wordmark:  -0.025em;
+  --wordmark-amp-gap:   2.5px;
+
+  /* ── SSOT Brand Mark surface (reference shell.css `.brand-mark`)
+     The logotype tile keeps its own teal gradient in both themes — values are
+     byte-identical to the SSOT, tokenised so the component layer stays
+     colour-literal free (governance §9). ── */
+  --brand-mark-grad:         linear-gradient(135deg, rgba(42,125,122,0.28) 0%, rgba(22,90,109,0.45) 100%);
+  --brand-mark-grad-hover:   linear-gradient(135deg, rgba(42,125,122,0.42) 0%, rgba(22,90,109,0.65) 100%);
+  --brand-mark-shadow:       0 2px 10px -2px rgba(42, 125, 122, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  --brand-mark-shadow-hover: 0 4px 14px -2px rgba(42, 125, 122, 0.45);
+
+  /* ── SSOT Publish CTA glow (reference shell.css `.pub-btn:hover`) ── */
+  --pub-btn-shadow-hover: 0 4px 16px -4px var(--accent-wash-s);
+
+  /* ── SSOT Border Radius ── */
+  --radius-sm:      4px;
+  --radius-input:   6px;
+  --radius-btn:     8px;
+  --radius-card:    8px;
+  --radius-chip:    8px;
+  --radius-panel:   10px;
+  --radius-popover: 12px;
+  --radius-badge:   20px;
+  --radius-full:    9999px;
+
+  /* ── SSOT Border Widths ── */
+  --border-thin:   1px;
+  --border-medium: 1.5px;
+  --border-thick:  2px;
+
+  /* ── SSOT Elevation ── */
+  --shadow-xs:  0 1px 4px rgba(0, 0, 0, 0.2);
+  --shadow-sm:  0 4px 16px -4px rgba(0, 0, 0, 0.35);
+  --shadow-md:  0 12px 30px -8px rgba(0, 0, 0, 0.5);
+  --shadow-lg:  0 20px 40px -14px rgba(0, 0, 0, 0.6);
+  --shadow-xl:  0 24px 56px -28px rgba(0, 0, 0, 0.8);
+  --shadow-2xl: 0 32px 80px -20px rgba(0, 0, 0, 0.8);
+  --shadow-drawer:       24px 0 44px -18px rgba(0, 0, 0, 0.6);
+  --shadow-drawer-right: -24px 0 44px -18px rgba(0, 0, 0, 0.6);
+  --shadow-popover:      0 20px 40px -14px rgba(0, 0, 0, 0.6);
+  --shadow-command:      0 32px 80px -20px rgba(0, 0, 0, 0.8);
+  --shadow-toast:        0 12px 30px -8px rgba(0, 0, 0, 0.5);
+  --shadow-canvas:       0 0 0 1px var(--color-border-subtle), 0 24px 56px -28px rgba(0, 0, 0, 0.8);
+  --backdrop-blur-sm: blur(2px);
+  --backdrop-blur-md: blur(6px);
+  --backdrop-blur-lg: blur(12px);
+
+  /* ── SSOT Material Rendering (UI_UX_reference/design-system/tokens/elevation.css)
+     Theme-invariant by design: a material tile/sphere is a simulation of a
+     physical surface lit from above-left, so its inset lighting model does not
+     flip with the UI theme. The SSOT's [data-theme="light"] block overrides
+     only --shadow-canvas, leaving these four in :root. ── */
+  --shadow-material-tile:
+    inset 0 1px 1px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.55),
+    0 3px 8px rgba(0, 0, 0, 0.35);
+  --shadow-material-sphere:
+    inset -12px -12px 24px rgba(0, 0, 0, 0.65),
+    inset 8px 8px 16px rgba(255, 255, 255, 0.30),
+    0 10px 22px rgba(0, 0, 0, 0.45);
+  --gloss-material-tile:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.05) 65%, transparent 100%);
+  --gloss-material-sphere:
+    radial-gradient(circle, rgba(255, 255, 255, 0.75) 0%, transparent 70%);
+  /* Scrim behind a badge that floats over an arbitrary material fill — must stay
+     dark in both themes because the fill beneath it is data-driven, not themed. */
+  --color-scrim-on-fill: rgba(0, 0, 0, 0.65);
+
+  /* ── SSOT Motion ── */
+  --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-instant: 0.08s;
+  --duration-fast:    0.12s;
+  --duration-normal:  0.18s;
+  --duration-slow:    0.22s;
+  --duration-slower:  0.30s;
+  --transition-fast:      all var(--duration-fast) var(--ease-smooth);
+  --transition-normal:    all var(--duration-normal) var(--ease-out);
+  --transition-bg:        background var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
+  --transition-border:    border-color var(--duration-fast) var(--ease-smooth);
+  --transition-transform: transform var(--duration-fast) var(--ease-out);
+  --transition-opacity:   opacity var(--duration-fast) var(--ease-smooth);
+  --transition-shadow:    box-shadow var(--duration-fast) var(--ease-smooth);
+
+  /* ── Bridge: SSOT → legacy token names (keeps old components working) ── */
+  --shell:     var(--bg-0);
+  --surface:   var(--bg-1);
+  --surface-2: var(--bg-2);
+  --surface-3: var(--bg-3);
+  --border:     var(--line-1);
+  --border-2:   var(--line-2);
+  --ink:     var(--ink-0);
+  /* --ink-2 and --ink-3 stay as-is, same names */
+  --accent:    #165A6D;
+  --accent-hi: var(--accent-br);
+  --accent-lo: var(--accent-dim-hex);
+  --accent-soft: rgba(22, 90, 109, 0.20);
+  --accent-ring: rgba(22, 90, 109, 0.32);
+  --on-accent: var(--color-text-on-accent);
+
+  /* SSOT canonical name for the deep focus accent. The frontend carries the
+     same value under `--accent-dim-hex` (re-declared per theme), so this alias
+     tracks light mode automatically — no second declaration needed. */
+  --accent-dim: var(--accent-dim-hex);
+}
+
+/* ── SSOT Light Mode Overrides ── */
+[data-theme='light'] {
+  /* Dark-on-light text renders at its true weight — no optical compensation
+     needed, so labels drop back one step from the dark default. (Audit issue 11) */
+  --weight-label: var(--weight-regular);
+
+  --bg-0: #FAFAFC;
+  --bg-1: #F3F5F7;
+  --bg-2: #E4E7EB;
+  --bg-3: #d4d8de;
+  --bg-4: #c8cdd5;
+  --bg-5: #b8bec8;
+  --canvas-bg: #FAFAFC;
+
+  --line-1: #C4CBD6;
+  --line-2: #B0B9C6;
+  --line-3: #94A0B2;
+
+  --ink-0: #0F1420;
+  /* Light ramp re-spaced to mirror the dark ramp's tier ratios (audit issue
+     14). Every old value already cleared AA on its own, but --ink-0/--ink-1
+     sat 1.26:1 apart — primary and secondary text read as the same colour, so
+     the hierarchy the type scale establishes was invisible here while it was
+     legible in dark. Ratios on --bg-1 are now 10.35 / 6.96 / 4.61, matching
+     dark's 10.38 / 7.01 / 4.62, with ~1.5x separation per tier. Hue and
+     saturation held constant. Verify: node scripts/check-contrast.mjs */
+  --ink-1: #2B3B54;
+  --ink-2: #42556F;
+  --ink-3: #5E708B;
+
+  --accent:    #0F4C5C;
+  --accent-hi: #2D7A7B;
+  --accent-lo: #0a3545;
+  --accent-br: #2D7A7B;
+  --accent-dim-hex: #0a3545;
+  --accent-wash:   rgba(15, 76, 92, 0.12);
+  --accent-wash-s: rgba(15, 76, 92, 0.22);
+  --accent-soft:   rgba(15, 76, 92, 0.10);
+  --accent-ring:   rgba(15, 76, 92, 0.28);
+
+  /* Legacy Forma `*-soft` washes — light counterparts (T2.1).
+     The dark values live in the legacy `:root` block above. Without these,
+     light mode inherited the DARK translucent washes and painted a dark veil
+     over light surfaces. Consumers: `--studio-accent-soft` in global.css
+     (teal/violet/amber) and purpose-driven-surfaces.css. Kept in the legacy
+     naming layer because the SSOT expresses these as `*-wash-hex` instead. */
+  --teal-soft:    rgba(31, 102, 102, 0.14);
+  --violet-soft:  rgba(84, 61, 130, 0.14);
+  --amber-soft:   rgba(110, 82, 32, 0.14);
+  --success-soft: rgba(45, 107, 72, 0.14);
+  --warning-soft: rgba(110, 82, 32, 0.14);
+  --error-soft:   rgba(122, 46, 61, 0.12);
+  --info-soft:    rgba(15, 76, 92, 0.12);
+
+  --red:        #7A2E3D;
+  --red-br:     #9e3d50;
+  --red-wash:   rgba(122, 46, 61, 0.10);
+  --red-wash-s: rgba(122, 46, 61, 0.18);
+  --red-line:   rgba(122, 46, 61, 0.24);
+  --red-line-s: rgba(122, 46, 61, 0.40);
+
+  --green:       #2d6b48;
+  --green-wash:  rgba(45, 107, 72, 0.14);
+  --green-line:  rgba(45, 107, 72, 0.30);
+  --blue:        #1e527a;
+  --blue-wash:   rgba(30, 82, 122, 0.14);
+  --blue-line:   rgba(30, 82, 122, 0.30);
+  --violet-hex:  #543d82;
+  --violet-wash-hex: rgba(84, 61, 130, 0.14);
+  --violet-line-hex: rgba(84, 61, 130, 0.30);
+  --violet-line-s:   rgba(84, 61, 130, 0.45);
+  --teal-hex:    #1f6666;
+  --teal-wash-hex: rgba(31, 102, 102, 0.14);
+  --teal-line-hex: rgba(31, 102, 102, 0.30);
+  --teal-line-s:   rgba(31, 102, 102, 0.45);
+  --teal-wash-strong: rgba(31, 102, 102, 0.85);
+  --amber-hex:   #6e5220;
+  --amber-wash-hex: rgba(110, 82, 32, 0.14);
+  --amber-line-hex: rgba(110, 82, 32, 0.30);
+
+  --color-text-on-accent: #FAFAFC;
+  --color-border-on-fill:  rgba(0, 0, 0, 0.12);
+  --color-overlay:       rgba(0, 0, 0, 0.40);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.55);
+  --color-selection-bg:    rgba(15, 76, 92, 0.06);
+  --color-selection-bg-sm: rgba(15, 76, 92, 0.04);
+
+  /* The bridge aliases (`--shell`, `--surface*`, `--border*`, `--ink`,
+     `--on-accent`) are NOT re-declared here (T2.13, §1.4: layer-2 semantic
+     aliases are declared once in `:root`, never per theme). They are `var()`
+     references to `--bg-*` / `--line-*` / `--ink-0` / `--color-text-on-accent`,
+     and every one of those raw tokens IS re-declared in this block above — so
+     the aliases resolve against light values on their own. The eight
+     declarations removed from here were byte-identical to their `:root`
+     counterparts at :525-538 and changed nothing.
+     The shadows below DO belong here: they are literal values, not aliases. */
+
+  --shadow-xs:  0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-sm:  0 4px 16px -4px rgba(0, 0, 0, 0.12);
+  --shadow-md:  0 12px 30px -8px rgba(0, 0, 0, 0.18);
+  --shadow-lg:  0 20px 40px -14px rgba(0, 0, 0, 0.22);
+  --shadow-canvas: 0 0 0 1px var(--color-border-subtle), 0 24px 56px -28px rgba(0, 0, 0, 0.18);
+}

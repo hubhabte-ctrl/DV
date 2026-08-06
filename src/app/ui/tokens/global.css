@@ -1,0 +1,812 @@
+/* =============================================================
+   BUILD STUDIO — Global Layout & Base
+   Production UI Kit (The_component_foundation) — base layer migrated
+   in UI Kit Phase 1 (plan §5/§6.1); shell blocks re-skin per phase.
+   All values derive from CSS custom properties set by applyTokens().
+   ============================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font);
+}
+
+/* SSOT global.css base — type scale, weight and tracking come from tokens */
+body {
+    background: var(--color-surface-base);
+    color: var(--color-text-primary);
+    font-family: var(--font);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-variant-numeric: tabular-nums;
+    transition: background var(--duration-slow) var(--ease-smooth),
+                color var(--duration-slow) var(--ease-smooth);
+}
+
+button {
+    font-family: inherit;
+    color: inherit;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+::selection {
+    background: var(--accent-wash-s);
+    color: var(--color-text-primary);
+}
+
+/* ── Scrollbars (SSOT global.css base: 5px, --radius-chip) ── */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-surface-active);
+    border-radius: var(--radius-chip);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-strong);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface-active) transparent;
+}
+
+/* ── Domain-colour aliases & Forma Design System SSOT (PRD-Build-Studio-Brand-Elevation.md) ── */
+:root {
+    --bs-color-domain-clay: var(--bs-color-accent-clay);
+    --bs-color-domain-clay-wash: var(--bs-color-accent-clayWash);
+    --bs-color-domain-waypoint: var(--bs-color-accent-waypoint);
+    --bs-color-domain-waypoint-wash: var(--bs-color-accent-waypointWash);
+    /* PRD Brand Elevation named aliases — Petrol Blue / Muted Teal / Soft Burgundy / Mauve Ash */
+    --bs-petrol-blue: oklch(.520 .110 198);
+    --bs-petrol-blue-light: oklch(.42 .10 198);
+    --bs-muted-teal: oklch(.58 .08 195);
+    --bs-soft-burgundy: oklch(.50 .12 25);
+    --bs-mauve-ash: oklch(.55 .08 295);
+    /* Semantic aliases (Plan 06 §3.1 step 4 — kept one release, route through Forma tokens) */
+    --bs-accent: var(--accent);
+    --bs-color-accent: var(--accent);
+    --bs-color-bg-base: var(--shell);
+    --bs-color-bg-secondary: var(--bs-color-bg-hover);
+    --bs-color-brand-primary: var(--accent);
+    --bs-color-danger-border: var(--error);
+    --bs-color-danger-text: var(--error);
+    --bs-muted: var(--ink-3);
+    --bs-shadow-raised: var(--shadow-md);
+}
+
+/* ── T3 (DS-alignment plan): per-studio category color coding ──────────────
+   `data-studio` is set on the .bs-shell root by App.tsx from the active
+   workspace. Components use --studio-accent for CATEGORY identity only;
+   --accent stays reserved for selection / the one primary action (SSOT
+   color-usage rules; PRD §1: muted, restrained studio hues — no neon).   */
+:root {
+    --studio-accent: var(--accent);
+    --studio-accent-soft: var(--accent-soft);
+}
+
+/* 3D Studio: Muted Teal — PRD §1 accent palette, de-saturated from .1 → .08 */
+[data-studio='3d'] {
+    --studio-accent: var(--teal);
+    --studio-accent-soft: var(--teal-soft);
+}
+
+/* Material Studio: Clay identity (Spec 07 §2 ruling E-B) — reduced chroma .15 → .12 */
+[data-studio='material'] {
+    --studio-accent: var(--bs-color-accent-clay);
+    --studio-accent-soft: var(--bs-color-accent-clayWash);
+}
+
+/* Timeline Studio: Mauve Ash — PRD §1 accent palette, de-saturated from .16 → .08 */
+[data-studio='timeline'] {
+    --studio-accent: var(--violet);
+    --studio-accent-soft: var(--violet-soft);
+}
+
+/* Asset Studio: Muted Amber — PRD §1 accent palette, de-saturated from .13 → .10 */
+[data-studio='asset'] {
+    --studio-accent: var(--amber);
+    --studio-accent-soft: var(--amber-soft);
+}
+
+/* Light theme: studio hues re-tuned darker so colored text/icons keep
+   ≥3:1 against --surface (WCAG 1.4.11). PRD §1 — not an inversion of dark.
+   Values verified by contrast.test.ts. */
+[data-theme='light'] [data-studio='3d'] {
+    --studio-accent: oklch(0.44 0.08 195);
+}
+
+/* Material re-tuned within the clay family (Spec 07 §2 ruling E-B) */
+[data-theme='light'] [data-studio='material'] {
+    --studio-accent: oklch(0.48 0.12 44);
+}
+
+[data-theme='light'] [data-studio='timeline'] {
+    --studio-accent: oklch(0.44 0.08 295);
+}
+
+[data-theme='light'] [data-studio='asset'] {
+    --studio-accent: oklch(0.50 0.10 55);
+}
+
+/* ── Light Mode Tokens — DELIBERATELY ABSENT FROM THIS FILE ──────────────
+   A second `[data-theme='light']` block lived here and re-declared 39 tokens
+   (--shell, --surface*, --border*, --ink*, --on-accent, --accent*, the four
+   shadows, and the --bs-color-* mirrors) with pre-SSOT oklch values.
+
+   main.tsx loads tokens.css BEFORE global.css, and both blocks were plain
+   `[data-theme='light']` — equal specificity, so the later one won. Every SSOT
+   light value was discarded, including via the semantic aliases that route
+   through the raw palette (--color-text-tertiary -> --ink-2,
+   --color-text-muted -> --ink-3). Light mode therefore never rendered the SSOT
+   palette at all, and no amount of correct component CSS could show through.
+   Not one of the 39 tokens was unique to this file: the block contributed
+   nothing and only overrode.
+
+   RULE: palette values — raw or bridge, dark or light — live ONLY in
+   tokens.css. This file styles structure and behaviour; it must never declare
+   a colour, shadow, or theme value. See CLAUDE.md §1.4 and §5.1.
+   Regression check: `node scripts/audit-light-mode-fork.mjs` must report 0.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* ── Focus ──────────────────────────────────────────────────── */
+:focus {
+    outline: none;
+}
+
+/* SSOT global.css: 2px accent-br ring, 1px offset, --radius-sm */
+:focus-visible {
+    outline: var(--border-thick) solid var(--accent-br);
+    outline-offset: 1px;
+    border-radius: var(--radius-sm);
+}
+
+/* ── Font helpers ───────────────────────────────────────────── */
+.bs-mono {
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+.bs-disp {
+    font-family: var(--bs-typography-fontFamily-disp);
+}
+
+.bs-muted {
+    color: var(--ink-3);
+}
+
+/* ── PRD §3 Typography Hierarchy — weight + tracking, NOT a second typeface ── */
+/* All levels use Inter; hierarchy is expressed through weight and letter-spacing */
+.bs-h1 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-size: clamp(2rem, 4vw, 3.75rem);
+}
+
+.bs-h2 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.bs-h3 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-size: clamp(1.125rem, 2vw, 1.75rem);
+}
+
+.bs-h4 {
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    font-size: 1.125rem;
+}
+
+.bs-h5 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+    font-size: 1rem;
+}
+
+.bs-ui-label {
+    font-weight: 550;
+    letter-spacing: -0.005em;
+    font-size: 0.875rem;
+}
+
+.bs-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.bs-spacer {
+    flex: 1 1 auto;
+}
+
+/* Flex column container (replaces style={{ display:'flex', flexDirection:'column' }}) */
+.bs-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* `.bs-flex-row` intentionally lives only in packages/ui-kit/src/UIKit.css
+   (T2.7), alongside the rest of the `.bs-flex-*` / `.bs-gap-*` utility cluster.
+   The copy here was byte-identical and fully overridden by import order. */
+
+/* Full-width form input following the design system token palette */
+.bs-field-input {
+    width: 100%;
+    padding: 8px 11px;
+    border-radius: var(--r-sm);
+    background: var(--surface-3);
+    border: 1px solid var(--border-2);
+    color: var(--ink);
+    font-size: var(--fs-2);
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.bs-field-input--sm {
+    padding: 4px 6px;
+    font-size: var(--fs-2);
+    font-weight: 600;
+}
+
+.bs-field-input--mono {
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--fs-1);
+}
+
+/* Modal field sub-label */
+.bs-field-label {
+    font-size: var(--fs-0);
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+}
+
+/* Color picker well + text input row */
+.bs-color-well-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bs-color-well-row input[type='color'] {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--r-sm);
+}
+
+.bs-color-well-row .bs-field-input {
+    flex: 1;
+}
+
+/* Metric stat card inside settings modal */
+.bs-metric-card {
+    background: var(--surface);
+    padding: 8px 10px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.bs-metric-card__val {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.bs-metric-card__lbl {
+    font-size: var(--fs-0);
+    color: var(--ink-3);
+}
+
+/* Storage status pill */
+.bs-storage-pill {
+    font-size: var(--fs-0);
+    padding: 3px 10px;
+    border-radius: 99px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    color: var(--ink-3);
+    background: var(--surface);
+}
+
+.bs-storage-pill[data-mode='postgresql'] {
+    background: var(--bs-color-state-successWash, var(--accent-soft));
+    color: var(--bs-color-state-success, var(--success));
+    border-color: var(--bs-color-state-success, var(--success));
+}
+
+.bs-storage-pill__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Uppercase micro label (reference group heads / eyebrows).
+   Sans, not mono: this is prose, and mono at label size is the role inversion
+   audit issue 4 describes. Tracking cut 0.1em → --tracking-wide to match the
+   inspector's `.grp-title` tier. */
+.eyebrow {
+    font-family: var(--font);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES — SSOT utilities.css (single-purpose, token-backed)
+   This layer exists so that markup NEVER needs an inline
+   `style="…"` attribute (governance §9). Never add a
+   component-specific rule here — it belongs in the owning layer.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Visibility ── */
+.u-hidden { display: none; }
+
+/* ── Flex Rows ── */
+.u-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+.u-row-tight {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* ── Flex Columns ── */
+.u-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* ── Flex Children ── */
+.u-grow  { flex: 1; min-width: 0; }
+.u-fixed { flex: none; }
+
+/* ── Data-driven fills — the ONLY sanctioned inline-style channel.
+   A material's colour is runtime data, not design, so it arrives as a custom
+   property (`--fill`, `--fill-from`, `--fill-to`) rather than a literal
+   `background:` value (CLAUDE.md §2.2). SSOT: utilities.css L58-66.
+   Deviation (§5.3): the SSOT writes `var(--fill, var(--color-surface-control))`;
+   a token fallback is banned here (§2.1). The default is instead expressed by
+   declaring the custom property itself — an inline `style="--fill:…"` on the
+   element outranks this class rule in the cascade, so the data-driven value
+   still wins when the component supplies one. Note the fallback CANNOT simply
+   be dropped: `var(--fill)` with --fill unset is invalid at computed-value
+   time and would resolve `background` to transparent, not to the token. ── */
+.u-fill {
+    --fill: var(--color-surface-control);
+    background: var(--fill);
+}
+.u-fill-material {
+    --fill-from: var(--color-surface-control);
+    --fill-to: var(--color-surface-base);
+    background: radial-gradient(circle at 35% 30%, var(--fill-from), var(--fill-to));
+}
+
+/* ── Inline glyph slot — centres an SVG on the text baseline row.
+   Replaces style={{display:'inline-flex',alignItems:'center'}}. ── */
+.u-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+}
+
+/* ── Reduced motion (Doc 05 §11 — editor honors the OS preference) ── */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL GRID — SSOT-migrated (Doc 05 §2)
+   Rows use --topbar-h (60px SSOT) for the TopBar dimension.
+   ═══════════════════════════════════════════════════════════════ */
+.bs-shell {
+    display: grid;
+    height: 100%;
+    grid-template-rows: var(--topbar-h) 1fr var(--bs-size-timelineH) var(--bs-size-statusBarH);
+    grid-template-columns: var(--bs-size-leftRailW) 1fr var(--bs-size-inspectorW);
+    grid-template-areas:
+        'topbar    topbar    topbar'
+        'leftrail  workspace inspector'
+        'timeline  timeline  timeline'
+        'statusbar statusbar statusbar';
+    background: var(--color-surface-base);
+    overflow: hidden;
+}
+
+.bs-shell--no-timeline {
+    grid-template-rows: var(--topbar-h) 1fr var(--bs-size-statusBarH);
+    grid-template-areas:
+        'topbar    topbar    topbar'
+        'leftrail  workspace inspector'
+        'statusbar statusbar statusbar';
+}
+
+.bs-shell--preview {
+    grid-template-rows: var(--topbar-h) 1fr;
+    grid-template-columns: var(--bs-size-leftRailW) 1fr 0px;
+    grid-template-areas:
+        'topbar    topbar    topbar'
+        'leftrail  workspace workspace';
+}
+
+
+/* `.topbar` is declared once, in src/shared/ShellLayout.css, which now carries
+   `grid-area: topbar` alongside the rest of the header's layout (T2.8). The
+   block that used to sit here also declared `z-index: 10`, forked against
+   `z-index: 500` in ShellLayout.css at equal specificity — the later file won,
+   so the 10 never applied. The legacy `.bs-shell__topbar` alias went with it:
+   no .tsx/.ts/.css in the repo references it (TopBar.tsx:609 emits `.topbar`). */
+
+/* `overflow: visible` is required: the rail's tooltip flyouts escape this cell.
+   The right border is not declared here — the same element carries
+   `.bs-leftrail-root` (src/shared/LeftRail.css), which owns it. */
+.bs-shell__leftrail {
+    grid-area: leftrail;
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+}
+
+.bs-shell__workspace {
+    grid-area: workspace;
+    min-width: 0;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.bs-shell__inspector {
+    grid-area: inspector;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.bs-shell__timeline {
+    grid-area: timeline;
+    z-index: 20;
+}
+
+/* Status bar — SSOT-migrated */
+.bs-statusbar {
+    grid-area: statusbar;
+    display: flex;
+    align-items: center;
+    gap: var(--space-9);
+    padding: 0 var(--space-7);
+    background: var(--color-surface-panel);
+    border-top: var(--border-thin) solid var(--color-border-subtle);
+    font-family: var(--font);
+    font-size: var(--text-micro);
+    color: var(--color-text-muted);
+    z-index: 10;
+    overflow: hidden;
+}
+
+.bs-statusbar__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.bs-statusbar__item b {
+    font-family: var(--bs-typography-fontFamily-mono);
+    color: var(--ink-2);
+    font-weight: 500;
+}
+
+.bs-statusbar__push {
+    margin-left: auto;
+}
+
+.bs-statusbar__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bs-color-save-unsaved, var(--bs-color-state-warning));
+}
+
+.bs-statusbar__dot[data-save='saved'] {
+    background: var(--bs-color-save-saved, var(--success));
+}
+
+.bs-statusbar__dot[data-save='saving'] {
+    background: var(--bs-color-save-saving, var(--info));
+}
+
+.bs-statusbar__dot[data-save='failed'] {
+    background: var(--bs-color-save-failed, var(--error));
+}
+
+.bs-statusbar__dot[data-save='unsaved'] {
+    background: var(--bs-color-save-unsaved, var(--warning));
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PANELS  (sidebar chrome — matches reference .panel)
+   ═══════════════════════════════════════════════════════════════ */
+.bs-panel {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.bs-panel--right {
+    border-right: none;
+    border-left: 1px solid var(--border);
+}
+
+/* Panel tab-bar header (matches reference .panel-tabs) */
+.bs-panel__header {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 10px;
+    flex: 0 0 auto;
+    border-bottom: 1px solid var(--border);
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.bs-panel__header-label {
+    font-size: 12px;
+    font-weight: 550;
+    color: var(--ink-3);
+    padding: 6px 8px;
+    position: relative;
+}
+
+.bs-panel__header-label.active {
+    color: var(--ink);
+}
+
+.bs-panel__header-label.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.bs-panel__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Section group-label (matches reference .tree-group-label) */
+.bs-group-label {
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 12px 8px 6px;
+    display: block;
+}
+
+/* Modifier: label used as modal section header flush left, no top padding */
+.bs-group-label--section {
+    display: block;
+    margin-bottom: 6px;
+    padding: 0;
+}
+
+/* Keyboard shortcut grid & row */
+.bs-shortcut-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 6px 12px;
+}
+
+.bs-shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: var(--r-sm);
+    background: var(--surface-3);
+    font-size: var(--fs-1);
+}
+
+.bs-shortcut-row kbd {
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   VIEWPORT
+   ═══════════════════════════════════════════════════════════════ */
+.bs-viewport {
+    position: absolute;
+    inset: 0;
+    background: var(--bs-color-viewport-canvasBg);
+}
+
+.bs-viewport canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* DOM stage backdrop: fully transparent so the alpha WebGL canvas shows through
+   semi-transparent DOM sections; editor viewport keeps its own background. */
+.bs-viewport--clean {
+    background: transparent;
+}
+
+.bs-viewport__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* The `.bs-viewport__stats` base rule lives only in src/shared/CanvasChrome.css
+   (T2.9). The block that used to sit here was overridden property-for-property
+   by that file through import order (global.css is 2nd, canvas-chrome 7th) —
+   including a `pointer-events: auto` that lost to `none`. Its three uniquely
+   declared properties (`display`, `gap`, `box-shadow`) were live and have been
+   folded into the surviving rule, so computed values are unchanged.
+
+   The two descendant rules below are NOT duplicates — nothing else declares
+   them. They match no current markup either: the only consumer,
+   Scene3DViewport.tsx:170, renders plain text with no <span>/<b>. Left in place
+   rather than deleted, since removing them is outside T2.9's scope. */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   WAYPOINTS (FR-160/161)
+   ═══════════════════════════════════════════════════════════════ */
+.bs-waypoint {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.bs-waypoint__dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    transform: translate(-50%, -50%);
+}
+
+.bs-waypoint__line {
+    position: absolute;
+    top: 0;
+    height: 0;
+    width: 80px;
+    border-top: 1px solid var(--bs-color-domain-waypoint);
+}
+
+.bs-waypoint[data-dir='right'] .bs-waypoint__line {
+    left: 4px;
+}
+
+.bs-waypoint[data-dir='left'] .bs-waypoint__line {
+    left: -84px;
+}
+
+.bs-waypoint__card {
+    position: absolute;
+    transform: translateY(-50%);
+    width: 212px;
+    background: var(--bs-color-bg-overlay);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--bs-color-domain-waypoint-wash);
+    border-radius: 13px;
+    padding: 15px 16px;
+    font-size: 12px;
+    color: var(--ink);
+    box-shadow: var(--shadow-lg);
+}
+
+.bs-waypoint[data-dir='right'] .bs-waypoint__card {
+    left: 82px;
+}
+
+.bs-waypoint[data-dir='left'] .bs-waypoint__card {
+    right: 82px;
+}
+
+.bs-waypoint__card strong {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.bs-waypoint__body {
+    color: var(--ink-2);
+    margin-top: 6px;
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+
+/* =============================================================
+ * Studio-scoped surface rules extracted — Plan 06 §3.3
+ * See co-located studio stylesheets:
+ *
+ *   src/shell/purpose-driven-surfaces.css   — DOMFlowStrip · Scene3DShotBar (Spec 07 §3/§4, R3)
+ *   src/studios/animate-studio/animate-studio.css   — hero surface (Spec 07 §5, R2)
+ *   src/studios/material-studio/material-studio.css — three-zone  (Spec 07 §6, R4)
+ *   src/studios/asset-studio/asset-studio.css       — AssetIngestTray  (Spec 07 §7, R4)
+ *
+ * Root-level rules (theme tokens, --studio-accent, shared keyframes, all .bs-* shell
+ * chrome) remain in this file.
+ * ============================================================= */
