@@ -1,0 +1,261 @@
+{
+  "$schema": "build-studio/inspector-schema@1",
+  "comment": "Schema-driven Inspector definitions (Doc 05 §2: 'schema-driven properties, grouped in collapsible sections'). The Inspector renders these groups generically; it never hardcodes fields.",
+  "dom": [
+    {
+      "group": "Content",
+      "fields": [{ "key": "content", "label": "Text", "type": "text", "target": "content" }]
+    },
+    {
+      "group": "Typography",
+      "fields": [
+        {
+          "key": "fontFamily",
+          "label": "Font",
+          "type": "select",
+          "options": ["Inter", "Space Grotesk", "JetBrains Mono"],
+          "target": "style"
+        },
+        {
+          "key": "fontSize",
+          "label": "Size",
+          "type": "number",
+          "unit": "px",
+          "min": 8,
+          "max": 96,
+          "step": 1,
+          "target": "style"
+        },
+        {
+          "key": "fontWeight",
+          "label": "Weight",
+          "type": "select",
+          "options": ["400", "500", "600", "700"],
+          "target": "style"
+        },
+        {
+          "key": "lineHeight",
+          "label": "Line H",
+          "type": "number",
+          "min": 0.8,
+          "max": 2.4,
+          "step": 0.05,
+          "target": "style"
+        },
+        {
+          "key": "letterSpacing",
+          "label": "Tracking",
+          "type": "number",
+          "unit": "px",
+          "min": -3,
+          "max": 8,
+          "step": 0.5,
+          "target": "style"
+        },
+        { "key": "color", "label": "Color", "type": "color", "target": "style" },
+        {
+          "key": "textAlign",
+          "label": "Align",
+          "type": "select",
+          "options": ["left", "center", "right"],
+          "target": "style"
+        }
+      ]
+    },
+    {
+      "group": "Position & Size",
+      "fields": [
+        {
+          "key": "position",
+          "label": "Position",
+          "type": "select",
+          "options": ["absolute", "static"],
+          "target": "style"
+        },
+        {
+          "key": "left",
+          "label": "X",
+          "type": "number",
+          "unit": "px",
+          "min": -2000,
+          "max": 4000,
+          "step": 1,
+          "target": "style"
+        },
+        {
+          "key": "top",
+          "label": "Y",
+          "type": "number",
+          "unit": "px",
+          "min": -2000,
+          "max": 8000,
+          "step": 1,
+          "target": "style"
+        },
+        {
+          "key": "width",
+          "label": "W",
+          "type": "number",
+          "unit": "px",
+          "min": 24,
+          "max": 4000,
+          "step": 1,
+          "target": "style"
+        },
+        {
+          "key": "height",
+          "label": "H",
+          "type": "number",
+          "unit": "px",
+          "min": 24,
+          "max": 4000,
+          "step": 1,
+          "target": "style"
+        },
+        {
+          "key": "zIndex",
+          "label": "Z Order",
+          "type": "number",
+          "min": 0,
+          "max": 99,
+          "step": 1,
+          "target": "style"
+        }
+      ]
+    },
+    {
+      "group": "Layout",
+      "fields": [
+        {
+          "key": "display",
+          "label": "Display",
+          "type": "select",
+          "options": ["flex", "grid", "block"],
+          "target": "style"
+        },
+        {
+          "key": "flexDirection",
+          "label": "Direction",
+          "type": "select",
+          "options": ["row", "column", "row-reverse", "column-reverse"],
+          "target": "style"
+        },
+        {
+          "key": "justifyContent",
+          "label": "Justify",
+          "type": "select",
+          "options": ["flex-start", "center", "flex-end", "space-between", "space-around", "space-evenly"],
+          "target": "style"
+        },
+        {
+          "key": "alignItems",
+          "label": "Align",
+          "type": "select",
+          "options": ["stretch", "flex-start", "center", "flex-end", "baseline"],
+          "target": "style"
+        },
+        {
+          "key": "flexWrap",
+          "label": "Wrap",
+          "type": "select",
+          "options": ["nowrap", "wrap", "wrap-reverse"],
+          "target": "style"
+        },
+        { "key": "gridTemplateColumns", "label": "Grid Cols", "type": "text", "target": "style" }
+      ]
+    },
+    {
+      "group": "Layout & Spacing",
+      "fields": [
+        {
+          "key": "padding",
+          "label": "Padding",
+          "type": "number",
+          "unit": "px",
+          "min": 0,
+          "max": 128,
+          "step": 4,
+          "target": "style"
+        },
+        {
+          "key": "gap",
+          "label": "Gap",
+          "type": "number",
+          "unit": "px",
+          "min": 0,
+          "max": 64,
+          "step": 4,
+          "target": "style"
+        },
+        {
+          "key": "maxWidth",
+          "label": "Max W",
+          "type": "number",
+          "unit": "px",
+          "min": 120,
+          "max": 1200,
+          "step": 8,
+          "target": "style"
+        }
+      ]
+    },
+    {
+      "group": "Background & Border",
+      "fields": [
+        { "key": "background", "label": "Fill", "type": "color", "target": "style" },
+        {
+          "key": "borderRadius",
+          "label": "Radius",
+          "type": "number",
+          "unit": "px",
+          "min": 0,
+          "max": 48,
+          "step": 1,
+          "target": "style"
+        }
+      ]
+    }
+  ],
+  "scene": [
+    {
+      "group": "Transform",
+      "fields": [
+        { "key": "position", "label": "Position", "type": "vector3", "step": 0.1, "target": "transform" },
+        { "key": "rotation", "label": "Rotation", "type": "vector3", "step": 0.05, "target": "transform" },
+        { "key": "scale", "label": "Scale", "type": "vector3", "step": 0.05, "target": "transform" }
+      ]
+    },
+    {
+      "group": "Light",
+      "appliesTo": ["light"],
+      "fields": [
+        {
+          "key": "intensity",
+          "label": "Intensity",
+          "type": "number",
+          "min": 0,
+          "max": 10,
+          "step": 0.1,
+          "target": "props"
+        },
+        { "key": "color", "label": "Color", "type": "color", "target": "props" }
+      ]
+    },
+    {
+      "group": "Camera",
+      "appliesTo": ["camera"],
+      "fields": [
+        {
+          "key": "fov",
+          "label": "FOV",
+          "type": "number",
+          "unit": "°",
+          "min": 10,
+          "max": 120,
+          "step": 1,
+          "target": "props"
+        }
+      ]
+    }
+  ]
+}

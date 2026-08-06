@@ -1,0 +1,36 @@
+{
+  "name": "build-studio-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Build Studio — isolated frontend workspace. Contains the 5 studio UIs (DOM, 3D, Animate, Material, Asset) plus the Preview surface, the design system, engine store, and WebGL viewport. Runs independently of the Fastify back-end.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5175",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 5176",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && node scripts/check-boundaries.mjs",
+    "tokens:snapshot": "node scripts/snapshot-tokens.mjs",
+    "tokens:check": "node scripts/snapshot-tokens.mjs --check",
+    "contrast:check": "node scripts/check-contrast.mjs",
+    "ui:verify": "npm run typecheck && npm run lint && npm run tokens:check && npm run contrast:check"
+  },
+  "dependencies": {
+    "lucide-react": "1.24.0",
+    "openapi-fetch": "^0.17.0",
+    "react": "^18.3.1",
+    "react-colorful": "^5.8.0",
+    "react-dom": "^18.3.1",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.170.0",
+    "@vitejs/plugin-react": "^6.0.4",
+    "eslint": "^10.7.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.1.5"
+  }
+}

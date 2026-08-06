@@ -1,0 +1,1888 @@
+{
+  "schemaVersion": 1,
+  "projectName": "Sensor Assembly — Launch Narrative",
+  "breakpoints": {
+    "desktop": {
+      "label": "Desktop (Base)",
+      "canvasWidth": 1160
+    },
+    "tablet": {
+      "label": "Tablet",
+      "canvasWidth": 768
+    },
+    "mobile": {
+      "label": "Mobile",
+      "canvasWidth": 375
+    }
+  },
+  "sections": [
+    {
+      "id": "sec-intro",
+      "name": "01 · Intro",
+      "range": [
+        0,
+        0.25
+      ],
+      "rootDomNodeId": "intro-root"
+    },
+    {
+      "id": "sec-precision",
+      "name": "02 · Precision",
+      "range": [
+        0.25,
+        0.5
+      ],
+      "rootDomNodeId": "precision-root"
+    },
+    {
+      "id": "sec-inside",
+      "name": "03 · Inside",
+      "range": [
+        0.5,
+        0.75
+      ],
+      "rootDomNodeId": "inside-root"
+    },
+    {
+      "id": "sec-specs",
+      "name": "04 · Specs",
+      "range": [
+        0.75,
+        1
+      ],
+      "rootDomNodeId": "specs-root"
+    }
+  ],
+  "domRootOrder": [
+    "intro-root",
+    "precision-root",
+    "inside-root",
+    "specs-root"
+  ],
+  "domNodes": {
+    "intro-root": {
+      "id": "intro-root",
+      "type": "section",
+      "tag": "section",
+      "label": "Section · Intro",
+      "children": [
+        "intro-title",
+        "intro-sub",
+        "intro-cta"
+      ],
+      "style": {
+        "padding": 64,
+        "gap": 16,
+        "background": "rgba(13,20,32,0.45)",
+        "color": "#f2f5fa",
+        "textAlign": "center"
+      },
+      "overrides": {
+        "mobile": {
+          "padding": 32
+        }
+      }
+    },
+    "intro-title": {
+      "id": "intro-title",
+      "type": "heading",
+      "tag": "h1",
+      "label": "H1 · Hero Title",
+      "content": "Precision, assembled.",
+      "children": [],
+      "style": {
+        "fontSize": 48,
+        "fontWeight": 700,
+        "fontFamily": "Space Grotesk",
+        "lineHeight": 1.05,
+        "letterSpacing": -1,
+        "color": "#f2f5fa",
+        "textAlign": "center",
+        "maxWidth": 720
+      },
+      "overrides": {
+        "tablet": {
+          "fontSize": 36
+        },
+        "mobile": {
+          "fontSize": 28
+        }
+      }
+    },
+    "intro-sub": {
+      "id": "intro-sub",
+      "type": "text",
+      "tag": "p",
+      "label": "P · Hero Subtitle",
+      "content": "An industrial sensor assembly, explored layer by layer as you scroll.",
+      "children": [],
+      "style": {
+        "fontSize": 18,
+        "fontWeight": 400,
+        "fontFamily": "Inter",
+        "lineHeight": 1.55,
+        "letterSpacing": 0,
+        "color": "#9fb0c8",
+        "textAlign": "center",
+        "maxWidth": 560
+      },
+      "overrides": {}
+    },
+    "intro-cta": {
+      "id": "intro-cta",
+      "type": "button",
+      "tag": "button",
+      "label": "Button · Explore",
+      "content": "Start the tour",
+      "children": [],
+      "style": {
+        "fontSize": 14,
+        "fontWeight": 600,
+        "color": "#0d1420",
+        "background": "#7fb4ff",
+        "padding": 12,
+        "borderRadius": 8
+      },
+      "overrides": {}
+    },
+    "precision-root": {
+      "id": "precision-root",
+      "type": "section",
+      "tag": "section",
+      "label": "Section · Precision",
+      "children": [
+        "precision-title",
+        "precision-body"
+      ],
+      "style": {
+        "padding": 64,
+        "gap": 12,
+        "background": "rgba(16,24,35,0.35)",
+        "color": "#f2f5fa",
+        "textAlign": "left"
+      },
+      "overrides": {}
+    },
+    "precision-title": {
+      "id": "precision-title",
+      "type": "heading",
+      "tag": "h2",
+      "label": "H2 · Precision Title",
+      "content": "Machined to a tenth of a millimetre",
+      "children": [],
+      "style": {
+        "fontSize": 32,
+        "fontWeight": 600,
+        "color": "#f2f5fa",
+        "textAlign": "left",
+        "maxWidth": 520
+      },
+      "overrides": {}
+    },
+    "precision-body": {
+      "id": "precision-body",
+      "type": "text",
+      "tag": "p",
+      "label": "P · Precision Body",
+      "content": "The camera sweeps the housing while the assembly rotates to reveal each mounting face and connector port.",
+      "children": [],
+      "style": {
+        "fontSize": 16,
+        "fontWeight": 400,
+        "color": "#9fb0c8",
+        "textAlign": "left",
+        "maxWidth": 480
+      },
+      "overrides": {}
+    },
+    "inside-root": {
+      "id": "inside-root",
+      "type": "section",
+      "tag": "section",
+      "label": "Section · Inside",
+      "children": [
+        "inside-title",
+        "inside-body"
+      ],
+      "style": {
+        "padding": 64,
+        "gap": 12,
+        "background": "rgba(15,21,32,0.35)",
+        "color": "#f2f5fa",
+        "textAlign": "right"
+      },
+      "overrides": {}
+    },
+    "inside-title": {
+      "id": "inside-title",
+      "type": "heading",
+      "tag": "h2",
+      "label": "H2 · Inside Title",
+      "content": "Inside the sensor core",
+      "children": [],
+      "style": {
+        "fontSize": 32,
+        "fontWeight": 600,
+        "color": "#f2f5fa",
+        "textAlign": "right",
+        "maxWidth": 520
+      },
+      "overrides": {}
+    },
+    "inside-body": {
+      "id": "inside-body",
+      "type": "text",
+      "tag": "p",
+      "label": "P · Inside Body",
+      "content": "A low orbital pass moves behind the assembly; the key light dims so the emissive elements carry the frame.",
+      "children": [],
+      "style": {
+        "fontSize": 16,
+        "fontWeight": 400,
+        "color": "#9fb0c8",
+        "textAlign": "right",
+        "maxWidth": 480
+      },
+      "overrides": {}
+    },
+    "specs-root": {
+      "id": "specs-root",
+      "type": "section",
+      "tag": "section",
+      "label": "Section · Specs",
+      "children": [
+        "specs-title",
+        "specs-body",
+        "specs-cta"
+      ],
+      "style": {
+        "padding": 64,
+        "gap": 16,
+        "background": "rgba(13,20,32,0.5)",
+        "color": "#f2f5fa",
+        "textAlign": "center"
+      },
+      "overrides": {}
+    },
+    "specs-title": {
+      "id": "specs-title",
+      "type": "heading",
+      "tag": "h2",
+      "label": "H2 · Specs Title",
+      "content": "Built for the field",
+      "children": [],
+      "style": {
+        "fontSize": 32,
+        "fontWeight": 600,
+        "color": "#f2f5fa",
+        "textAlign": "center",
+        "maxWidth": 640
+      },
+      "overrides": {}
+    },
+    "specs-body": {
+      "id": "specs-body",
+      "type": "text",
+      "tag": "p",
+      "label": "P · Specs Body",
+      "content": "The final pull-back frames the full assembly from above as the narrative resolves to the closing call to action.",
+      "children": [],
+      "style": {
+        "fontSize": 16,
+        "fontWeight": 400,
+        "color": "#9fb0c8",
+        "textAlign": "center",
+        "maxWidth": 520
+      },
+      "overrides": {}
+    },
+    "specs-cta": {
+      "id": "specs-cta",
+      "type": "button",
+      "tag": "button",
+      "label": "Button · Contact",
+      "content": "Request a demo",
+      "children": [],
+      "style": {
+        "fontSize": 14,
+        "fontWeight": 600,
+        "color": "#0d1420",
+        "background": "#34c98e",
+        "padding": 12,
+        "borderRadius": 8
+      },
+      "overrides": {}
+    }
+  },
+  "sceneRootOrder": [
+    "grp-assembly",
+    "cam-main",
+    "light-key",
+    "light-fill",
+    "anchor-lens"
+  ],
+  "sceneNodes": {
+    "grp-assembly": {
+      "id": "grp-assembly",
+      "label": "Sensor Assembly (Group)",
+      "type": "group",
+      "visible": true,
+      "locked": false,
+      "children": [
+        "group-mruwkdxu18",
+        "mesh-beacon"
+      ],
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "mesh-beacon": {
+      "id": "mesh-beacon",
+      "label": "Beacon · Status LED",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          0.55,
+          0.95,
+          0.35
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "props": {
+        "primitive": "sphere",
+        "materialId": "mat-signal",
+        "castShadow": false
+      }
+    },
+    "cam-main": {
+      "id": "cam-main",
+      "label": "Camera · Main",
+      "type": "camera",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          4.2,
+          1.8,
+          4.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "props": {
+        "fov": 42,
+        "near": 0.1,
+        "far": 100,
+        "active": true
+      }
+    },
+    "light-key": {
+      "id": "light-key",
+      "label": "Light · Key (Directional)",
+      "type": "light",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          4,
+          6,
+          3
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "props": {
+        "kind": "directional",
+        "intensity": 3,
+        "color": "#ffffff"
+      }
+    },
+    "light-fill": {
+      "id": "light-fill",
+      "label": "Light · Fill (Hemisphere)",
+      "type": "light",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          0,
+          4,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "props": {
+        "kind": "hemisphere",
+        "intensity": 0.7,
+        "color": "#bcd4ff"
+      }
+    },
+    "anchor-lens": {
+      "id": "anchor-lens",
+      "label": "Anchor · Lens Port",
+      "type": "anchor",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          0.4,
+          0.6,
+          0.3
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "mesh-mruwkdxs0": {
+      "id": "mesh-mruwkdxs0",
+      "label": "Fuel_tank",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.07899640185748757,
+          0.3522899516240521,
+          0.019086896679072707
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          -2.220446049250313e-16,
+          -1.5685550711186298
+        ],
+        "scale": [
+          0.843668473456319,
+          0.843668473456319,
+          0.843668426130973
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "0/0",
+        "materialId": "mat-mruwkdxs1",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Fuel_tank"
+      }
+    },
+    "mesh-mruwkdxs2": {
+      "id": "mesh-mruwkdxs2",
+      "label": "Belt",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          0.24157968035550337,
+          0.35228384439109106,
+          0.006719384914011917
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          -2.220446049250313e-16,
+          -1.5685550711186298
+        ],
+        "scale": [
+          0.38579047972309444,
+          0.38579047972309444,
+          0.38579045808228585
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "1/0",
+        "materialId": "mat-mruwkdxs3",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Belt"
+      }
+    },
+    "mesh-mruwkdxt4": {
+      "id": "mesh-mruwkdxt4",
+      "label": "light",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.4354031332903242,
+          0.4649740582232433,
+          0.41074804355835437
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          -1.568554878265115
+        ],
+        "scale": [
+          0.06255716054608375,
+          0.06255716054608375,
+          0.06255716230683434
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "2/0",
+        "materialId": "mat-mruwkdxt5",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "light"
+      }
+    },
+    "mesh-mruwkdxt6": {
+      "id": "mesh-mruwkdxt6",
+      "label": "Fuel_Head_cover",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.22648825874328612,
+          0.925791746520996,
+          0.034752729749679565
+        ],
+        "rotation": [
+          -1.5707963267948961,
+          4.336808689942018e-19,
+          0.002241492544011744
+        ],
+        "scale": [
+          0.07772369897977159,
+          0.07772369897977159,
+          0.07772369726328142
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "3/0",
+        "materialId": "mat-mruwkdxt7",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Fuel_Head_cover"
+      }
+    },
+    "mesh-mruwkdxt8": {
+      "id": "mesh-mruwkdxt8",
+      "label": "Prob",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.25281203956604004,
+          0.6016556205749511,
+          0.03477063684463501
+        ],
+        "rotation": [
+          -1.570796326794897,
+          -2.168404344971009e-19,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.27950232213110354,
+          0.27950232213110354,
+          0.2907285575579044
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "4/0",
+        "materialId": "mat-mruwkdxt9",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Prob"
+      }
+    },
+    "mesh-mruwkdxta": {
+      "id": "mesh-mruwkdxta",
+      "label": "Harness",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.07552438716888428,
+          0.9229121742248535,
+          0.03441438133716583
+        ],
+        "rotation": [
+          -1.570796326794897,
+          0,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.07905930443532688,
+          0.07905930443532688,
+          0.07905930268930861
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "5/0",
+        "materialId": "mat-mruwkdxtb",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Harness"
+      }
+    },
+    "mesh-mruwkdxtc": {
+      "id": "mesh-mruwkdxtc",
+      "label": "Fuel_Head",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.24244738636016844,
+          0.8861985237121581,
+          0.03478842585086822
+        ],
+        "rotation": [
+          -1.5707964460038861,
+          -2.672208712986568e-10,
+          0.0022416123273575105
+        ],
+        "scale": [
+          0.07212964176364485,
+          0.07212964176364536,
+          0.07212963349921726
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "6/0",
+        "materialId": "mat-mruwkdxtd",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Fuel_Head"
+      }
+    },
+    "mesh-mruwkdxte": {
+      "id": "mesh-mruwkdxte",
+      "label": "Filter_Wireframe",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.24122951011657714,
+          0.2617268054962158,
+          0.03553807425498962
+        ],
+        "rotation": [
+          -1.570796326794897,
+          -2.168404344971009e-19,
+          0.002241492724137077
+        ],
+        "scale": [
+          0.026040544160683913,
+          0.026040544160683913,
+          0.026040543585580625
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "7/0",
+        "materialId": "mat-mruwkdxtf",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Filter_Wireframe"
+      }
+    },
+    "mesh-mruwkdxtg": {
+      "id": "mesh-mruwkdxtg",
+      "label": "Filter",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.25294436026647954,
+          0.27448374401147435,
+          0.03481124323098564
+        ],
+        "rotation": [
+          -1.570796326794897,
+          0,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.048163042561543835,
+          0.048163042561543835,
+          0.048163041497866974
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "8/0",
+        "materialId": "mat-mruwkdxth",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Filter"
+      }
+    },
+    "mesh-mruwkdxti": {
+      "id": "mesh-mruwkdxti",
+      "label": "Bolt_03",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.20453795127868651,
+          1.0257087097167967,
+          -0.016102631151676178
+        ],
+        "rotation": [
+          -1.570796326794897,
+          -2.168404344971009e-19,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.023373267682612,
+          0.023373267682612,
+          0.023373267166415294
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "9/0",
+        "materialId": "mat-mruwkdxtj",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Bolt_03"
+      }
+    },
+    "mesh-mruwkdxtk": {
+      "id": "mesh-mruwkdxtk",
+      "label": "Bolt_02",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.30064492416381833,
+          1.0257087097167967,
+          -0.01588721158504486
+        ],
+        "rotation": [
+          -1.570796326794897,
+          0,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.02337273539424122,
+          0.02337273539424122,
+          0.023372734878056273
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "10/0",
+        "materialId": "mat-mruwkdxtl",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Bolt_02"
+      }
+    },
+    "mesh-mruwkdxtm": {
+      "id": "mesh-mruwkdxtm",
+      "label": "Bolt_01",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.3004029331207275,
+          1.0257087097167967,
+          0.08498922853469848
+        ],
+        "rotation": [
+          -1.570796326794897,
+          0,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.02336616006730808,
+          0.02336616006730808,
+          0.023366159551268348
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "11/0",
+        "materialId": "mat-mruwkdxtn",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Bolt_01"
+      }
+    },
+    "mesh-mruwkdxto": {
+      "id": "mesh-mruwkdxto",
+      "label": "Base",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.25294437160491945,
+          0.7073967437744141,
+          0.0348120314836502
+        ],
+        "rotation": [
+          -1.570796326794897,
+          0,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.05967396079600908,
+          0.05967396079600908,
+          0.05967395947811454
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "12/0",
+        "materialId": "mat-mruwkdxtp",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Base"
+      }
+    },
+    "mesh-mruwkdxuq": {
+      "id": "mesh-mruwkdxuq",
+      "label": "Fuel_Head_Ref_Point_003",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.23824669799804687,
+          0.9235874346145727,
+          0.09871650958061218
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.001128818592497707,
+          0.0008597503557170493,
+          0.0006184809097388508
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "13/0",
+        "materialId": "mat-mruwkdxur",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Fuel_Head_Ref_Point_003"
+      }
+    },
+    "mesh-mruwkdxus": {
+      "id": "mesh-mruwkdxus",
+      "label": "Filter_Ref_Point_006",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.28602440185546874,
+          0.2634932783493141,
+          0.07131155080795287
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.001128818592497707,
+          0.0008597503557170493,
+          0.0006184809097388508
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "14/0",
+        "materialId": "mat-mruwkdxut",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Filter_Ref_Point_006"
+      }
+    },
+    "mesh-mruwkdxuu": {
+      "id": "mesh-mruwkdxuu",
+      "label": "Bolt_Ref_Point_002",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.31668570861816403,
+          1.042643733442698,
+          -0.019981980419158933
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.001128818592497707,
+          0.0008597503557170493,
+          0.0006184809097388508
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "15/0",
+        "materialId": "mat-mruwkdxuv",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Bolt_Ref_Point_002"
+      }
+    },
+    "mesh-mruwkdxuw": {
+      "id": "mesh-mruwkdxuw",
+      "label": "Base_Ref_Point_004",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.31281215629577636,
+          0.7086221159347632,
+          0.09057950625419617
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.001128818592497707,
+          0.0008597503557170493,
+          0.0006184809097388508
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "16/0",
+        "materialId": "mat-mruwkdxux",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Base_Ref_Point_004"
+      }
+    },
+    "mesh-mruwkdxuy": {
+      "id": "mesh-mruwkdxuy",
+      "label": "Prob_Ref_Point_005",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.22720214443206785,
+          0.5315727484115699,
+          0.06358246802402454
+        ],
+        "rotation": [
+          -1.5707968036320548,
+          8.632010534243732e-23,
+          4.646005571930047e-23
+        ],
+        "scale": [
+          0.0011288185924977067,
+          0.0008597503557171472,
+          0.000618480909738921
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "17/0",
+        "materialId": "mat-mruwkdxuz",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Prob_Ref_Point_005"
+      }
+    },
+    "mesh-mruwkdxu10": {
+      "id": "mesh-mruwkdxu10",
+      "label": "Harness_Ref_Point_01",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          0.00817772274017334,
+          0.9235133112320044,
+          0.03502269268035889
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.001128818592497707,
+          0.0008597503557170493,
+          0.0006184809097388508
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "18/0",
+        "materialId": "mat-mruwkdxu11",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Harness_Ref_Point_01"
+      }
+    },
+    "mesh-mruwkdxu12": {
+      "id": "mesh-mruwkdxu12",
+      "label": "Logo_Translink_pro",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.2532334315340918,
+          0.9435764594843781,
+          0.03461740138239486
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.027867002850526675,
+          0.027867002850526675,
+          0.049831676490933466
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "19/0",
+        "materialId": "mat-mruwkdxu13",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Logo_Translink_pro"
+      }
+    },
+    "mesh-mruwkdxu14": {
+      "id": "mesh-mruwkdxu14",
+      "label": "Text_Translink_pro",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.2508332601547241,
+          0.9434281375442407,
+          0.06591401670359774
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          0.02518567105931135,
+          0.02518567105931135,
+          0.02518567105931135
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "20/0",
+        "materialId": "mat-mruwkdxu15",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Text_Translink_pro"
+      }
+    },
+    "mesh-mruwkdxu16": {
+      "id": "mesh-mruwkdxu16",
+      "label": "Bolt_04",
+      "type": "mesh",
+      "visible": true,
+      "locked": false,
+      "children": [],
+      "transform": {
+        "position": [
+          -0.20374943351745606,
+          1.0224248985290527,
+          0.08477961802482605
+        ],
+        "rotation": [
+          -1.570796326794897,
+          -2.168404344971009e-19,
+          0.002241492724137076
+        ],
+        "scale": [
+          0.023368007421065488,
+          0.023368007421065488,
+          0.023368006904984955
+        ]
+      },
+      "props": {
+        "assetId": "asset-sensor-glb",
+        "subPath": "21/0",
+        "materialId": "mat-mruwkdxu17",
+        "castShadow": true,
+        "receiveShadow": true,
+        "glbPath": "Bolt_04"
+      }
+    },
+    "group-mruwkdxu18": {
+      "id": "group-mruwkdxu18",
+      "label": "sensor_assembly",
+      "type": "group",
+      "visible": true,
+      "locked": false,
+      "children": [
+        "mesh-mruwkdxs0",
+        "mesh-mruwkdxs2",
+        "mesh-mruwkdxt4",
+        "mesh-mruwkdxt6",
+        "mesh-mruwkdxt8",
+        "mesh-mruwkdxta",
+        "mesh-mruwkdxtc",
+        "mesh-mruwkdxte",
+        "mesh-mruwkdxtg",
+        "mesh-mruwkdxti",
+        "mesh-mruwkdxtk",
+        "mesh-mruwkdxtm",
+        "mesh-mruwkdxto",
+        "mesh-mruwkdxuq",
+        "mesh-mruwkdxus",
+        "mesh-mruwkdxuu",
+        "mesh-mruwkdxuw",
+        "mesh-mruwkdxuy",
+        "mesh-mruwkdxu10",
+        "mesh-mruwkdxu12",
+        "mesh-mruwkdxu14",
+        "mesh-mruwkdxu16"
+      ],
+      "transform": {
+        "position": [
+          0.07483103885963506,
+          0.013538265848017591,
+          -0.017162045991900327
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.9472714845244853,
+          0.9472714845244853,
+          0.9472714845244853
+        ]
+      },
+      "props": {
+        "glbPath": "sensor_assembly"
+      }
+    }
+  },
+  "waypoints": [
+    {
+      "id": "wp-lens",
+      "label": "Lens Port",
+      "content": "Optical port — sealed to IP67. Bound to 3D anchor 'anchor-lens'.",
+      "anchorId": "anchor-lens",
+      "direction": "right",
+      "clamp": true,
+      "range": [
+        0.25,
+        0.55
+      ]
+    }
+  ],
+  "tracks": [
+    {
+      "id": "trk-cam-pos",
+      "label": "Camera · Position",
+      "target": "cam-main",
+      "channel": "position",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            4.2,
+            1.8,
+            4.6
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.25,
+          "v": [
+            2.4,
+            0.9,
+            3.4
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.5,
+          "v": [
+            -3.4,
+            1.1,
+            2.4
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.75,
+          "v": [
+            -2.4,
+            2.4,
+            -3.4
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 1,
+          "v": [
+            0,
+            4.2,
+            5.2
+          ],
+          "ease": "smooth"
+        }
+      ]
+    },
+    {
+      "id": "trk-cam-target",
+      "label": "Camera · Target",
+      "target": "cam-main",
+      "channel": "target",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            0,
+            0.5,
+            0
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.5,
+          "v": [
+            0,
+            0.3,
+            0
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 1,
+          "v": [
+            0,
+            0.4,
+            0
+          ],
+          "ease": "smooth"
+        }
+      ]
+    },
+    {
+      "id": "trk-assembly-rot",
+      "label": "Assembly · Rotation Y",
+      "target": "grp-assembly",
+      "channel": "rotation",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            0,
+            0,
+            0
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.5,
+          "v": [
+            0,
+            1.2,
+            0
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 1,
+          "v": [
+            0,
+            2.4,
+            0
+          ],
+          "ease": "smooth"
+        }
+      ]
+    },
+    {
+      "id": "trk-key-intensity",
+      "label": "Key Light · Intensity",
+      "target": "light-key",
+      "channel": "intensity",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            3
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.55,
+          "v": [
+            1.2
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.8,
+          "v": [
+            3.4
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 1,
+          "v": [
+            2.8
+          ],
+          "ease": "smooth"
+        }
+      ]
+    },
+    {
+      "id": "trk-mat-signal",
+      "label": "Material · Signal Power",
+      "target": "mat-signal",
+      "channel": "emissiveIntensity",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            0.2
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.5,
+          "v": [
+            2.6
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.75,
+          "v": [
+            1
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 1,
+          "v": [
+            1.8
+          ],
+          "ease": "smooth"
+        }
+      ]
+    },
+    {
+      "id": "trk-beacon-vis",
+      "label": "Beacon · Visibility",
+      "target": "mesh-beacon",
+      "channel": "visible",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            0
+          ],
+          "ease": "linear"
+        },
+        {
+          "t": 0.2,
+          "v": [
+            0
+          ],
+          "ease": "linear"
+        },
+        {
+          "t": 0.26,
+          "v": [
+            1
+          ],
+          "ease": "linear"
+        },
+        {
+          "t": 1,
+          "v": [
+            1
+          ],
+          "ease": "linear"
+        }
+      ]
+    },
+    {
+      "id": "trk-dom-title-fade",
+      "label": "DOM · Hero Title Fade",
+      "target": "intro-title",
+      "channel": "opacity",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            1
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.16,
+          "v": [
+            1
+          ],
+          "ease": "smooth"
+        },
+        {
+          "t": 0.24,
+          "v": [
+            0
+          ],
+          "ease": "smooth"
+        }
+      ]
+    },
+    {
+      "id": "trk-dom-sub-parallax",
+      "label": "DOM · Subtitle Parallax",
+      "target": "intro-sub",
+      "channel": "translateY",
+      "keyframes": [
+        {
+          "t": 0,
+          "v": [
+            0
+          ],
+          "ease": "linear"
+        },
+        {
+          "t": 0.25,
+          "v": [
+            -90
+          ],
+          "ease": "linear"
+        }
+      ]
+    }
+  ],
+  "materials": {
+    "mat-housing": {
+      "id": "mat-housing",
+      "name": "Anodized Housing",
+      "baseColor": "#3d4654",
+      "metallic": 0.85,
+      "roughness": 0.35,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 1
+    },
+    "mat-signal": {
+      "id": "mat-signal",
+      "name": "Signal Emissive",
+      "baseColor": "#1a2230",
+      "metallic": 0.2,
+      "roughness": 0.6,
+      "emissive": "#4d8dff",
+      "emissiveIntensity": 1.6,
+      "opacity": 1
+    },
+    "mat-glass": {
+      "id": "mat-glass",
+      "name": "Optical Glass",
+      "baseColor": "#aac4e8",
+      "metallic": 0,
+      "roughness": 0.05,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 0.35
+    },
+    "mat-mruwkdxs1": {
+      "id": "mat-mruwkdxs1",
+      "name": "fallback Material · Fuel_tank",
+      "baseColor": "#3d4756",
+      "metallic": 0.5,
+      "roughness": 0.4,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxs3": {
+      "id": "mat-mruwkdxs3",
+      "name": "fallback Material · Belt",
+      "baseColor": "#2a323d",
+      "metallic": 0.6,
+      "roughness": 0.4,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxt5": {
+      "id": "mat-mruwkdxt5",
+      "name": "fallback Material · light",
+      "baseColor": "#4a5568",
+      "metallic": 0.5,
+      "roughness": 0.3,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 1,
+      "imported": true
+    },
+
+    "mat-mruwkdxt7": {
+      "id": "mat-mruwkdxt7",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Fuel_Head_cover",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxt9": {
+      "id": "mat-mruwkdxt9",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Prob",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtb": {
+      "id": "mat-mruwkdxtb",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Harness",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtd": {
+      "id": "mat-mruwkdxtd",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Fuel_Head",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtf": {
+      "id": "mat-mruwkdxtf",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Filter_Wireframe",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxth": {
+      "id": "mat-mruwkdxth",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Filter",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtj": {
+      "id": "mat-mruwkdxtj",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Bolt_03",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtl": {
+      "id": "mat-mruwkdxtl",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Bolt_02",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtn": {
+      "id": "mat-mruwkdxtn",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Bolt_01",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxtp": {
+      "id": "mat-mruwkdxtp",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Base",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxur": {
+      "id": "mat-mruwkdxur",
+      "name": "fallback Material · Fuel_Head_Ref_Point_003",
+      "baseColor": "#b3d575",
+      "metallic": 1,
+      "roughness": 1,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxut": {
+      "id": "mat-mruwkdxut",
+      "name": "fallback Material · Filter_Ref_Point_006",
+      "baseColor": "#b3d575",
+      "metallic": 1,
+      "roughness": 1,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxuv": {
+      "id": "mat-mruwkdxuv",
+      "name": "fallback Material · Bolt_Ref_Point_002",
+      "baseColor": "#b3d575",
+      "metallic": 1,
+      "roughness": 1,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxux": {
+      "id": "mat-mruwkdxux",
+      "name": "fallback Material · Base_Ref_Point_004",
+      "baseColor": "#b3d575",
+      "metallic": 1,
+      "roughness": 1,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxuz": {
+      "id": "mat-mruwkdxuz",
+      "name": "fallback Material · Prob_Ref_Point_005",
+      "baseColor": "#b3d575",
+      "metallic": 1,
+      "roughness": 1,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxu11": {
+      "id": "mat-mruwkdxu11",
+      "name": "fallback Material · Harness_Ref_Point_01",
+      "baseColor": "#b3d575",
+      "metallic": 1,
+      "roughness": 1,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxu13": {
+      "id": "mat-mruwkdxu13",
+      "name": "fallback Material · Logo_Translink_pro",
+      "baseColor": "#475569",
+      "metallic": 0.5,
+      "roughness": 0.3,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 1,
+      "imported": true
+    },
+    "mat-mruwkdxu15": {
+      "id": "mat-mruwkdxu15",
+      "name": "fallback Material · Text_Translink_pro",
+      "baseColor": "#cbd5e1",
+      "metallic": 0.4,
+      "roughness": 0.3,
+      "emissive": "#000000",
+      "emissiveIntensity": 0,
+      "opacity": 1,
+      "imported": true
+    },
+
+    "mat-mruwkdxu17": {
+      "id": "mat-mruwkdxu17",
+      "name": "M_388d0060_5cfe_41b7_834c_f75c1b359007_Material_001 · Bolt_04",
+      "baseColor": "#ffffff",
+      "metallic": 0.20000000298023224,
+      "roughness": 0.5,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "imported": true
+    }
+  },
+  "assets": [
+    {
+      "id": "asset-sensor-glb",
+      "name": "sensor_assembly_meshopt.glb",
+      "category": "3D Models",
+      "url": "/assets/sensor_assembly_meshopt.glb",
+      "version": 3
+    },
+    {
+      "id": "asset-hdr-studio",
+      "name": "studio_softbox.hdr",
+      "category": "Textures",
+      "url": null,
+      "version": 1
+    },
+    {
+      "id": "asset-tex-brushed",
+      "name": "brushed_metal_basecolor.ktx2",
+      "category": "Textures",
+      "url": null,
+      "version": 2
+    },
+    {
+      "id": "asset-audio-hum",
+      "name": "ambient_lab_hum.mp3",
+      "category": "Audio",
+      "url": null,
+      "version": 1
+    },
+    {
+      "id": "asset-font-inter",
+      "name": "Inter Variable",
+      "category": "Fonts",
+      "url": null,
+      "version": 1
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "comment": "Toolbox element library — FR-120 MVP node set (Phase 2.1, audit D-3).",
+  "toolbox": [
+    { "id": "cmp-section", "label": "Section", "description": "Top-level scroll panel (FR-120 section)" },
+    { "id": "cmp-container", "label": "Container", "description": "Generic grouping box" },
+    {
+      "id": "cmp-flex",
+      "label": "Flex Stack",
+      "description": "Flexbox layout container (row/column, wrap, justify)"
+    },
+    { "id": "cmp-grid", "label": "Grid", "description": "CSS grid layout container with editable tracks" },
+    { "id": "cmp-heading", "label": "Heading", "description": "H1–H6 semantic heading" },
+    { "id": "cmp-text", "label": "Paragraph", "description": "Body text" },
+    { "id": "cmp-link", "label": "Link", "description": "Inline anchor element" },
+    { "id": "cmp-button", "label": "Button", "description": "Action button" },
+    { "id": "cmp-image", "label": "Image", "description": "Asset-backed image" },
+    {
+      "id": "cmp-scene3d",
+      "label": "3D Scene",
+      "description": "Scroll-driven Three.js embed — drop on the canvas, then assign a GLB/GLTF asset in the Inspector (issues.md)"
+    },
+    { "id": "cmp-video", "label": "Video", "description": "Asset-backed video" },
+    { "id": "cmp-svg", "label": "SVG", "description": "Vector graphic (asset-backed or glyph)" },
+    { "id": "cmp-icon", "label": "Icon", "description": "Inline icon glyph sized by font size" },
+    { "id": "cmp-nav", "label": "Navigation", "description": "Horizontal navigation bar container" },
+    { "id": "cmp-footer", "label": "Footer", "description": "Page footer container" },
+    { "id": "cmp-custom", "label": "Custom Component", "description": "Free-form component container" },
+    { "id": "cmp-waypoint", "label": "Waypoint", "description": "Binds to a 3D anchor (FR-160)" }
+  ]
+}

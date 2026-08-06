@@ -1,0 +1,46 @@
+{
+  "assets": [
+    {
+      "id": "asset-sensor-glb",
+      "name": "sensor_assembly_meshopt.glb",
+      "category": "3D Models",
+      "url": "/assets/sensor_assembly_meshopt.glb",
+      "version": 3,
+      "stats": "Meshopt · KTX2-ready",
+      "usedBy": 1
+    },
+    {
+      "id": "asset-hdr-studio",
+      "name": "studio_softbox.hdr",
+      "category": "Textures",
+      "version": 1,
+      "stats": "2K HDR",
+      "usedBy": 0
+    },
+    {
+      "id": "asset-tex-brushed",
+      "name": "brushed_metal_basecolor.ktx2",
+      "category": "Textures",
+      "version": 2,
+      "stats": "1024² · KTX2",
+      "usedBy": 0
+    },
+    {
+      "id": "asset-audio-hum",
+      "name": "ambient_lab_hum.mp3",
+      "category": "Audio",
+      "version": 1,
+      "stats": "0:48 · 96 kbps",
+      "usedBy": 0
+    },
+    {
+      "id": "asset-font-inter",
+      "name": "Inter Variable",
+      "category": "Fonts",
+      "version": 1,
+      "stats": "woff2 · subset",
+      "usedBy": 1
+    }
+  ],
+  "categories": ["All", "3D Models", "Textures", "Audio", "Fonts"]
+}

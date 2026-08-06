@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "projectName": "Untitled Project",
+  "breakpoints": {
+    "desktop": { "label": "Desktop (Base)", "canvasWidth": 1160 },
+    "tablet": { "label": "Tablet", "canvasWidth": 768 },
+    "mobile": { "label": "Mobile", "canvasWidth": 375 }
+  },
+  "sections": [],
+  "domRootOrder": [],
+  "domNodes": {},
+  "sceneRootOrder": [],
+  "sceneNodes": {},
+  "waypoints": [],
+  "tracks": [],
+  "materials": {},
+  "markers": [],
+  "assets": [],
+  "environment": {
+    "background": "color",
+    "backgroundColor": "#0b0d10",
+    "envIntensity": 1
+  },
+  "stage": {
+    "fov": 45,
+    "near": 0.01,
+    "far": 100,
+    "cameraPosition": "0 1 5",
+    "cameraTarget": "0 0 0"
+  },
+  "publishedVersions": [],
+  "components": {},
+  "designTokens": []
+}

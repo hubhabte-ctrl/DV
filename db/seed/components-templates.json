@@ -1,0 +1,205 @@
+{
+  "comment": "Default node templates for toolbox drops (FR-120 node types — Phase 2.1 completes the MVP element set, audit D-3/D-4). Keyed by toolbox component id. Layout keys (display/flexDirection/…) are REAL style values consumed by toCss and editable in the Layout inspector group.",
+  "cmp-section": {
+    "type": "section",
+    "tag": "section",
+    "label": "Section · New",
+    "style": { "padding": 64, "gap": 16, "background": "#111a28", "color": "#f2f5fa", "textAlign": "center" }
+  },
+  "cmp-container": {
+    "type": "container",
+    "tag": "div",
+    "label": "Container",
+    "style": {
+      "display": "flex",
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+      "alignItems": "flex-start",
+      "flexWrap": "nowrap",
+      "padding": 16,
+      "gap": 8,
+      "background": "#1a2332",
+      "color": "#f2f5fa",
+      "textAlign": "left",
+      "borderRadius": 8
+    }
+  },
+  "cmp-flex": {
+    "type": "flex",
+    "tag": "div",
+    "label": "Flex Stack",
+    "style": {
+      "display": "flex",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+      "alignItems": "center",
+      "flexWrap": "nowrap",
+      "padding": 16,
+      "gap": 12,
+      "background": "#16202f",
+      "color": "#f2f5fa",
+      "textAlign": "left",
+      "borderRadius": 8
+    }
+  },
+  "cmp-grid": {
+    "type": "grid",
+    "tag": "div",
+    "label": "Grid",
+    "style": {
+      "display": "grid",
+      "gridTemplateColumns": "1fr 1fr 1fr",
+      "padding": 16,
+      "gap": 12,
+      "background": "#16202f",
+      "color": "#f2f5fa",
+      "textAlign": "left",
+      "borderRadius": 8
+    }
+  },
+  "cmp-heading": {
+    "type": "heading",
+    "tag": "h2",
+    "label": "H2 · Heading",
+    "content": "New heading",
+    "style": { "fontSize": 28, "fontWeight": 600, "color": "#f2f5fa", "textAlign": "left", "maxWidth": 640 }
+  },
+  "cmp-text": {
+    "type": "text",
+    "tag": "p",
+    "label": "P · Paragraph",
+    "content": "New paragraph text. Edit me in the Inspector.",
+    "style": { "fontSize": 16, "fontWeight": 400, "color": "#9fb0c8", "textAlign": "left", "maxWidth": 520 }
+  },
+  "cmp-link": {
+    "type": "link",
+    "tag": "a",
+    "label": "Link",
+    "content": "Link text",
+    "style": {
+      "fontSize": 15,
+      "fontWeight": 500,
+      "color": "#7fb4ff",
+      "textAlign": "left",
+      "textDecoration": "underline"
+    }
+  },
+  "cmp-button": {
+    "type": "button",
+    "tag": "button",
+    "label": "Button",
+    "content": "Button",
+    "style": {
+      "fontSize": 14,
+      "fontWeight": 600,
+      "color": "#0d1420",
+      "background": "#7fb4ff",
+      "padding": 12,
+      "borderRadius": 8
+    }
+  },
+  "cmp-image": {
+    "type": "image",
+    "tag": "div",
+    "label": "Image",
+    "content": "Assign an image asset in the Inspector or drop one from the Assets panel",
+    "style": {
+      "width": 280,
+      "height": 160,
+      "background": "#22304a",
+      "color": "#9fb0c8",
+      "textAlign": "center",
+      "borderRadius": 8,
+      "fontSize": 12,
+      "padding": 16
+    }
+  },
+  "cmp-scene3d": {
+    "type": "scene3d",
+    "tag": "div",
+    "label": "3D Scene",
+    "style": { "width": 420, "height": 300, "zIndex": 2, "borderRadius": 12, "background": "transparent" }
+  },
+  "cmp-video": {
+    "type": "video",
+    "tag": "div",
+    "label": "Video",
+    "content": "Assign a video asset in the Inspector or drop one from the Assets panel",
+    "style": {
+      "width": 480,
+      "height": 270,
+      "background": "#101826",
+      "color": "#9fb0c8",
+      "textAlign": "center",
+      "borderRadius": 8,
+      "fontSize": 12,
+      "padding": 16
+    }
+  },
+  "cmp-svg": {
+    "type": "svg",
+    "tag": "div",
+    "label": "SVG",
+    "style": { "width": 96, "height": 96, "color": "#7fb4ff", "background": "transparent", "borderRadius": 0 }
+  },
+  "cmp-icon": {
+    "type": "icon",
+    "tag": "span",
+    "label": "Icon",
+    "style": { "fontSize": 24, "color": "#f2f5fa" }
+  },
+  "cmp-nav": {
+    "type": "navigation",
+    "tag": "nav",
+    "label": "Navigation",
+    "style": {
+      "display": "flex",
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "flexWrap": "nowrap",
+      "padding": 16,
+      "gap": 24,
+      "background": "rgba(13,20,32,0.6)",
+      "color": "#f2f5fa",
+      "textAlign": "left",
+      "borderRadius": 10
+    }
+  },
+  "cmp-footer": {
+    "type": "footer",
+    "tag": "footer",
+    "label": "Footer",
+    "style": {
+      "display": "flex",
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+      "alignItems": "flex-start",
+      "flexWrap": "nowrap",
+      "padding": 32,
+      "gap": 8,
+      "background": "#0d1420",
+      "color": "#9fb0c8",
+      "textAlign": "left",
+      "borderRadius": 10
+    }
+  },
+  "cmp-custom": {
+    "type": "custom",
+    "tag": "div",
+    "label": "Custom Component",
+    "style": {
+      "display": "flex",
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+      "alignItems": "flex-start",
+      "flexWrap": "nowrap",
+      "padding": 16,
+      "gap": 8,
+      "background": "#1c2434",
+      "color": "#f2f5fa",
+      "textAlign": "left",
+      "borderRadius": 8
+    }
+  }
+}
