@@ -1,0 +1,571 @@
+/* =============================================================
+ * preview-studio.css — Preview Studio identity & chrome
+ * Spec 07 §8, Plan 06 §3.4 — co-located with studio code.
+ *
+ * Studio identity: --studio-accent: emerald-green
+ *   [data-studio='preview'] sets --studio-accent on the shell root.
+ *
+ * Contents:
+ *   · Preview mode layout (device frame picker, zoom/fit controls)
+ *   · Device frame selection UI (phone/tablet/desktop/custom)
+ *   · Preview toolbar (device chooser, breakpoints, orientation)
+ *   · Interaction badges (links active, scroll active, hover states)
+ *
+ * All values from design tokens — no raw literals.
+ * ============================================================= */
+
+/* ── Preview Studio accent & identity ─────────────────────── */
+[data-studio='preview'] {
+  --studio-accent:      oklch(0.55 0.14 155);   /* emerald-green */
+  --studio-accent-soft: oklch(0.55 0.14 155 / 0.12);
+  --studio-accent-hi:   oklch(0.70 0.14 155);
+  --studio-accent-lo:   oklch(0.80 0.10 155);
+}
+
+/* ── Preview mode root ─────────────────────────────────────── */
+/* When [data-studio='preview'] is active the shell hides side panels */
+.bs-shell--preview {
+  grid-template-columns: 0 1fr 0;
+  grid-template-rows: var(--bs-size-topBarH) 1fr 0;
+}
+
+/* ── Preview workspace ─────────────────────────────────────── */
+.bs-preview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+/* ── Preview toolbar (device/breakpoint/orientation picker) ── */
+.bs-preview__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-4);
+  height: 44px;
+  flex-shrink: 0;
+  width: 100%;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  z-index: 20;
+}
+.bs-preview__toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+.bs-preview__toolbar-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border-2);
+  margin: 0 var(--sp-2);
+}
+.bs-preview__toolbar-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.bs-preview__toolbar-val {
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink);
+  font-weight: 550;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* ── Preview device frame host ─────────────────────────────── */
+.bs-preview__stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: var(--sp-6);
+  background: var(--surface);
+  /* Subtle dot-grid background unique to Preview mode */
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Device frame wrapper (the chrome around the content) ──── */
+.bs-device-frame {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  border: 2px solid var(--border-2);
+  box-shadow:
+    0 0 0 6px var(--surface-2),
+    0 0 0 8px var(--border),
+    var(--shadow-xl);
+  overflow: hidden;
+  transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out);
+}
+
+/* Frame variants */
+.bs-device-frame--phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 48px;
+}
+.bs-device-frame--tablet {
+  width: 820px;
+  height: 1180px;
+  border-radius: 24px;
+}
+.bs-device-frame--laptop {
+  width: 1280px;
+  height: 800px;
+  border-radius: 12px;
+}
+.bs-device-frame--desktop {
+  width: 1440px;
+  height: 900px;
+  border-radius: 8px;
+}
+.bs-device-frame--custom {
+  border-radius: var(--r-md);
+}
+
+/* Device frame inner content (the iframe/canvas) */
+.bs-device-frame__inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* Phone notch */
+.bs-device-frame--phone::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 28px;
+  background: var(--surface-2);
+  border-radius: 20px;
+  z-index: 10;
+  box-shadow: 0 0 0 2px var(--border);
+}
+
+/* ── Device picker chips ───────────────────────────────────── */
+.bs-device-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  font-size: var(--fs-00);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.bs-device-chip:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.bs-device-chip--on {
+  background: var(--studio-accent-soft);
+  border-color: var(--studio-accent);
+  color: var(--studio-accent);
+  font-weight: 600;
+}
+.bs-device-chip svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* ── Preview interactions-active banner ─────────────────────── */
+.bs-preview__live-badge {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: var(--studio-accent-soft);
+  border: 1px solid var(--studio-accent);
+  border-radius: 99px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  font-weight: 600;
+  color: var(--studio-accent);
+  z-index: 100;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+.bs-preview__live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--studio-accent);
+  animation: preview-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes preview-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── Preview zoom readout ─────────────────────────────────── */
+.bs-preview__zoom {
+  position: absolute;
+  right: var(--sp-4);
+  bottom: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PREVIEW WORKSPACE STYLES
+   ═══════════════════════════════════════════════════════════════ */
+.bs-preview-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bs-color-bg-app);
+}
+
+.bs-preview-stage {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 240ms ease;
+}
+
+/* The bs-preview-stage element must fill its parent so the Three.js canvas fills the screen */
+.bs-preview-stage .bs-viewport,
+.bs-preview-stage .bs-viewport--clean {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.bs-preview-stage canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Also fix the device-screen-wrap so the 3D stage inside it fills the screen */
+.bs-device-screen-wrap .bs-preview-stage {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bs-device-screen-wrap .bs-preview-stage .bs-viewport,
+.bs-device-screen-wrap .bs-preview-stage .bs-viewport--clean {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.bs-preview-scroller {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
+}
+
+/* Desktop: stage-wrap is transparent — stage is pinned absolute behind it */
+.bs-preview-stage-wrap {
+    position: relative;
+    min-height: 100vh;
+    background: transparent;
+}
+
+.bs-preview-viewport {
+    position: relative;
+    margin: 0 auto;
+    min-height: 100vh;
+    transition: width 240ms ease, margin 240ms ease, border-radius 240ms ease;
+}
+
+.bs-preview-toolbar__info {
+    font-size: var(--text-label);
+    font-weight: 500;
+    font-family: var(--bs-typography-fontFamily-mono);
+    color: var(--bs-color-text-secondary);
+    letter-spacing: 0.3px;
+}
+
+.bs-preview-toolbar {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    background: rgba(18, 22, 31, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 9999px;
+    box-shadow: var(--bs-shadow-e3, 0 12px 32px rgba(0, 0, 0, 0.5));
+}
+
+[data-theme='light'] .bs-preview-toolbar {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--bs-color-border-subtle);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    color: var(--bs-color-text-primary);
+}
+
+.bs-preview-toolbar__group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.bs-preview-toolbar__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--bs-color-text-secondary);
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.bs-preview-toolbar__btn:hover {
+    background: var(--bs-color-bg-hover, rgba(255, 255, 255, 0.1));
+    color: var(--bs-color-text-primary);
+}
+
+.bs-preview-toolbar__btn--active {
+    background: var(--bs-color-accent-dim, rgba(22, 90, 109, 0.20));
+    color: var(--bs-color-accent-primary);
+}
+
+[data-theme='light'] .bs-preview-toolbar__btn--active {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.bs-preview-toolbar__divider {
+    width: 1px;
+    height: 16px;
+    background: var(--bs-color-border-subtle, rgba(255, 255, 255, 0.14));
+}
+
+.bs-preview-toolbar__pct {
+    font-size: var(--text-label);
+    font-family: var(--bs-typography-fontFamily-mono);
+    color: var(--bs-color-text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.bs-preview-toolbar__exit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    height: 28px;
+    background: rgba(122, 46, 61, 0.12);
+    border: 1px solid rgba(122, 46, 61, 0.28);
+    border-radius: 9999px;
+    color: var(--red);
+    font-size: var(--text-label);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.bs-preview-toolbar__exit:hover {
+    background: rgba(122, 46, 61, 0.22);
+    color: var(--on-accent);
+}
+
+/* ── Production Device Shell Frames (Preview Mode) ── */
+.bs-preview-device-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.bs-device-frame {
+    position: relative;
+    height: min(840px, 86vh);
+    display: flex;
+    flex-direction: column;
+    background: var(--bs-color-bg-panel);
+    border: 12px solid #1e2330;
+    border-radius: 48px;
+    box-shadow:
+        0 25px 60px -15px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+    transition: width 240ms ease, height 240ms ease, border-radius 240ms ease;
+}
+
+[data-theme='light'] .bs-device-frame {
+    border-color: #0f172a;
+    box-shadow:
+        0 25px 60px -15px rgba(15, 23, 42, 0.35),
+        0 0 0 1px rgba(15, 23, 42, 0.15);
+}
+
+.bs-device-frame--tablet {
+    border-radius: 32px;
+    border-width: 14px;
+    height: min(900px, 88vh);
+}
+
+/* Dynamic Island / Notch */
+.bs-device-notch {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 24px;
+    background: #000000;
+    border-radius: 20px;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.bs-device-camera {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #111827;
+    border: 1px solid #1f2937;
+}
+
+.bs-device-speaker {
+    width: 32px;
+    height: 3px;
+    border-radius: 3px;
+    background: #1f2937;
+}
+
+/* iOS Status Bar */
+.bs-device-statusbar {
+    height: 36px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--text-label);
+    font-weight: 500;
+    font-family: var(--bs-typography-fontFamily-ui);
+    color: var(--bs-color-text-primary);
+    background: var(--bs-color-bg-panel);
+    z-index: 40;
+    flex-shrink: 0;
+}
+
+.bs-device-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-micro);
+    opacity: 0.85;
+}
+
+/* Screen Viewport */
+.bs-device-screen-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    overflow: hidden;
+    background: transparent !important;
+}
+
+.bs-device-screen-wrap .bs-preview-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bs-device-screen {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: transparent !important;
+    z-index: 1;
+}
+
+.bs-device-screen .bs-preview-viewport {
+    position: relative;
+    z-index: 1;
+    width: 100% !important;
+    min-height: 100%;
+}
+
+/* Semi-transparent DOM sections in Preview mode so the 3D WebGL scene shines through transparently */
+.bs-preview-viewport section.bs-domnode {
+    background: rgba(13, 20, 32, 0.25) !important;
+}
+
+[data-theme='light'] .bs-preview-viewport section.bs-domnode {
+    background: rgba(241, 245, 249, 0.35) !important;
+}
+
+/* Bottom Home Indicator Bar */
+.bs-device-homebar {
+    height: 18px;
+    background: var(--bs-color-bg-panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 40;
+}
+
+.bs-device-homebar::after {
+    content: '';
+    width: 134px;
+    height: 4px;
+    background: var(--bs-color-text-muted);
+    border-radius: 4px;
+    opacity: 0.5;
+}

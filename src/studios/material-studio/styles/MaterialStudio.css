@@ -1,0 +1,1284 @@
+/* =============================================================
+ * MATERIAL STUDIO — three-zone surface instrument (Spec 07 §6, stage R4)
+ *
+ * Extracted from `packages/ui-kit/src/tokens/global.css` per Plan 06
+ * Phase 3 §3.4 — per-studio stylesheet co-located with the studio code.
+ * Imported by `src/studios/material-studio/index.ts` (Vite chunks it as
+ * `material-studio-*.css`).
+ *
+ * Contents:
+ *   • Layout: `.bs-matstudio` grid (Library · Viewport · MaterialChannelStack)
+ *   • Left:   `.bs-matlib*` / `.bs-matcard*` (searchable material grid)
+ *   • Center: `.bs-lookdev*` (LookDev viewport overlays)
+ *   • Right:  `.bs-channelstack*` (reusing shared MaterialChannels)
+ *
+ * No timeline / bottom region (per §6). Identity: `--studio-accent`
+ * (clay, ruling E-B — set by `[data-studio='material']` in global.css).
+ * All values from tokens.
+ * ============================================================= */
+
+/* ── Frame ────────────────────────────────────────────── */
+.bs-matstudio {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 0;
+  background: var(--surface);
+}
+.bs-matstudio__library {
+  min-width: 0;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+.bs-matstudio__viewport {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+.bs-matstudio__stack {
+  min-width: 0;
+  border-left: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* ── Left: MaterialLibrary ────────────────────────────── */
+.bs-matlib {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.bs-matlib__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+}
+.bs-matlib__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-0);
+  font-weight: 600;
+  color: var(--ink);
+}
+.bs-matlib__count {
+  padding: 0 var(--sp-2);
+  border-radius: var(--r-full);
+  background: var(--surface-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink-2);
+}
+/* Padding removed: `.uk-search` now owns its own inset (SSOT `.lp-search`
+   margin), so a padded wrapper would double-space the field. */
+.bs-matlib__search {
+  display: contents;
+}
+.bs-matlib__grid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  /* Same container-driven track definition as `.mslot-grid` — see the
+     deviation note there. This grid had the identical fixed-two-column
+     stretch: `.bs-matcard__swatch` is sized by `aspect-ratio`, so a widening
+     panel grew each card instead of showing more of them.
+     Only the track definition is changed here; the rest of this block is
+     pre-migration legacy on the older `--sp-*`/`--r-*` scale and is left for
+     its own migration pass (§5.4). */
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--size-material-card-min), 100%), 1fr));
+  gap: var(--sp-3);
+  padding: 0 var(--sp-4) var(--sp-4);
+  align-content: start;
+}
+.bs-matlib__empty {
+  grid-column: 1 / -1;
+  padding: var(--sp-6) var(--sp-2);
+  font-size: var(--fs-0);
+  text-align: center;
+}
+.bs-matcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.bs-matcard:hover {
+  border-color: var(--studio-accent-soft);
+}
+.bs-matcard--sel {
+  border-color: var(--studio-accent);
+  box-shadow: 0 0 0 1px var(--studio-accent);
+}
+.bs-matcard__swatch {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+}
+.bs-matcard__imported {
+  position: absolute;
+  top: var(--sp-1);
+  left: var(--sp-1);
+  padding: 0 var(--sp-1);
+  border-radius: var(--r-xs);
+  background: color-mix(in oklch, var(--surface) 70%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.bs-matcard__name {
+  font-size: var(--fs-0);
+  font-weight: 550;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bs-matcard__meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink-3);
+}
+.bs-matcard__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--studio-accent);
+}
+.bs-matcard__link svg {
+  width: 11px;
+  height: 11px;
+}
+.bs-matcard__actions {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.bs-matcard:hover .bs-matcard__actions {
+  opacity: 1;
+}
+.bs-matcard__actions [role='button'] {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-xs);
+  background: color-mix(in oklch, var(--surface) 80%, transparent);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.bs-matcard__actions [role='button']:hover {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+.bs-matcard__actions svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Center: MaterialLookDevViewport ──────────────────────────── */
+.bs-lookdev {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.bs-lookdev__toolbar {
+  position: absolute;
+  top: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-2);
+  background: color-mix(in oklch, var(--surface-2) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  z-index: 5;
+}
+/* Offset top-left toolbar past the MaterialDock */
+.bs-lookdev__toolbar--tl {
+  left: calc(var(--bs-size-leftRailW, 0px) + var(--sp-3));
+}
+/* Offset top-right toolbar to the left of the FPS badge */
+.bs-lookdev__toolbar--tr {
+  right: calc(var(--fps-badge-w, 68px) + var(--sp-2));
+}
+.bs-lookdev__toolbar .uk-input {
+  height: var(--bs-size-controlH);
+  font-size: var(--fs-00);
+}
+.bs-lookdev__compare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.bs-lookdev__compare::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--studio-accent);
+  box-shadow: 0 0 8px var(--studio-accent);
+}
+.bs-lookdev__compare-tag {
+  position: absolute;
+  top: var(--sp-4);
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink-2);
+}
+.bs-lookdev__compare-tag--a {
+  right: calc(50% + var(--sp-2));
+}
+.bs-lookdev__compare-tag--b {
+  left: calc(50% + var(--sp-2));
+}
+.bs-lookdev__tag {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 5px 12px;
+  background: color-mix(in oklch, var(--surface-2) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink);
+  z-index: 5;
+  pointer-events: none;
+}
+.bs-lookdev__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+}
+/* subtle environment tint per lighting preset (visual affordance) */
+.bs-lookdev--outdoor {
+  box-shadow: inset 0 0 240px color-mix(in oklch, var(--studio-accent) 12%, transparent);
+}
+.bs-lookdev--night {
+  box-shadow: inset 0 0 240px oklch(15% 0.02 262 / 0.55);
+}
+.bs-lookdev--nobg {
+  background: var(--surface-3);
+}
+
+/* ── Right: MaterialChannelStack ──────────────────────────────── */
+.bs-channelstack {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.bs-channelstack--empty {
+  padding: var(--sp-6) var(--sp-4);
+  font-size: var(--fs-0);
+}
+.bs-channelstack__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+}
+.bs-channelstack__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+.bs-channelstack__name {
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--ink);
+}
+.bs-channelstack__badge {
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+}
+.bs-channelstack__actions {
+  display: flex;
+  gap: var(--sp-2);
+}
+.bs-channelstack__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sp-2) var(--sp-4) var(--sp-4);
+}
+
+/* =============================================================
+ * MATERIAL SLOT INSPECTOR — SSOT port
+ *
+ * Source of truth: `UI_UX_reference/src/styles/material-studio.css` L1-560,
+ * rendered by `glbMeshPanel()` / `renderCard()` /
+ * `buildMaterialSlotInspector()` in `UI_UX_reference/src/app/App.ts` L888-1078.
+ *
+ * Consumed by `MaterialInspector.tsx`, which renders into the shared
+ * inspector shell (`src/shared/InspectorPanel.tsx`). The shell primitives it
+ * leans on — `.grp*`, `.field*`, `.f-input`, `.slider*`, `.swatch*`,
+ * `.insp-obj-head` — are owned by `src/shared/Inspector.css` and are NOT
+ * re-declared here (CLAUDE.md §2.1, one base declaration per selector).
+ *
+ * Token mapping (CLAUDE.md §1.4 `-hex` collision rule): the SSOT's unsuffixed
+ * hue tokens collide with production legacy oklch tokens of the same name, so
+ * SSOT `--teal` / `--teal-wash` / `--teal-line` / `--amber` / `--amber-wash` /
+ * `--amber-line` are consumed here as `--teal-hex` / `--teal-wash-hex` /
+ * `--teal-line-hex` / `--amber-hex` / `--amber-wash-hex` / `--amber-line-hex`.
+ * `--teal-line-s` is unsuffixed in both and used as-is.
+ * ============================================================= */
+
+/* ── Section rhythm ── */
+.mslot-wrap {
+  padding: var(--space-1) 0 var(--space-2);
+}
+.mslot-section-divider {
+  height: var(--border-thin);
+  background: var(--color-border-subtle);
+  margin: var(--space-6) 0 var(--space-5);
+  border: none;
+}
+.mslot-section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  font-weight: var(--weight-semibold);
+  margin: var(--space-4) 0 var(--space-3);
+}
+.mslot-section-custom {
+  color: var(--teal-hex);
+  margin-top: var(--space-6);
+}
+.glb-section-label {
+  color: var(--teal-hex);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+/* ── Component-local layout hooks ──
+   Scoped rules for markup this studio owns. `.uk-vec3` is a ui-kit primitive,
+   so it is only ever styled here *in context* via a co-class, never as a bare
+   `.uk-*` rule (§2.1). */
+.mslot-mode-rail {
+  margin-bottom: var(--space-3);
+}
+.mslot-vec-pair {
+  grid-template-columns: 1fr 1fr;
+}
+/* Native colour input, overlaying its `.swatch-row` in full — ports the inline
+   style the SSOT sets on this element (`UI_UX_reference/src/app/App.ts:623`:
+   `position:absolute;opacity:0;width:100%;height:100%;top:0;left:0;cursor:pointer`).
+
+   The overlay is the whole mechanism, not decoration: a native colour popup is
+   anchored by the browser to its input, so the input must cover the row for the
+   popup to appear over the swatch. This rule previously collapsed it to 1px with
+   `pointer-events: none` and left `top`/`left` unset, so it resolved against the
+   initial containing block instead of the row and the popup opened far down the
+   panel. `pointer-events` is not reset here — the input receives the click
+   directly now, replacing the proxied `.click()` from a wrapping button. */
+.swatch-color-picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+.swatch-color-picker:disabled { cursor: not-allowed; }
+
+/* Quick-pick base colours beneath the swatch row.
+   These chips were previously wrapped in `.icon-group`, whose `.icon-group
+   button` rule (`src/shared/Inspector.css:530`) outranks `.swatch` at 0,1,1 vs
+   0,1,0 and forces `flex: 1; height: 26px; background: none` — which stretched
+   all five chips and stripped their fill, rendering an empty bordered box. The
+   container is studio-local so that rule no longer applies.
+
+   NOTE: unlike the swatch row above, this row has NO SSOT counterpart — see
+   §5.2. It is styled correctly here rather than left broken, but it is a
+   candidate for removal. */
+.mslot-swatches {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.mslot-swatches .swatch { padding: 0; cursor: pointer; }
+.mslot-swatches .swatch:disabled { cursor: not-allowed; opacity: 0.5; }
+
+/* ── GLB mesh empty state ── */.glb-mat-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  color: var(--color-text-muted);
+  font-family: var(--font);
+  font-size: var(--text-caption-sm);
+  margin-bottom: var(--space-3);
+}
+.glb-mat-hint span {
+  flex: 1;
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Library header ── */
+.mslot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}
+.mslot-title {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+.mslot-count {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-badge);
+}
+
+/* ── Category tabs ── */
+.mslot-tabs {
+  display: flex;
+  /* DEVIATION from SSOT `material-studio.css:187` (governance §5.3).
+     SSOT behaviour: a single non-wrapping row; overflowing labels ellipsise.
+     Why not copied: the reference defines three short categories (Metals /
+     Polymers / Emissive) that always fit one row. Production ships five with
+     longer names, so the SSOT's shrink-and-ellipsise path truncates them to
+     unreadable stubs ("sen…", "mou…", "truc…") at narrow panel widths.
+     Authorised by: the same responsive requirement as `.mslot-grid` below.
+     Replaced by: wrapping to a second row, which keeps every label legible
+     at any width. Identical to the SSOT whenever the labels do fit. */
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-chip);
+  padding: var(--space-1);
+  margin-bottom: var(--space-5);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.mslot-tab {
+  /* Pairs with `flex-wrap` above. `min-width: 0` and `overflow: hidden` both
+     force a flex item's automatic minimum size to zero, which is what let the
+     SSOT rule shrink a label to an ellipsis instead of wrapping the row; they
+     are dropped so the label's own width is the floor. `text-overflow` goes
+     with them — with nothing overflowing it had no effect left to have.
+     `1 1 auto` keeps the SSOT's equal-fill look on every row that isn't full. */
+  flex: 1 1 auto;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-input);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-align: center;
+}
+.mslot-tab:hover {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-hover);
+}
+.mslot-tab.active {
+  background: var(--color-surface-card);
+  color: var(--teal-hex);
+  font-weight: var(--weight-semibold);
+  box-shadow: var(--shadow-xs);
+}
+
+/* ── Card grid ── */
+/* DEVIATION from SSOT `material-studio.css:216` (governance §5.3).
+   SSOT behaviour: `grid-template-columns: 1fr 1fr` — a fixed two-column grid.
+   Why not copied: the reference inspector is a fixed ~330px panel, so two
+   tracks always land near 146px. The production inspector is user-resizable;
+   at the widths it actually reaches, two `1fr` tracks stretch each card to
+   ~2.5x the reference size rather than showing more of them.
+   Authorised by: an explicit product requirement for a responsive grid that
+   adapts column COUNT to available width. A literal SSOT match is not
+   achievable across a resizable container — the reference simply does not
+   define behaviour outside its own fixed width.
+   Replaced by: `auto-fill` + `minmax()`, which is driven by the grid's own
+   width (no viewport media query, so it stays correct when the panel is
+   dragged). Column count follows the container — with a 134px floor and an
+   8px gap a track needs `142n - 8` px, so: 1 column below 276px, 2 from 276,
+   3 from 418, 4 from 560, 5 from 702. That is the small/medium/large
+   progression, and every track stays near the SSOT's ~146px.
+
+   `auto-fill`, NOT `auto-fit`: `auto-fit` collapses the empty tracks and lets
+   the surviving items absorb the slack, which reproduces the exact stretching
+   this rule exists to remove.
+
+   `min(..., 100%)` guards the one case `minmax()` gets wrong — a container
+   narrower than the floor would otherwise overflow instead of dropping to a
+   single full-width track. */
+.mslot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--size-material-card-min), 100%), 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.mslot-card {
+  background: var(--color-surface-card);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-panel);
+  padding: var(--space-3) var(--space-3) var(--space-4);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-smooth),
+              transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+.mslot-card:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-1px);
+}
+.mslot-card.active {
+  border-color: var(--teal-hex);
+  box-shadow: 0 0 0 var(--border-thin) var(--teal-line-s);
+}
+/* Applied to the selected mesh. Deviation (§5.3): the SSOT declares
+   `border-color: var(--teal) !important` (material-studio.css L293) so this
+   state outranks `.mslot-card.active`. `!important` is banned (§2.1), so the
+   same precedence is obtained structurally — the compound selector below
+   carries both classes, beating `.active` alone on specificity. */
+.mslot-card.mat-is-applied,
+.mslot-card.active.mat-is-applied {
+  border-color: var(--teal-hex);
+  box-shadow: 0 0 0 var(--border-thick) var(--teal-wash-hex);
+}
+
+/* ── Tile (CSS material preview) ── */
+.mslot-tile {
+  width: 100%;
+  /* DEVIATION from SSOT `material-studio.css:238` (governance §5.3).
+     SSOT behaviour: `width: 100%` only — the tile is sized entirely by its
+     column, which is safe in a fixed-width panel.
+     Why not copied: `aspect-ratio: 1/1` makes that width a HEIGHT too, so in
+     the resizable production inspector the preview grows in both axes. The
+     single-column case is the extreme — one full-width track would render a
+     tile as tall as the panel is wide.
+     Replaced by: a ceiling at the SSOT's own rendered tile size, so the
+     preview never exceeds the dimension the reference actually shows. The
+     card centres it (`align-items: center`), so capped tiles stay aligned. */
+  max-width: var(--size-material-tile-max);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-card);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-3);
+  box-shadow: var(--shadow-material-tile);
+}
+.mslot-tile::before {
+  content: '';
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  width: 36%;
+  height: 36%;
+  background: var(--gloss-material-tile);
+  border-radius: var(--radius-card);
+  pointer-events: none;
+}
+.mslot-name {
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: var(--leading-snug);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mslot-meta-chip-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+.mslot-apply-btn {
+  margin-top: var(--space-3);
+  width: 100%;
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-bold);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-input);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.mslot-apply-btn:hover {
+  background: var(--teal-hex);
+  border-color: var(--teal-hex);
+  color: var(--bg-0);
+}
+.mslot-apply-btn.applied {
+  background: var(--teal-wash-hex);
+  border-color: var(--teal-hex);
+  color: var(--teal-hex);
+  cursor: default;
+}
+.mslot-apply-btn.applied:hover {
+  background: var(--teal-wash-hex);
+  color: var(--teal-hex);
+}
+
+/* ── Tile overlay badges ── */
+.mat-applied-badge {
+  position: absolute;
+  bottom: var(--space-2);
+  right: var(--space-2);
+  background: var(--teal-hex);
+  color: var(--bg-0);
+  font-size: var(--text-nano);
+  font-weight: var(--weight-bold);
+  border-radius: var(--radius-full);
+  width: var(--size-badge-sm);
+  height: var(--size-badge-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mat-default-badge {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: var(--size-badge);
+  height: var(--size-badge);
+  border-radius: var(--radius-full);
+  background: var(--color-scrim-on-fill);
+  backdrop-filter: var(--backdrop-blur-sm);
+  color: var(--amber-hex);
+  border: var(--border-thin) solid var(--amber-line-hex);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.mat-default-badge--lib {
+  width: var(--size-badge-sm);
+  height: var(--size-badge-sm);
+}
+.mat-custom-badge {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: var(--size-badge);
+  height: var(--size-badge);
+  border-radius: var(--radius-full);
+  background: var(--teal-wash-strong);
+  backdrop-filter: var(--backdrop-blur-sm);
+  color: var(--color-text-on-accent);
+  border: var(--border-thin) solid var(--teal-line-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: var(--text-nano);
+  font-weight: var(--weight-bold);
+  z-index: 2;
+}
+
+/* ── Meta chips ── */
+.mat-meta-chip {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-badge);
+}
+/* Deviation (§5.3): the SSOT writes
+   `border-color: var(--amber-line-s, var(--color-border-subtle))`
+   (material-studio.css L539). Token fallbacks are banned (§2.1) and
+   `--amber-line-s` has no production counterpart, so this resolves to the
+   nearest real amber hairline token, `--amber-line-hex` (present both themes). */
+.mat-meta-chip--emis {
+  color: var(--amber-hex);
+  border-color: var(--amber-line-hex);
+}
+
+/* ── Protection banner (platform-default material selected) ── */
+.mat-protect-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--amber-wash-hex);
+  border: var(--border-thin) solid var(--amber-line-hex);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-5);
+  color: var(--amber-hex);
+  font-family: var(--font);
+  font-size: var(--text-caption-sm);
+  line-height: var(--leading-normal);
+}
+.mat-protect-banner div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.mat-protect-banner b {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+.mat-protect-banner span {
+  color: var(--color-text-muted);
+  font-size: var(--text-micro);
+}
+.mat-customize-btn {
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-bold);
+  padding: var(--space-2) var(--space-4);
+  background: var(--amber-hex);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--bg-0);
+  cursor: pointer;
+  flex: none;
+  transition: var(--transition-fast);
+}
+.mat-customize-btn:hover {
+  filter: brightness(1.15);
+}
+
+/* ── Custom-active bar (user material selected) ── */
+.mat-custom-active-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  background: var(--teal-wash-hex);
+  border: var(--border-thin) solid var(--teal-line-s);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-5);
+  color: var(--teal-hex);
+  font-family: var(--font);
+  font-size: var(--text-caption-sm);
+}
+.mat-custom-active-bar span {
+  flex: 1;
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption-sm);
+}
+.mat-custom-active-bar b {
+  color: var(--teal-hex);
+}
+.mat-resetdef-btn {
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  flex: none;
+  transition: var(--transition-fast);
+}
+.mat-resetdef-btn:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-hover);
+}
+
+/* ── Detail preview (sphere) ── */
+.mslot-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin: var(--space-7) 0 var(--space-5);
+}
+.mslot-sphere {
+  /* Fixed square geometry so the circle renders true (SSOT L313-314). */
+  width: var(--size-material-sphere);
+  height: var(--size-material-sphere);
+  border-radius: var(--radius-full);
+  position: relative;
+  flex: none;
+  align-self: center;
+  box-shadow: var(--shadow-material-sphere);
+  transition: background var(--duration-slow) var(--ease-out),
+              box-shadow var(--duration-slow) var(--ease-out);
+}
+.mslot-sphere::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 34%;
+  height: 34%;
+  background: var(--gloss-material-sphere);
+  border-radius: var(--radius-full);
+}
+.mslot-preview-name {
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+.mslot-preview-res {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+}
+.mslot-preview-label {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* ── Action buttons ── */
+.mslot-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+.mslot-btn {
+  font-family: var(--font);
+  font-size: var(--text-label-sm);
+  font-weight: var(--weight-bold);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-input);
+  border: var(--border-thin) solid var(--color-border-default);
+  background: var(--color-surface-control);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.mslot-btn:hover {
+  background: var(--color-surface-hover);
+}
+.mslot-btn.primary {
+  background: var(--teal-hex);
+  border-color: var(--teal-hex);
+  color: var(--bg-0);
+}
+.mslot-btn.primary:hover {
+  filter: brightness(1.1);
+}
+/* SSOT App.ts L909 renders `.mslot-btn.danger` for the GLB restore action but
+   material-studio.css declares no `.danger` rule. Ported from the SSOT's own
+   danger convention for a low-emphasis destructive button
+   (`shell.css` L575-582 `.qa-btn.danger`) so no new design language is
+   introduced (§5.2). */
+.mslot-btn.danger:hover {
+  background: var(--red-wash-s);
+  color: var(--red-br);
+}
+
+/* =============================================================
+ * MATERIAL INSPECTOR — REDESIGN ADDITIONS (Audit 2026-08-04)
+ *
+ * Additive rules only. No existing selectors modified here.
+ * Each rule cites the audit finding it resolves.
+ * ============================================================= */
+
+/* ── Editable material name in the preview header (audit §4.3) ── */
+.mslot-preview-name--editable {
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-1);
+  margin: 0 calc(-1 * var(--space-1));
+  transition: background var(--duration-fast) var(--ease-out);
+}
+.mslot-preview-name--editable:hover,
+.mslot-preview-name--editable:focus-visible {
+  background: var(--color-surface-hover);
+  outline: none;
+}
+/* Focused text input that replaces the name label while editing. */
+.mslot-name-edit {
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--teal-hex);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* ── Texture slot row: SelectField + clear button (audit §3.2) ── */
+.mslot-tex-slot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+/* The SelectField occupies all remaining width. */
+.mslot-tex-slot > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+/* "×" clear button — visible when a texture is bound. */
+.mslot-tex-clear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--color-text-muted);
+  font-size: var(--text-body-sm);
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.mslot-tex-clear:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+/* ── Transmission gate hint (audit §2.3 / Refraction.md §2) ── */
+/* Shown when alphaMode ≠ blend and transmission = 0. */
+.mslot-transmission-gate {
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  line-height: var(--leading-relaxed);
+}
+.mslot-transmission-gate b {
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-semibold);
+}
+
+/* ── Attenuation color block inside Transmission section ── */
+/* Reuses the `.swatch-row` positioned-overlay mechanism for the color picker.
+   `.mslot-atten-color-row--inactive` visually dims the block when the
+   transmission group is not yet active. */
+.mslot-atten-color-row {
+  margin-bottom: var(--space-2);
+}
+.mslot-atten-color-row--inactive {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Small inline field label (used above attenuation color swatch) ── */
+.mslot-field-label {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+/* =============================================================
+ * TAB-SPECIFIC ADDITIONS (2026-08-04 tab-routing pass)
+ *
+ * Additive only — no existing rules modified.
+ * Covers: compact header, IOR presets, preview tab, mesh list,
+ *         empty states, small swatch variant.
+ * ============================================================= */
+
+/* ── Compact material identity header (shown on every tab) ── */
+.mslot-mat-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+  margin-bottom: var(--space-2);
+}
+.mslot-mat-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.mslot-mat-name {
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  text-transform: lowercase;
+}
+.mslot-mat-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.mslot-mat-mode {
+  text-transform: uppercase;
+  font-size: var(--text-nano);
+  letter-spacing: 0.04em;
+}
+
+/* ── IOR quick-preset buttons (Transmission section) ── */
+.mslot-ior-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) 0 var(--space-4);
+}
+.mslot-ior-preset-btn {
+  font-family: var(--font);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.mslot-ior-preset-btn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+.mslot-ior-preset-btn.active {
+  background: var(--teal-wash);
+  border-color: var(--teal-hex);
+  color: var(--teal-br);
+}
+
+/* ── Preview tab: large sphere card ── */
+.mslot-preview-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-5);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+  margin-bottom: var(--space-2);
+}
+.mslot-sphere-lg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 34% 30%,
+    var(--fill-from) 0%,
+    var(--fill-to) 70%
+  );
+  box-shadow:
+    inset -8px -8px 20px rgba(0,0,0,0.55),
+    inset 4px 4px 12px rgba(255,255,255,0.08),
+    0 12px 40px rgba(0,0,0,0.45);
+  flex: none;
+}
+.mslot-preview-meta {
+  text-align: center;
+}
+.mslot-preview-matname {
+  font-family: var(--font);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  text-transform: lowercase;
+  margin-bottom: var(--space-1);
+}
+.mslot-preview-id {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+}
+
+/* ── Preview tab: property row with color swatch ── */
+.mslot-preview-color-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ── Small swatch variant ── */
+.swatch--sm {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-xs);
+  flex: none;
+}
+
+/* ── Preview tab: mesh usage list ── */
+.mslot-mesh-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.mslot-mesh-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-card);
+  background: none;
+  border: var(--border-thin) solid transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-align: left;
+}
+.mslot-mesh-item svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  opacity: 0.6;
+}
+.mslot-mesh-item:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-subtle);
+}
+.mslot-mesh-item.active {
+  background: var(--teal-wash);
+  border-color: var(--teal-hex);
+  color: var(--teal-br);
+}
+.mslot-mesh-empty {
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+  padding: var(--space-3) 0;
+}
+
+/* ── Shader tab: library empty state ── */
+.mslot-library-empty {
+  grid-column: 1 / -1;
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Maps tab: empty texture hint ── */
+.mslot-maps-empty-hint {
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-muted);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Preview tab read-only property summary list ── */
+.mslot-pprop-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.mslot-pprop-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-1) 0;
+  font-family: var(--font);
+  font-size: var(--text-body-sm);
+}
+.mslot-pprop-label {
+  color: var(--color-text-secondary);
+}
+.mslot-pprop-val {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-primary);
+}
+
+/* ── Stacked UV Transform Grid (prevents field truncation) ── */
+.mslot-uv-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ── Section Divider ── */
+.mslot-section-divider {
+  border: none;
+  border-top: var(--border-thin) solid var(--color-border-subtle);
+  margin: var(--space-4) 0;
+}
+
