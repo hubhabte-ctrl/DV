@@ -1,0 +1,520 @@
+/* =============================================================
+ * ANIMATION STUDIO HERO SURFACE (Spec 07 §5 — stage R2)
+ *
+ * Extracted from `packages/ui-kit/src/tokens/global.css` per Plan 06
+ * Phase 3 §3.4 — per-studio stylesheet co-located with the studio code.
+ * The shell studio registry loads this file when the Animation Studio
+ * module is imported (static ESM CSS import — Vite chunks it as
+ * `animate-studio-*.css`).
+ *
+ * Contents:
+ *   • AnimateViewport (viewport-as-monitor: quality/safe-area/shot-cam overlay)
+ *   • AnimateTimelinePanel (dope-sheet hero: names, ruler, lanes, marquee, kf glyphs)
+ *
+ * All values from tokens (`--surface`, `--ink*`, `--sp-*`, `--r-*`, etc.).
+ * Studio identity: `--studio-accent` (violet, set on the shell root via
+ * `[data-studio='timeline']` — see `global.css` §T3). No new invariants.
+ * ============================================================= */
+
+/* ── AnimateViewport — the viewport above the hero panel ── */
+.bs-monitor {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bs-monitor__toolbar {
+  position: absolute;
+  top: var(--sp-3);
+  right: calc(var(--fps-badge-w, 68px) + var(--sp-2)); /* Offset to the left of the FPS badge */
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-2);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  z-index: 5;
+}
+.bs-monitor__quality {
+  height: var(--bs-size-controlH);
+  font-size: var(--fs-00);
+  color: var(--color-text-secondary);
+}
+.bs-monitor__safe {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 4;
+}
+.bs-monitor__safe-frame {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  border: 1px dashed var(--color-text-tertiary);
+  border-radius: var(--r-xs);
+  opacity: 0.6;
+}
+.bs-monitor__safe-frame::after {
+  /* title-safe inner frame */
+  content: '';
+  position: absolute;
+  inset: 5.5%;
+  border: 1px dashed var(--color-text-tertiary);
+  border-radius: var(--r-xs);
+}
+
+/* ── AnimateTimelinePanel — hero dope sheet (Spec 07 §5) ── */
+.bs-tlp .bs-tlp-body {
+  position: relative; /* hosts the column-resize handle */
+}
+.bs-tlp-colresize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 30;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.bs-tlp-colresize:hover {
+  background: var(--studio-accent-soft);
+}
+
+/* Left column — track stack */
+.bs-tlp-names {
+  overflow-y: hidden; /* scrollTop is synced from the lanes column */
+}
+.bs-tlp-colhead {
+  position: sticky;
+  top: 0;
+  height: 24px; /* aligns with the 24px ruler opposite */
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  z-index: 5;
+}
+.bs-tlp-empty {
+  padding: var(--sp-4) var(--sp-4);
+  font-size: var(--fs-0);
+}
+.bs-tlp-group {
+  height: 22px; /* GROUP_H — mirrors .bs-tlp-grouplane */
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-tertiary);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.bs-tlp-group__count {
+  padding: 0 var(--sp-2);
+  border-radius: var(--r-full);
+  background: var(--surface-3);
+  font-size: var(--fs-00);
+}
+.bs-tlp-name {
+  height: 30px; /* ROW_H — mirrors .bs-tlp-lane */
+  padding: 0 var(--sp-2) 0 var(--sp-4);
+}
+.bs-tlp-name--muted .bs-tlp-name__labels {
+  opacity: 0.5;
+}
+.bs-tlp-name__labels {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  overflow: hidden;
+}
+.bs-tlp-name__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bs-tlp-readout {
+  margin-left: auto;
+  font-size: var(--fs-00);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bs-tlp-rowbtns {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+.bs-tlp-rowbtn,
+.bs-tlp-name .tl-track-name__delete {
+  opacity: 0; /* revealed on row hover; active toggles stay visible below */
+}
+.bs-tlp-name:hover .bs-tlp-rowbtn,
+.bs-tlp-name:hover .tl-track-name__delete,
+.bs-tlp-rowbtn--on {
+  opacity: 1;
+}
+.bs-tlp-rowbtn {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: var(--r-xs);
+  background: transparent;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.bs-tlp-rowbtn:hover {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+.bs-tlp-rowbtn svg {
+  width: 11px;
+  height: 11px;
+}
+.bs-tlp-rowbtn--solo {
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  font-weight: 700;
+}
+.bs-tlp-rowbtn--on {
+  color: var(--studio-accent);
+}
+
+/* Ruler — shared ProgressRuler primitive (a11y slider) */
+.bs-tlp-ruler:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus) inset;
+}
+.bs-tlp-ticks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.bs-tlp-tick {
+  width: 1px;
+  height: 7px;
+  align-self: flex-end;
+  background: var(--border);
+}
+.bs-tlp-band {
+  /* section band inside the 24px ruler (base geometry from .bs-rng) */
+  top: 2px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  background: var(--studio-accent-soft);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-00);
+  pointer-events: none;
+}
+.bs-tlp-band--even {
+  background: var(--surface-3);
+}
+
+/* Lanes — dope sheet rows mirroring the track stack */
+.bs-tlp-lanes {
+  touch-action: none; /* marquee + key drags own the pointer */
+}
+.bs-tlp-grouplane {
+  height: 22px; /* GROUP_H — mirrors .bs-tlp-group */
+  position: relative;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.bs-tlp-groupspan {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: var(--r-full);
+  background: var(--color-text-tertiary);
+  opacity: 0.45;
+}
+.bs-tlp-lane {
+  border-bottom: 1px solid var(--border);
+}
+.bs-tlp-lane--locked {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 6px,
+    var(--surface-3) 6px 8px
+  );
+}
+.bs-tlp-lane--locked .bs-kf {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.bs-tlp-marquee {
+  position: absolute;
+  border: 1px dashed var(--studio-accent);
+  background: var(--studio-accent-soft);
+  border-radius: var(--r-xs);
+  z-index: 6;
+  pointer-events: none;
+}
+/* selection live-region — visually hidden, announced only */
+.bs-tlp-selcount {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Keyframe glyphs per interpolation (Spec 07 §5) —
+   diamond = default; linear = sharp square; smooth = circle; bezier = hollow */
+.bs-kf--linear {
+  border-radius: 0;
+}
+.bs-kf--smooth {
+  transform: translate(-50%, -50%);
+  border-radius: var(--r-full);
+}
+.bs-kf--bezier {
+  background: transparent;
+}
+
+/* ── Timeline chrome — full reference match ── */
+
+/* Timeline container */
+.bs-timeline {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    min-height: 0;
+    grid-area: timeline;
+    z-index: 20;
+}
+
+/* Head bar with transport (reference .tl-head) */
+.bs-tl-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 14px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-label-sm);
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+}
+
+.bs-tl-head svg {
+    width: 13px;
+    height: 13px;
+}
+
+.bs-tl-head .bs-tl-transport {
+    display: flex;
+    gap: 3px;
+    margin-left: 4px;
+}
+
+.bs-tl-head .bs-tl-transport button {
+    width: 26px;
+    height: 24px;
+    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.bs-tl-head .bs-tl-transport button:hover {
+    background: var(--surface-2);
+}
+
+/* Ruler row with track-name col + %-marks col (reference .tl-ruler) */
+.bs-tl-ruler {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.bs-tl-ruler__left {
+    padding: 5px 14px;
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-label);
+    color: var(--color-text-tertiary);
+    border-right: 1px solid var(--border);
+}
+
+.bs-tl-ruler__right {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 12px;
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-label);
+    color: var(--color-text-tertiary);
+    position: relative;
+}
+
+/* Body rows scroll area (reference .tl-rows) */
+.bs-tl-rows {
+    overflow-y: auto;
+    flex: 1;
+    position: relative;
+    min-height: 0;
+}
+
+/* Playhead line (reference .tl-play) */
+.bs-tl-playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    z-index: 4;
+    pointer-events: none;
+}
+
+.bs-tl-playhead::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--accent);
+    width: 0;
+    height: 0;
+}
+
+/* Single track row (reference .tl-row) */
+.bs-tl-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--border-2);
+}
+
+/* Track name cell (reference .tl-name) */
+.bs-tl-name {
+    padding: 7px 14px;
+    font-family: var(--font-sans, var(--bs-typography-fontFamily-ui));
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+    overflow: hidden;
+}
+
+.bs-tl-name:hover {
+    background: var(--surface-2);
+    color: var(--color-text-primary);
+}
+
+.bs-tl-name--active {
+    background: var(--bs-color-bg-active) !important;
+    color: var(--color-text-primary);
+}
+
+/* Colour dot in track name (reference .tl-name .tc) */
+.bs-tl-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* Track lane (reference .tl-track) */
+.bs-tl-track {
+    position: relative;
+    height: 30px;
+}
+
+/* Range bar (reference .rng) */
+.bs-rng {
+    position: absolute;
+    top: 8px;
+    height: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-nano);
+    color: oklch(20% 0.02 262);
+    overflow: hidden;
+    opacity: 0.9;
+}
+
+/* Keyframe diamond — uses currentColor so it inherits the track color */
+.bs-kf {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 9px;
+    height: 9px;
+    background: currentColor;
+    border: 1.5px solid currentColor;
+    border-radius: 1px;
+    cursor: pointer;
+    transition:
+        box-shadow 0.12s,
+        opacity 0.12s;
+    opacity: 0.9;
+    z-index: 1;
+}
+
+.bs-kf:hover {
+    opacity: 1;
+    box-shadow: 0 0 0 3px currentColor;
+}
+
+.bs-kf--sel {
+    opacity: 1;
+    box-shadow:
+        0 0 0 3px var(--accent),
+        0 0 8px var(--accent);
+}
+
+/* Track clip bar — colored horizontal range spanning first→last keyframe */
+.bs-tl-clip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+    border-radius: 3px;
+    /* Gradient edges: prevents full-width clips looking like solid row fills */
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0px,
+            black 6px,
+            black calc(100% - 6px),
+            transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0px, black 6px, black calc(100% - 6px), transparent 100%);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+}
+
+

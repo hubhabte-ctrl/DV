@@ -1,0 +1,94 @@
+
+:root {
+  --fps-badge-w: 68px;
+}
+/* CanvasChrome.css shared rules */
+/* ── Canvas chrome: FPS badge (reference .fps) ── */
+.bs-fps {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-family: var(--font-mono, var(--bs-typography-fontFamily-mono));
+    font-size: var(--text-label-sm);
+    font-weight: 500;
+    color: var(--accent-lo, oklch(0.78 0.12 274));
+    background: var(--accent-soft, oklch(0.54 0.17 274 / 0.15));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    box-shadow: var(--shadow-sm);
+    padding: 4px 9px;
+    border-radius: var(--r-xs);
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* ── Canvas layer badges (reference .lb / .lb.dom / .lb.scene) ── */
+.bs-layerbadge {
+    font-family: var(--font-mono, var(--bs-typography-fontFamily-mono));
+    font-size: var(--text-micro);
+    font-weight: 500;
+    padding: 4px 9px;
+    border-radius: var(--r-xs);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.bs-layerbadge__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.bs-layerbadge--dom {
+    background: var(--surface-2, oklch(0.24 0.008 264));
+    color: var(--ink-2, oklch(0.78 0.008 264));
+    border: 1px solid var(--border-2, oklch(0.32 0.01 264));
+}
+
+.bs-layerbadge--scene {
+    background: var(--accent-soft, oklch(0.54 0.17 274 / 0.15));
+    color: var(--accent-lo, oklch(0.78 0.12 274));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.bs-layerbadges {
+    position: absolute;
+    right: 16px;
+    bottom: 44px;
+    display: grid;
+    gap: 6px;
+    justify-items: end;
+    z-index: 6;
+    pointer-events: none;
+}
+
+.bs-viewport__stats {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    /* `display` / `gap` / `box-shadow` folded in from the duplicate block that
+       used to sit at global.css:696 (T2.9). Every other property there was
+       already overridden by this rule through import order (global.css is 2nd,
+       this file 7th), but these three were declared ONLY there — so they were
+       live. Moving them keeps the computed value identical now that the class
+       has a single home. */
+    display: flex;
+    gap: 14px;
+    box-shadow: var(--shadow-sm);
+    font-family: var(--font-mono, var(--bs-typography-fontFamily-mono));
+    font-size: var(--text-micro);
+    font-weight: 500;
+    color: var(--ink-2, oklch(0.78 0.008 264));
+    background: var(--surface-2, oklch(0.20 0.008 264 / 0.85));
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border, oklch(0.28 0.01 264));
+    padding: 3px 8px;
+    border-radius: var(--r-xs);
+    z-index: 6;
+    pointer-events: none;
+}
+
+
+
