@@ -1,0 +1,838 @@
+/* ===================================================================
+ * Inspector.css
+ * Inspector tabs, property field rows, asset card grid, token row controls
+ *
+ * Auto-split from src/shared/shell.css (Plan 06 §3.3 modularisation).
+ * PRD-Build-Studio-Brand-Elevation.md: Petrol Blue tab indicator (hue 198).
+ * =================================================================== */
+
+/* ── SSOT Inspector Classes ── */
+.inspector {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+}
+.insp-head-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.section-label {
+  /* Tier 1 — Page Title. Names the workspace you are in ("Properties"). It was
+     13px/600, one step BELOW the object name beneath it, so the panel had no
+     clear top. */
+  font-size: var(--ui-title-page);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+.drawer-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+.drawer-close:hover {
+  color: var(--color-text-primary);
+}
+.insp-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.insp-tabs button {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.insp-tabs button.active {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--accent);
+}
+.insp-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+/* ── Object Header ──────────────────────────────────────────────────────────
+   Ports the SSOT treatment from `UI_UX_reference/src/styles/Inspector.css:85-105`.
+   Previously carried hardcoded 12/16/14/32/10/13px values, the legacy `--border`
+   and `--surface-2` bridge aliases, a neutral icon tile, and a non-mono eyebrow.
+
+   Deviation (§5.3): the SSOT uses `margin-bottom` + `padding-bottom` and NO
+   horizontal padding, because its `.insp-scroll` insets the whole column
+   (`Inspector.css:45`). Production's `.insp-scroll` has no padding at all —
+   every child block self-pads (`.insp-head-bar` and `.grp-header` both
+   `12px 14px`). Adopting the SSOT box here would leave this header flush to the
+   panel edge while every sibling stayed inset. The container-padding
+   restructure is a shell-wide change affecting all studio inspectors, so it is
+   out of scope for this migration (§5.4); the existing self-padding convention
+   is kept and merely tokenised. Typography, icon tile, and tokens do follow
+   the SSOT. ── */
+.insp-obj-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-7);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+.insp-obj-head .ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--size-obj-icon);
+  height: var(--size-obj-icon);
+  background: var(--accent-wash-s);
+  border-radius: var(--radius-card);
+  color: var(--accent-br);
+}
+/* The SSOT relies solely on `svg.i` to size this icon. Kept as a scoped
+   safety net because `Icons.*` glyphs do not all carry `class="i"`. */
+.insp-obj-head .ic svg {
+  width: var(--icon-16);
+  height: var(--icon-16);
+}
+/* Tier 4 — eyebrow. Was ALL CAPS with compensating wide tracking; the tracking
+   existed only to make caps legible, so both come off together. Title Case
+   arrives already cased from the call site (see the `kind` prop). */
+.insp-obj-head .kind {
+  font-family: var(--font);
+  font-size: var(--ui-eyebrow);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-hair);
+}
+.insp-obj-head .name {
+  font-family: var(--font);
+  font-size: var(--ui-title-object);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+/* Lets the identity text shrink so a long name truncates instead of shoving the
+   drill-in chevron out of the header. */
+.insp-obj-head__text {
+  flex: 1;
+  min-width: 0;
+}
+.insp-obj-head__open {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--size-obj-icon);
+  height: var(--size-obj-icon);
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-card);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition-border);
+}
+.insp-obj-head__open:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+.insp-obj-head__open svg {
+  width: var(--icon-16);
+  height: var(--icon-16);
+}
+/* ── Collapsible Group ──────────────────────────────────────────────────────
+   Typography ported from SSOT `UI_UX_reference/src/styles/Inspector.css:128-146`.
+
+   Deviation (§5.3): the SSOT drops the divider entirely (`.grp { margin-bottom }`)
+   and pads via the scroll container, so its `.grp-header`/`.grp-body` carry no
+   horizontal padding. Production's `.insp-scroll` has no container padding, so
+   the divider and the horizontal self-padding are retained here — see the
+   `.insp-obj-head` note above for why that restructure is out of scope. Values
+   are tokenised rather than hardcoded. ── */
+.grp {
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+.grp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-7);
+  cursor: pointer;
+  user-select: none;
+}
+/* Groups the icon and title so the chevron stays pinned to the far edge. */
+.grp-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.grp-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--accent-br);
+}
+.grp-icon svg {
+  width: var(--icon-16);
+  height: var(--icon-16);
+}
+/* Tier 2 — Section Title. Was 11px uppercase tertiary, which rendered a heading
+   at the size and colour of a footnote: smaller than the values it introduced.
+   Now 16px primary Title Case, so a group reads as a group. */
+.grp-title {
+  font-family: var(--font);
+  font-size: var(--ui-title-section);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.grp-toggle {
+  color: var(--color-text-tertiary);
+  transition: transform var(--duration-fast) var(--ease-smooth);
+  opacity: 0.7;
+}
+.grp-toggle.collapsed {
+  transform: rotate(-90deg);
+}
+.grp-body {
+  padding: 0 var(--space-7) var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+/* `.field-row`, `.field` and `.field label` are declared once, in the Form
+   Fields section below — see CLAUDE.md §2.1 (one base declaration per
+   selector). The earlier duplicates that used to sit here were dead: they lost
+   the cascade to those later rules at equal specificity. */
+/* `.f-input` and `.f-select` are declared once each, in the Form Fields section
+   below (L758 / L774) — see CLAUDE.md §2.1. A duplicate base rule used to sit
+   here; it was entirely dead, because every property it set was re-declared by
+   those later rules at equal specificity. Only the `:focus` state for
+   `.f-select` had no later counterpart, so it is kept — retargeted to
+   `.f-select` alone and matched to `.f-input:focus`, which overrode the
+   `.f-input` half of the old grouped selector anyway. */
+.f-select:focus {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 var(--ring-width) var(--accent-wash);
+}
+
+/* ── Inspector node identity header (reference .insp-node) ── */
+.bs-insp-node {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.bs-insp-node__ic {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--bs-radius-sm);
+    background: var(--surface-2);
+    display: grid;
+    place-items: center;
+    color: var(--bs-color-accent-waypoint, var(--accent-hi));
+    flex-shrink: 0;
+}
+
+.bs-insp-node__ic svg {
+    width: 16px;
+    height: 16px;
+}
+
+.bs-insp-node__nn {
+    font-size: 12.5px;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.bs-insp-node__nid {
+    /* Mono is the correct role here — this is a node identifier, not prose. */
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-label);
+    color: var(--ink-3);
+}
+
+/* ── Inspector tab bar (active underline) ── */
+.bs-insp-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.bs-insp-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.bs-insp-tab {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 6px;
+    font-family: var(--font-sans, var(--bs-typography-fontFamily-ui));
+    font-size: var(--text-caption);
+    font-weight: 550;
+    color: var(--ink-3, var(--ink-3));
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bs-insp-tab:hover {
+    color: var(--ink-2, var(--ink-2));
+}
+
+.bs-insp-tab--on {
+    color: var(--ink, var(--ink));
+    font-weight: 600;
+}
+
+.bs-insp-tab--on::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: -1px;
+    height: 2px;
+    /* PRD Brand Elevation: Petrol Blue tab indicator (hue 198, replaces hue-274 violet) */
+    background: var(--accent, oklch(0.52 0.11 198));
+    border-radius: 2px;
+}
+
+/* Inspector group row (reference .grp) */
+.bs-insp-grp {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.bs-insp-grp__head {
+    /* Section header — matches the `.grp-title` tier (audit issues 4/5/6/7). */
+    font-family: var(--font);
+    font-size: var(--ui-title-section);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bs-insp-grp__head svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* Mono read-only value chip (reference .val) */
+.bs-val {
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-label-sm);
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--bs-radius-xs);
+    padding: 5px 9px;
+    min-width: 56px;
+    text-align: right;
+}
+
+.bs-val--wide {
+    min-width: 118px;
+    text-align: left;
+}
+
+.bs-val-duo {
+    display: flex;
+    gap: 6px;
+}
+
+.bs-val-duo .bs-val {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+/* Colour swatch (reference .swatch) */
+.bs-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: var(--bs-radius-xs);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+/* Inspector field row (reference .field) */
+.bs-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 7px 0;
+}
+
+.bs-field label {
+    font-size: 11.5px;
+    color: var(--ink-2);
+}
+
+/* ── Inspector .bs-insp-seg — mini segmented inside inspector groups ── */
+.bs-insp-seg {
+    display: flex;
+    background: var(--surface-2);
+    border-radius: var(--bs-radius-xs);
+    padding: 2px;
+    gap: 2px;
+}
+
+.bs-insp-seg button {
+    flex: 1;
+    padding: 5px 8px;
+    border-radius: 5px;
+    /* Segmented-control label — UI text, so sans (audit issue 4). */
+    font-family: var(--font);
+    font-size: var(--text-label);
+    color: var(--ink-3);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        background 0.12s,
+        color 0.12s;
+}
+
+.bs-insp-seg button.on {
+    background: var(--bs-color-accent-waypoint, var(--accent-hi));
+    color: oklch(18% 0.03 210);
+}
+
+.bs-insp-seg--clay button.on {
+    background: var(--bs-color-accent-clay, oklch(63% 0.15 44));
+    color: oklch(18% 0.03 44);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SSOT Inspector Components (Ported from UI_UX)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Icon Group (alignment toggles) ── */
+.icon-group {
+  display: flex;
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-input); padding: 2px;
+}
+.icon-group button {
+  flex: 1; height: 26px; border: none; background: none;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--text-caption); transition: var(--transition-fast);
+}
+.icon-group button:hover  { color: var(--color-text-secondary); }
+.icon-group button.active { background: var(--color-surface-hover); color: var(--color-text-primary); }
+
+/* ── Segmented Control (Display) ──────────────────────────────────────────
+   Mirrors SSOT `UI_UX_reference/src/styles/Inspector.css:189-207` exactly.
+   2px literals in the SSOT are expressed here as var(--space-1) (= 2px):
+   identical computed value, no hardcoded spacing (CLAUDE.md §2.1).
+
+   `.uk-seg`, `.uk-seg__item`, `.uk-seg__item:hover`, `.uk-seg__item--active`
+   and `.uk-seg__item[aria-selected]` were grouped into these selectors here.
+   They are a DIFFERENT component — the ui-kit SegmentedControl — and were
+   declared unscoped, so this file (loading after UIKit.css) overrode the
+   migrated control application-wide: TopBar, DOMInspector, MaterialArchitect-
+   Inspector and Scene3DInspector all rendered the Inspector's compact metrics
+   instead of the SSOT ones.
+
+   RULE: a bare `.uk-*` rule may only be declared in packages/ui-kit/.
+   App CSS must scope with an ancestor. See CLAUDE.md §2.1 and §5.1.
+   Regression check: `node scripts/audit-selector-collisions.mjs`.
+   ──────────────────────────────────────────────────────────────────────── */
+.f-segmented {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-3);
+}
+.f-seg-btn {
+  padding: var(--space-2) var(--space-3);
+  text-align: center;
+  background: transparent;
+  color: var(--color-text-tertiary);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: var(--text-caption-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.f-seg-btn:hover {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-hover);
+}
+.f-seg-btn.active {
+  background: var(--accent-wash-s);
+  color: var(--color-text-primary);
+  border-color: var(--accent-br);
+  font-weight: var(--weight-semibold);
+}
+
+/* ── SegmentedControl in an inspector field row — IN-CONTEXT SCOPE ────────
+   The ui-kit `.uk-seg` is sized for the Top Bar mode switcher: 12px text,
+   `padding: 0 var(--space-6)`, `white-space: nowrap`, and no `flex` on the
+   item. That is correct there and must not change.
+
+   An inspector field row gives its control roughly 184px
+   (300px panel − 34px row padding − 72px label − 10px gap). The widest
+   consumer — DOMInspector "Border style", 5 options — has an intrinsic width
+   of about 322px at Top Bar metrics. Because `.uk-seg__item` sets
+   `white-space: nowrap` and flex items floor at `min-width: auto`, the items
+   cannot shrink: they would overflow the panel rather than compress.
+
+   So this scopes the SSOT's OWN inspector segmented metrics
+   (`UI_UX_reference/src/styles/Inspector.css:195-207`, the `.f-seg-btn`
+   pattern above) onto `.uk-seg` only where it sits inside `.uk-fieldrow`.
+   Colour, accent, radius, border and active treatment are inherited from
+   UIKit.css untouched — this rule changes sizing and shrink behaviour only.
+
+   Scoped by `.uk-fieldrow__content` ancestor per CLAUDE.md §2.1: app CSS may
+   style a `.uk-*` primitive in context, never bare. The Top Bar switcher
+   (`.tb-center`) is outside this scope and keeps full ui-kit metrics.
+
+   Consumers: DOMInspector.tsx:663 (5 opts), MaterialInspector.tsx:426
+   (3 opts), Scene3DInspector.tsx:398 (3 opts).
+   ──────────────────────────────────────────────────────────────────────── */
+.uk-fieldrow__content .uk-seg {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
+.uk-fieldrow__content .uk-seg__item {
+  flex: 1 1 0;
+  min-width: 0;
+  /* `display: block` overrides the ui-kit `inline-flex`. `text-overflow` has
+     no effect on a flex container's own text, so the ellipsis below would be
+     inert while the label hard-clipped mid-glyph. All three consumers pass
+     labels only — no icon — so nothing needs flex alignment here.
+     `white-space: nowrap` is inherited from the ui-kit base rule. */
+  display: block;
+  text-align: center;
+  height: var(--bs-size-controlH);
+  line-height: var(--bs-size-controlH);
+  padding: 0 var(--space-2);
+  font-size: var(--text-caption-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Sliders ── */
+.slider-row {
+  display: flex; align-items: center; gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.slider-row label {
+  font-family: var(--mono); font-size: var(--text-micro);
+  color: var(--color-text-tertiary);
+  width: 64px; flex: none;
+  /* Deviation (§5.3): the SSOT has no `text-transform` here and instead passes
+     already-uppercased strings (`slider('METALNESS', …)`, App.ts:945). Casing is
+     presentation, so it is applied here once rather than at every call site —
+     which also lets `PBRSliderRow` reuse the natural-case `label` as the value
+     cell's `aria-label`, where an all-caps string would be spelled out
+     letter-by-letter by some screen readers (§2.3). Renders identically for the
+     uppercase literals the existing `.slider-row` consumers already pass. */
+  text-transform: uppercase;
+}
+.slider {
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 3px; border-radius: var(--radius-sm);
+  background: var(--color-surface-hover); outline: none; cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 12px; height: 12px; border-radius: var(--radius-full);
+  background: var(--accent-br); cursor: pointer;
+  box-shadow: 0 0 0 var(--ring-width-lg) var(--accent-wash);
+}
+.slider-val {
+  width: 38px; flex: none; text-align: right;
+  font-family: var(--mono); font-size: var(--text-label-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ── Editable slider value ──────────────────────────────────────────────────
+   Deviation (§5.3): the SSOT value cell is a static `<span class="slider-val">`
+   (`UI_UX_reference/src/app/App.ts:615`). The control this replaces in Material
+   Studio (`@bs/ui-kit` `NumberSliderField`) offered typed numeric entry, and the
+   migration brief forbids removing existing functionality — so `PBRSliderRow`
+   renders an `<input>` in that cell. These rules strip every UA input
+   affordance and inherit the `.slider-val` box and typography above, so the
+   result is visually identical to the SSOT span; only the interaction is
+   additive. Authorised by §5.3 (avoiding a duplicate mechanism): the
+   alternative was retaining a second, non-SSOT slider widget beside this one.
+   No `width`/`font`/`color` is restated here — inheritance carries them, so
+   `.slider-val` keeps its single base declaration (§2.1). ── */
+.slider-val--edit { display: flex; align-items: center; justify-content: flex-end; }
+.slider-val__input {
+  /* `flex: 1; min-width: 0` rather than `width: 100%` — the unit span is a
+     sibling in this flex box, so a full-width input would overflow the cell. */
+  flex: 1; min-width: 0;
+  padding: 0; border: none; background: none;
+  font-family: inherit; font-size: inherit; color: inherit;
+  text-align: right;
+}
+.slider-val__unit { flex: none; }
+
+/* ── Color Swatch Row ── */
+.swatch-row {
+  display: flex; align-items: center; gap: var(--space-4);
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-input);
+  padding: var(--space-3) var(--space-4); margin-bottom: var(--space-3);
+  cursor: pointer; transition: var(--transition-fast);
+  /* Deviation (§5.3): the SSOT rule (components.css:83-90) has no `position`,
+     yet it nests a `position: absolute; top/left: 0; width/height: 100%` colour
+     input inside this row (App.ts:623). Without a positioned ancestor that input
+     resolves against the initial containing block, so the row is the containing
+     block the SSOT markup evidently assumes. Declared here because the browser
+     anchors the native colour popup to the input's box — the overlay is the
+     positioning mechanism, so omitting this reopens the misplaced-popup defect.
+     Purely a containing-block declaration: it paints nothing and has no
+     `z-index`, so no other `.swatch-row` consumer changes. */
+  position: relative;
+}
+.swatch-row:hover { border-color: var(--color-border-strong); }
+.swatch {
+  width: 18px; height: 18px; border-radius: var(--radius-sm);
+  flex: none; border: var(--border-thin) solid var(--color-border-subtle);
+}
+.swatch-hex {
+  font-family: var(--mono); font-size: var(--text-caption-sm);
+  color: var(--color-text-secondary); flex: 1; text-transform: uppercase;
+}
+.swatch-opacity {
+  font-family: var(--mono); font-size: var(--text-micro);
+  color: var(--color-text-muted);
+}
+
+/* ── Box Model ── */
+.boxmodel {
+  border: var(--border-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-btn); padding: var(--space-9); /* e.g. 24px */
+  position: relative; margin: var(--space-2) 0;
+  background: var(--color-surface-panel);
+}
+.bm-margin {
+  position: relative;
+  border: var(--border-thin) dashed var(--bs-color-state-info); /* margin overlay */
+  border-radius: var(--radius-input); padding: var(--space-7); /* e.g. 16px */
+}
+.bm-label {
+  position: absolute; font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+  top: -8px; left: var(--space-3);
+  background: var(--color-surface-panel); padding: 0 var(--space-2);
+}
+.bm-margin > .bm-label { color: var(--bs-color-state-info); }
+.bm-padding {
+  border: var(--border-thin) dashed var(--teal-hex);
+  border-radius: var(--radius-sm); padding: var(--space-6); position: relative;
+}
+.bm-padding > .bm-label { color: var(--teal-hex); }
+.bm-content {
+  background: var(--color-surface-hover); border-radius: var(--radius-sm);
+  height: 30px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: var(--text-micro);
+  color: var(--color-text-muted);
+}
+.bm-num {
+  position: absolute; font-family: var(--mono); font-size: var(--text-micro);
+  color: var(--color-text-muted); background: var(--color-surface-panel);
+  padding: 0 var(--space-1); cursor: ew-resize;
+}
+.bm-num:hover { color: var(--color-text-primary); }
+.bm-num.t { top: -6px;    left: 50%;  transform: translateX(-50%); cursor: ns-resize; }
+.bm-num.b { bottom: -6px; left: 50%;  transform: translateX(-50%); cursor: ns-resize; }
+.bm-num.l { left: -6px;   top: 50%;   transform: translate(-100%,-50%); }
+.bm-num.r { right: -6px;  top: 50%;   transform: translate(100%,-50%); }
+
+/* ── Toggle Row & Switch ── */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+  font-family: var(--font); font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+.toggle-row:last-child { border-bottom: none; }
+
+
+.tgl {
+  width: 34px; height: 19px; border-radius: var(--radius-badge);
+  background: var(--color-surface-hover); position: relative;
+  cursor: pointer; flex: none;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+.tgl.on { background: var(--accent-dim, rgba(22, 90, 109, 0.20)); }
+.tgl .kn {
+  position: absolute; top: 2.5px; left: 2.5px;
+  width: 14px; height: 14px; border-radius: var(--radius-full);
+  background: var(--color-text-tertiary);
+  transition: left var(--duration-fast) var(--ease-smooth),
+              background var(--duration-fast) var(--ease-smooth);
+}
+.tgl.on .kn { left: 17px; background: var(--accent-br); }
+
+/* ── Inspector note (InspectorNote.tsx) ─────────────────────────────────────
+   One quiet line of advice under a group of controls. Replaces the ad-hoc
+   `.bs-insp-hint` / `.bs-insp-env-hint` divs that had grown into paragraphs.
+
+   `white-space: nowrap` + ellipsis is deliberate and load-bearing: it makes an
+   over-long note visibly truncate instead of silently reflowing into the
+   three-line block this component exists to eliminate. The full sentence is on
+   the `title`. ── */
+.insp-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0 0;
+  color: var(--color-text-muted);
+  font-family: var(--font);
+  font-size: var(--ui-eyebrow);
+  line-height: var(--leading-normal);
+}
+.insp-note__icon {
+  flex: none;
+  width: var(--icon-16);
+  height: var(--icon-16);
+  opacity: 0.8;
+}
+.insp-note__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.insp-note__action {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.insp-note__action:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+.insp-note__action svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Form Fields ── */
+.field-row { display: flex; gap: var(--space-3); margin-bottom: var(--space-3); }
+.field { flex: 1; min-width: 0; }
+/* Tier 3 — Control Label. Names one control, so it must stay quieter than the
+   value it introduces: 12px label vs 13px value. Both were 11px before, which
+   is why no row had an obvious focal point. */
+.field label {
+  display: block;
+  font-family: var(--font); font-size: var(--ui-label-control);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text-tertiary); margin-bottom: var(--space-1);
+}
+
+/* Tier 4 — Value / Input: the thing actually being manipulated, so it out-ranks
+   its own label by one step. Stays mono + tabular-nums so digits do not jitter
+   while scrubbing (audit issue 12). */
+.f-input {
+  width: 100%; background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-input);
+  color: var(--color-text-primary);
+  font-family: var(--mono); font-size: var(--ui-value);
+  font-variant-numeric: tabular-nums;
+  padding: var(--space-2) var(--space-4);
+  outline: none; transition: var(--transition-border);
+  box-sizing: border-box;
+}
+.f-input:focus {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 var(--ring-width) var(--accent-wash);
+}
+.f-input:disabled { color: var(--color-text-muted); cursor: not-allowed; opacity: 0.6; }
+
+/* Same value tier as `.f-input`; sans rather than mono because a select holds a
+   word ("Studio Soft"), not a number. */
+.f-select {
+  width: 100%; background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default);
+  border-radius: var(--radius-input);
+  color: var(--color-text-primary);
+  font-family: var(--font); font-size: var(--ui-value);
+  padding: var(--space-2) var(--space-4);
+  outline: none; appearance: none; cursor: pointer;
+  box-sizing: border-box;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%),
+    linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 12px) 11px, calc(100% - 7px) 11px;
+  background-size: 4px 4px; background-repeat: no-repeat;
+}
+
+/* ── Alignment Buttons ── */
+.f-align-btns {
+  display: flex; gap: 2px; padding: 2px;
+  background: var(--color-surface-control);
+  border: var(--border-thin) solid var(--color-border-default, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-card); margin-top: var(--space-3);
+}
+.f-align-btn {
+  flex: 1; height: 28px; display: flex; align-items: center; justify-content: center;
+  background: transparent; color: var(--color-text-tertiary);
+  border: var(--border-thin) solid transparent; border-radius: var(--radius-sm);
+  cursor: pointer; transition: var(--transition-fast);
+}
+.f-align-btn:hover { color: var(--color-text-secondary); background: var(--color-surface-hover); }
+.f-align-btn.active {
+  background: var(--accent-wash-s, rgba(22, 90, 109, 0.18)); color: var(--accent-br);
+  border-color: var(--accent-br);
+}
+
+/* bs-anim-* block removed — AnimateKeyframeInspector now uses canonical
+   Inspector primitives (CollapsibleSection, field-row, f-input, NumberField).
+   No custom CSS required. */

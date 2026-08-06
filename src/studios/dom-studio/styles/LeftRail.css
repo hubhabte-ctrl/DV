@@ -1,0 +1,1358 @@
+/* ===================================================================
+ * LeftRail.css — SSOT-migrated (UI_UX Design System)
+ * Activity Rail, Dock Panel, Layer Tree, Insert Grid, Component List
+ * =================================================================== */
+
+/* ── LeftRail root (grid-area: leftrail) ── */
+.bs-leftrail-root {
+  display: flex;
+  flex-direction: row;
+  background: var(--color-surface-panel);
+  border-right: var(--border-thin) solid var(--color-border-subtle);
+  height: 100%;
+}
+/* Left dock body — SSOT `.layers-panel`. The panel-level traits live here
+   rather than on `.bs-dock` because that class is shared with the right
+   Inspector, which mirrors the border to its own edge.
+   ───────────────────────────────────────────────────────────────────────
+   DELIBERATE DEVIATION — responsive strategy (governance §8 "be responsive")
+   SSOT `shell.css` @768px turns `.layers-panel` into an off-canvas drawer
+   (position:fixed, translateX(-100%), `.open`, `.drawer-backdrop.show`,
+   `.drawer-close`, `.drawer-btn.layers-toggle-btn`). Production already ships
+   a working equivalent for the same job: `leftCollapsed` drives
+   `--bs-size-leftRailW` to 0 and `<PanelSplitter side="leftRail" />` gives
+   continuous user resize. Adding the drawer would put two competing
+   mechanisms on one panel — barred by §8 ("no duplicate components") and §9
+   ("no duplicate CSS re-implementing something the design system already
+   provides"). The collapse width is applied as an inline custom property by
+   App.tsx, so a media query could not override it without `!important`
+   either; converting that to a drawer is shell-state work belonging to §7
+   item 4 (Workspace), not this section. The `transition` below is retained
+   so the panel animates on the SSOT curve whichever mechanism moves it. */
+.bs-dock-inner {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  border-right: none;
+  border-left: var(--border-thin) solid var(--color-border-subtle);
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+.bs-dock-tabs-extra {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ── AnimateLayerTree — tree rows scoped to the left panel ── */
+.bs-animate-tree {
+  display: flex;
+  flex-direction: column;
+  /* No padding — grp-body already provides var(--space-7) horizontal padding.
+     Adding padding here pushes rows outside the visible panel width. */
+}
+
+/* Track row: must not exceed panel width. min-width:0 enables flex children
+   to shrink below their content size (the key fix for label overflow). */
+.bs-animate-track-row {
+  /* Inherits .uk-tree__row height/gap/border-radius/cursor/etc. */
+  min-width: 0;
+  overflow: hidden;
+}
+
+.bs-animate-track-chevron {
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.6;
+  font-size: var(--text-micro);
+  width: 12px;
+  text-align: center;
+}
+
+/* Label must truncate — NOT push the row wider. */
+.bs-animate-track-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+.bs-animate-track-count {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+/* Keyframe sub-list — indented under its parent track */
+.bs-animate-keyframe-list {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  /* thin separator from track row above */
+  border-left: 1px solid var(--color-border-subtle);
+  margin: 0 0 4px 20px;
+}
+
+/* Keyframe row — same overflow containment as track row */
+.bs-animate-keyframe-row {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11.5px;
+}
+
+.bs-animate-keyframe-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11.5px;
+  color: var(--color-text-secondary);
+}
+
+/* t-value badge — monospace, right-aligned, never shrinks */
+.bs-animate-keyframe-t {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
+/* AssetFolderTree */
+.bs-asset-folder-tree {
+  padding: var(--sp-2) var(--sp-4);
+}
+.bs-asset-folder-group {
+  margin-bottom: var(--sp-1);
+}
+.bs-asset-folder-header {
+  padding-left: var(--sp-2);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.bs-asset-folder-chevron {
+  display: inline-block;
+  width: 12px;
+  font-size: var(--text-nano);
+  color: var(--ink-3);
+  transition: transform 0.15s ease;
+  text-align: center;
+}
+.bs-asset-folder-chevron--open {
+  transform: rotate(90deg);
+}
+.bs-asset-folder-icon {
+  font-size: var(--text-body-sm);
+  opacity: 0.85;
+}
+.bs-asset-folder-label {
+  font-weight: 500;
+}
+.bs-asset-folder-count {
+  font-size: var(--text-micro);
+  margin-left: var(--sp-2);
+}
+.bs-asset-folder-item {
+  padding-left: 22px;
+  cursor: pointer;
+}
+.bs-asset-folder-item-icon {
+  font-size: var(--text-caption);
+}
+.bs-asset-folder-item-version {
+  font-size: var(--text-micro);
+}
+
+/* LeftRail asset tab */
+.bs-asset-tab-filters {
+  padding: var(--sp-4) var(--sp-6) 0;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.bs-asset-rename-input {
+  height: 20px;
+  font-size: var(--text-label);
+  padding: 0 var(--sp-2);
+}
+.bs-asset-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bs-asset-font-glyph {
+  font-size: var(--text-heading);
+  font-weight: 700;
+}
+
+/* LeftRail components tab */
+.bs-comp-delete-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.bs-comp-delete-icon-btn {
+  width: 20px;
+  height: 20px;
+}
+
+/* LeftRail pages tab */
+.bs-pages-tab {
+  padding: 12px;
+}
+.bs-pages-tab-node {
+  margin-top: var(--sp-4);
+}
+
+/* LeftRail templates tab */
+.bs-templates-tab {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bs-template-card {
+  padding: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.bs-template-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bs-template-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  font-weight: 600;
+  font-size: var(--text-body-sm);
+  color: var(--ink);
+}
+
+/* LeftRail preview tab */
+.bs-preview-tab {
+  padding: var(--sp-2) var(--sp-4);
+}
+.bs-preview-tab-row {
+  padding-left: 12px;
+}
+
+/* ── InspectorPanel ── */
+.bs-insp-tabs-scroll {
+  display: flex;
+  overflow-x: auto;
+}
+.bs-insp-body-pad-sm {
+  padding: var(--sp-2) var(--sp-4);
+}
+.bs-insp-body-pad {
+  padding: var(--sp-4);
+}
+.bs-insp-token-add {
+  padding: var(--sp-4) 14px var(--sp-2);
+}
+.bs-insp-hint {
+  padding: var(--sp-2) 14px var(--sp-4);
+  font-size: var(--fs-00);
+}
+.bs-insp-light-divider {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.bs-insp-track-row {
+  padding-left: 10px;
+  cursor: pointer;
+}
+.bs-insp-track-meta {
+  font-size: var(--text-micro);
+}
+.bs-insp-env-hint {
+  padding: var(--sp-4) 14px var(--sp-4);
+  font-size: var(--fs-00);
+}
+.bs-insp-keyframe-divider {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.bs-insp-vec-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+.bs-insp-waypoint-pad {
+  padding: var(--sp-2) var(--sp-4);
+}
+
+/* ── TopBarModals ── */
+.bs-modal-body-gap-lg {
+  gap: 18px;
+}
+.bs-modal-cat-label {
+  margin-bottom: var(--sp-4);
+}
+.bs-modal-body-gap-md {
+  gap: 16px;
+}
+.bs-modal-body-gap-sm {
+  gap: 12px;
+}
+.bs-modal-pref-row {
+  justify-content: space-between;
+}
+.bs-modal-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+  padding-top: var(--sp-2);
+}
+.bs-modal-arch-card {
+  gap: var(--sp-4);
+  font-size: var(--text-caption);
+}
+.bs-modal-arch-header {
+  justify-content: space-between;
+}
+.bs-modal-arch-title {
+  font-weight: 600;
+}
+.bs-about-center {
+  text-align: center;
+  padding: 12px 0;
+}
+.bs-about-title {
+  margin: 0;
+  font-size: var(--text-heading-lg);
+  font-weight: 700;
+  color: var(--accent);
+}
+.bs-about-sub {
+  font-size: var(--text-caption);
+  color: var(--ink-3);
+}
+.bs-about-card-title {
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+.bs-about-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink-2);
+}
+.bs-about-manifest {
+  font-size: var(--text-label);
+}
+.bs-modal-settings-gap {
+  gap: var(--sp-4);
+}
+.bs-modal-settings-header {
+  gap: var(--sp-4);
+}
+
+/* ── AssetInspector ── */
+.bs-ai-mono-sm {
+  font-size: var(--fs-0);
+}
+.bs-ai-mono-xs {
+  font-size: var(--text-label);
+  opacity: 0.7;
+}
+.bs-ai-opt-status {
+  padding: var(--sp-4) 14px;
+  font-size: var(--fs-00);
+}
+.bs-ai-opt-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--sp-4);
+}
+.bs-ai-opt-row--last {
+  display: flex;
+  justify-content: space-between;
+}
+.bs-ai-opt-active {
+  color: var(--studio-accent);
+  font-weight: 500;
+}
+.bs-ai-opt-success {
+  color: var(--success);
+  font-weight: 500;
+}
+.bs-ai-usage-row {
+  padding-left: 10px;
+  cursor: pointer;
+}
+.bs-ai-usage-meta {
+  font-size: var(--text-micro);
+}
+.bs-ai-usage-empty {
+  padding: var(--sp-2) 14px var(--sp-4);
+  font-size: var(--fs-00);
+}
+.bs-ai-dep-status {
+  padding: var(--sp-4) 14px;
+  font-size: var(--fs-00);
+}
+.bs-ai-dep-active {
+  color: var(--studio-accent);
+}
+.bs-ai-dep-unused {
+  color: var(--warning);
+}
+.bs-ai-ver-history {
+  padding: var(--sp-4) 14px;
+  font-size: var(--fs-00);
+}
+.bs-ai-ver-entry {
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.bs-ai-ver-entry-title {
+  font-weight: 500;
+  color: var(--ink);
+}
+.bs-ai-ver-entry-hash {
+  font-size: var(--text-micro);
+}
+.bs-ai-ver-archived {
+  padding: var(--sp-4) 0;
+  opacity: 0.6;
+}
+.bs-ai-ver-archived-title {
+  font-weight: 500;
+}
+.bs-ai-ver-upload-btn {
+  padding: var(--sp-4) 14px;
+}
+.bs-ai-ver-upload-btn-full {
+  width: 100%;
+}
+
+/* ── AnimateKeyframeInspector — styles removed; component now uses InspectorObjectHeader + shared tokens ── */
+
+/* ── LeftRail templates tab (continued) ── */
+.bs-template-badge {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  padding: 2px var(--sp-4);
+  border-radius: var(--r-xs);
+  letter-spacing: 0.5px;
+}
+.bs-template-badge--featured {
+  background: var(--studio-accent-soft);
+  color: var(--studio-accent);
+}
+.bs-template-badge--default {
+  background: var(--bs-color-bg-hover);
+  color: var(--ink-3);
+}
+.bs-template-desc {
+  font-size: var(--text-caption);
+  color: var(--ink-2);
+  margin: 0;
+  line-height: 1.4;
+}
+.bs-template-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sp-2);
+  padding-top: var(--sp-4);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.bs-template-meta {
+  font-size: var(--text-label);
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.bs-template-import-btn {
+  padding: 5px 12px;
+  font-size: var(--text-label);
+  font-weight: 600;
+  border-radius: var(--r-sm);
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  cursor: pointer;
+}
+
+/* ── LeftRail materials tab ── */
+.bs-mat-tab {
+  padding: var(--sp-2) 0;
+}
+.bs-mat-tab-header {
+  padding: var(--sp-4) 12px var(--sp-2);
+}
+.bs-mat-row {
+  padding-left: 12px;
+  cursor: pointer;
+  gap: var(--sp-4);
+}
+.bs-mat-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,.15);
+}
+.bs-mat-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bs-mat-type {
+  font-size: var(--text-micro);
+}
+/* Dock empty state — SSOT `.lp-empty-state` (shell.css). */
+.bs-mat-empty {
+  padding: var(--space-9) var(--space-7);
+  font-family: var(--font);
+  font-size: var(--text-caption-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: var(--leading-relaxed);
+}
+
+/* ── DOMInspector ── */
+.bs-di-vec4 {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-2);
+}
+.bs-di-hint {
+  padding: var(--sp-2) 14px var(--sp-4);
+  font-size: var(--fs-00);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ACTIVITY RAIL — SSOT-migrated (UI_UX Design System `.rail`)
+   Canonical width: --rail-w (64px). Icon-only studio switcher with
+   per-studio active tints and hover flyout tooltips.
+   ═══════════════════════════════════════════════════════════════ */
+.rail {
+    width: var(--rail-w);
+    background: var(--color-surface-panel);
+    border-right: var(--border-thin) solid var(--color-border-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-6) 0;
+    gap: var(--space-2);
+    position: relative;
+    z-index: 20;
+    flex-shrink: 0;
+}
+
+/* ── Rail icon buttons ── */
+.rail-btn {
+    position: relative;
+    width: var(--rail-btn-size);
+    height: var(--rail-btn-size);
+    border-radius: var(--rail-btn-radius);
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    flex: none;
+}
+.rail-btn svg {
+    width: var(--icon-18);
+    height: var(--icon-18);
+}
+.rail-btn:hover {
+    background: var(--color-surface-card);
+    color: var(--color-text-secondary);
+}
+/* Focus ring intentionally omitted — the global `:focus-visible` rule
+   (tokens/global.css) already emits the SSOT ring for every control. */
+
+/* ── Active state — accent indicator bar in the rail gutter ── */
+.rail-btn.active {
+    color: var(--accent-br);
+}
+.rail-btn.active::before {
+    content: '';
+    position: absolute;
+    left: var(--rail-active-bar-x);
+    top: var(--rail-active-bar-inset);
+    bottom: var(--rail-active-bar-inset);
+    width: var(--rail-active-bar-w);
+    background: var(--accent);
+    border-radius: var(--radius-sm);
+}
+
+/* ── Per-studio active tints (SSOT studio palette) ── */
+.rail-btn[data-studio='dom'].active {
+    background: var(--accent-wash-s);
+    color: var(--accent-br);
+}
+.rail-btn[data-studio='3d'].active {
+    background: var(--blue-wash);
+    color: var(--blue);
+}
+.rail-btn[data-studio='3d'].active::before {
+    background: var(--blue);
+}
+.rail-btn[data-studio='anim'].active {
+    background: var(--violet-wash-hex);
+    color: var(--violet-hex);
+}
+.rail-btn[data-studio='anim'].active::before {
+    background: var(--violet-hex);
+}
+.rail-btn[data-studio='material'].active {
+    background: var(--teal-wash-hex);
+    color: var(--teal-hex);
+}
+.rail-btn[data-studio='material'].active::before {
+    background: var(--teal-hex);
+}
+.rail-btn[data-studio='asset'].active {
+    background: var(--green-wash);
+    color: var(--green);
+}
+.rail-btn[data-studio='asset'].active::before {
+    background: var(--green);
+}
+.rail-btn[data-studio='preview'].active {
+    background: var(--amber-wash-hex);
+    color: var(--amber-hex);
+}
+.rail-btn[data-studio='preview'].active::before {
+    background: var(--amber-hex);
+}
+
+/* ── Hover flyout tooltip ──
+   DEVIATION from SSOT (`UI_UX_reference/src/styles/shell.css:269-280`),
+   documented per CLAUDE.md §5.3. Two departures, both authorised by §2.3
+   (accessibility is non-negotiable):
+
+   1. `visibility`. The SSOT hides the flyout with `opacity: 0` alone. An
+      opacity-0 element stays in the accessibility tree and in find-in-page, so
+      all seven labels ("DOM", "3D Scene", …) are exposed to assistive tech at
+      all times while contributing nothing — each button already carries an
+      explicit `aria-label`. Transitioning `visibility` alongside `opacity` is
+      the standard fix: `visible` wins at the start of the fade-in and is only
+      dropped once the fade-out has fully run, so the animation is unchanged.
+   2. `:focus-visible`. The SSOT reveals the flyout on `:hover` only, which
+      makes the label unreachable by keyboard. The added selector gives the
+      keyboard path the same affordance as the pointer path.
+
+   Neither changes the steady-state rendering; `left`/`gap`/colour/typography
+   remain a token-for-token port of the SSOT rule. */
+.rail-tooltip {
+    position: absolute;
+    left: calc(100% + var(--rail-tooltip-gap));
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-surface-hover);
+    border: var(--border-thin) solid var(--color-border-default);
+    border-radius: var(--radius-input);
+    padding: var(--space-2) var(--space-5);
+    font-family: var(--mono);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-opacity), visibility var(--duration-fast) var(--ease-smooth);
+    z-index: 99;
+}
+.rail-btn:hover .rail-tooltip,
+.rail-btn:focus-visible .rail-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ── Rail separator ── */
+.rail-sep {
+    width: var(--rail-sep-w);
+    height: var(--border-thin);
+    background: var(--color-border-default);
+    margin: var(--space-3) 0;
+    flex: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SETTINGS POPOVER — SSOT-migrated (`styles/shell.css:283-315`)
+   Anchored to the rail floor. Adopted per ruling R3.
+   ═══════════════════════════════════════════════════════════════ */
+.settings-pop {
+    position: absolute;
+    left: var(--rail-popover-x);
+    bottom: 0;
+    width: var(--rail-popover-w);
+    background: var(--color-surface-card);
+    border: var(--border-thin) solid var(--color-border-default);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    /* DEVIATION from SSOT (`shell.css:289-294`), per CLAUDE.md §5.3.
+       SSOT hides the panel with `opacity` + `pointer-events` only, which leaves
+       all six controls in the tab order and the accessibility tree while the
+       panel is invisible — a keyboard user tabs into rows they cannot see.
+       `visibility: hidden` removes them from both and still animates, because
+       it flips to `visible` at the start of the enter transition and is only
+       dropped once the exit transition has run. Authorised by §2.3. Same
+       treatment, same reasoning as `.rail-tooltip` above. */
+    visibility: hidden;
+    transform: translateX(calc(-1 * var(--rail-popover-slide)));
+    transition:
+        opacity var(--duration-fast) var(--ease-smooth),
+        transform var(--duration-fast) var(--ease-smooth),
+        visibility var(--duration-fast) var(--ease-smooth);
+    z-index: 60;
+}
+.settings-pop.show {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Settings-popover section divider. Was mono + micro + wide-tracked caps — the
+   HUD signature. Chrome is prose, so it takes the UI sans face; the tracking
+   existed only to space out caps and goes with them. Size is unchanged, because
+   this is a dense popover, not an inspector group. */
+.sp-section {
+    font-family: var(--font);
+    font-size: var(--ui-eyebrow);
+    letter-spacing: var(--tracking-normal);
+    color: var(--color-text-muted);
+    padding: var(--space-3) var(--space-5) var(--space-2);
+}
+
+/* Rows are <button> in production, not the SSOT's <div> (§2.3 — an activatable
+   row must be a real control). Resetting the UA button chrome is what keeps the
+   rendered result identical to the SSOT rule. */
+.sp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    border: none;
+    background: none;
+    font-family: var(--font);
+    font-size: var(--text-body-sm);
+    color: var(--color-text-secondary);
+    text-align: left;
+    border-radius: var(--radius-input);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.sp-row:hover {
+    background: var(--color-surface-control);
+}
+.sp-row-value {
+    font-family: var(--mono);
+    font-size: var(--text-micro);
+    color: var(--color-text-muted);
+}
+.sp-divider {
+    height: var(--border-thin);
+    background: var(--color-border-subtle);
+    margin: var(--space-2) 0;
+}
+
+/* ── Bottom cluster (pinned to the rail floor) ── */
+.rail-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding-bottom: var(--space-3);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   DOCK PANEL — SSOT-migrated
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Dock root ── */
+.bs-dock {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface-panel);
+    min-height: 0;
+    overflow: hidden;
+    flex: 1;
+}
+
+/* ── Panel header — SSOT `.lp-head` ── */
+.bs-dock__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-5) var(--space-4) var(--space-6);
+    border-bottom: var(--border-thin) solid var(--color-border-subtle);
+    flex: none;
+}
+
+/* SSOT `.lp-title` — section-caps caption in the UI font, not mono (§3.3). */
+.bs-dock__title {
+    font-family: var(--font);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-section);
+    color: var(--color-text-secondary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* SSOT `.lp-actions` */
+.bs-dock__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+/* ── Tab strip — SSOT `.lp-tabs` (Pages / Layers / The Foundry) ── */
+/* No bottom border in the SSOT: the tabs sit flush above the body. */
+.bs-dock__tabs {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4) 0;
+    flex: none;
+}
+
+/* SSOT `.lp-tab` — tabs share the row equally and center their label. */
+.bs-dock__tab {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-3) var(--space-2);
+    font-family: var(--font);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-tertiary);
+    border: none;
+    border-radius: var(--radius-input);
+    background: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.bs-dock__tab:hover {
+    background: var(--color-surface-control);
+    color: var(--color-text-primary);
+}
+
+/* SSOT active tab — accent wash + inset hairline ring, not a filled pill. */
+.bs-dock__tab--on {
+    background: var(--accent-wash-s);
+    color: var(--accent-br);
+    font-weight: var(--weight-semibold);
+    box-shadow: inset 0 0 0 var(--border-thin) var(--accent-dim);
+}
+[data-theme='light'] .bs-dock__tab--on {
+    color: var(--accent);
+}
+
+/* Dock search chrome intentionally absent — the searchable-list contract is
+   served by the shared <SearchInput> component (SSOT `.lp-search`), styled in
+   ui-kit. A `.bs-dock__search` block lived here with no markup consumer and
+   was removed per §9. */
+
+/* ── Scroll body — SSOT `.tree` metrics (tree.css) ── */
+.bs-dock__scroll {
+    overflow-y: auto;
+    flex: 1;
+    padding: var(--space-2) var(--space-3) var(--space-6);
+    min-height: 0;
+}
+
+/* ── Group section head (Layers, Scene, etc.) ──
+   Was the last consumer of `--tracking-widest` in the rail. Sans + Title Case
+   at normal tracking; the strings are already Title Case in the TSX (`Layers`,
+   `Scene`), so removing the transform needs no re-casing here. ── */
+.bs-grouphead {
+    font-family: var(--font);
+    font-size: var(--ui-eyebrow);
+    letter-spacing: var(--tracking-normal);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    padding: var(--space-5) var(--space-3) var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+
+/* ── T4.6: Add Group row (SSOT .lp-add-group-row — tree.css:278) ── */
+.lp-add-group-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: var(--space-2) var(--space-4) var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-thin) dashed var(--color-border-default);
+    border-radius: var(--radius-input);
+    font-family: var(--font);
+    font-size: var(--text-caption-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    background: transparent;
+    width: calc(100% - 2 * var(--space-4));
+    text-align: left;
+    transition: border-color var(--duration-fast) var(--ease-smooth),
+                color var(--duration-fast) var(--ease-smooth);
+    user-select: none;
+}
+.lp-add-group-row:hover {
+    border-color: var(--accent-dim-hex);
+    color: var(--accent-br);
+}
+.lp-add-group-row svg { flex: none; }
+
+/* ── T4.7: Drag grip (SSOT .drag-handle — App.ts:405) ── */
+.drag-handle {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    color: var(--color-text-muted);
+    opacity: 0;
+    cursor: grab;
+    pointer-events: none;
+    transition: opacity var(--duration-fast) var(--ease-smooth);
+    margin-right: var(--space-1);
+}
+.bs-node:hover .drag-handle {
+    opacity: 1;
+    pointer-events: auto;
+}
+.drag-handle:active { cursor: grabbing; }
+
+/* ── T4.8: Child count badge (SSOT .lbl-count — App.ts:396) ── */
+.lbl-count {
+    font-family: var(--mono);
+    font-size: var(--text-mono-label);
+    color: var(--color-text-muted);
+    margin-left: var(--space-2);
+    opacity: 0.7;
+}
+
+/* ── Tree node row — SSOT ── */
+
+.bs-node {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);                     /* 6px */
+    padding: var(--space-2) var(--space-4);  /* 4px 8px */
+    border-radius: var(--radius-btn);
+    color: var(--color-text-secondary);
+    font-family: var(--font);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-regular);
+    transition: var(--transition-fast);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+.bs-node:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
+}
+
+/* DOM selection — teal left-border + tinted bg (matches screenshot) */
+.bs-node--sel {
+    background: var(--teal-wash-hex);
+    color: var(--teal-hex);
+    font-weight: var(--weight-medium);
+}
+.bs-node--sel::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 2px;
+    border-radius: var(--radius-full);
+    background: var(--teal-hex);
+}
+
+/* Scene selection — amber tinted */
+.bs-node--sel-scene {
+    background: var(--amber-wash-hex);
+    color: var(--amber-hex);
+    font-weight: var(--weight-medium);
+}
+.bs-node--sel-scene::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 2px;
+    border-radius: var(--radius-full);
+    background: var(--amber-hex);
+}
+
+/* Indent helpers */
+.bs-node--c1 { margin-left: 15px; }
+.bs-node--c2 { margin-left: 30px; }
+
+/* Tree-widget chevron icon */
+.bs-node__tw {
+    width: 13px;
+    height: 13px;
+    color: var(--color-text-muted);
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+}
+.bs-node__tw svg { width: 13px; height: 13px; }
+
+/* Node label */
+.bs-node__lab {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font);
+}
+
+/* Domain tag pills — SSOT: tiny & subtle, pushed right */
+.bs-node__tag {
+    font-family: var(--mono);
+    font-size: var(--text-nano);
+    font-weight: var(--weight-medium);
+    padding: 1px 5px;
+    border-radius: var(--radius-badge);
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    line-height: 1.5;
+    white-space: nowrap;
+    opacity: 0.65;
+    transition: opacity var(--duration-fast) ease;
+}
+.bs-node:hover .bs-node__tag { opacity: 1; }
+
+/* DOM tag — muted grey pill */
+.bs-node__tag--dom {
+    background: var(--color-surface-control);
+    color: var(--color-text-muted);
+    border-color: var(--color-border-default);
+}
+/* Scene tag — teal tinted */
+.bs-node__tag--scene {
+    background: var(--teal-wash-hex);
+    color: var(--teal-hex);
+    border-color: var(--teal-line-hex);
+}
+/* Material tag — amber tinted */
+.bs-node__tag--mat {
+    background: var(--amber-wash-hex);
+    color: var(--amber-hex);
+    border-color: var(--amber-line-hex);
+}
+
+
+[data-theme='light'] .bs-node__tag--dom {
+    background: var(--surface-2);
+    color: var(--ink-2);
+    border-color: var(--border-2);
+}
+
+[data-theme='light'] .bs-node__tag--scene {
+    background: var(--accent-soft);
+    color: var(--accent-lo);
+    border-color: oklch(0.42 0.10 198 / 0.28);
+}
+
+[data-theme='light'] .bs-node__tag--mat {
+    background: var(--surface-3);
+    color: var(--ink-3);
+    border-color: var(--border-2);
+}
+
+/* Timeline channel badge */
+.bs-tl-channel-badge {
+    font-size: var(--text-caption-sm);
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--accent-hi);
+    background: rgba(22, 90, 109, 0.12);
+    border: 1px solid rgba(22, 90, 109, 0.28);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Eye (visibility) icon — hover-reveal */
+.bs-node__eye {
+    width: 14px;
+    height: 14px;
+    color: var(--color-text-muted);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+}
+.bs-node__eye svg { width: 14px; height: 14px; }
+.bs-node:hover .bs-node__eye { opacity: 1; }
+
+.comp-group-label {
+    font-size: var(--ui-eyebrow);
+    letter-spacing: var(--tracking-normal);
+    color: var(--color-text-muted);
+    padding: 16px 12px 8px;
+    font-weight: var(--weight-medium);
+}
+.comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 12px 16px;
+}
+.comp-item {
+    display: flex;
+    align-items: center;
+    background: var(--surface-2);
+    border: var(--border-thin) solid var(--border);
+    border-radius: var(--radius-btn);
+    padding: 8px 12px;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    font-size: var(--text-caption-sm);
+    cursor: grab;
+    transition: background var(--duration-fast);
+    user-select: none;
+}
+.comp-item:hover {
+    background: var(--surface-3);
+    border-color: var(--border-2);
+    color: var(--color-text-primary);
+}
+.comp-item .cic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.comp-item:hover .cic {
+    color: var(--accent);
+}
+.comp-item .cic svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Custom Components List */
+.comp-list-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    margin: 0 0 2px 0;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    font-size: var(--text-caption-sm);
+    cursor: grab;
+    transition: background var(--duration-fast);
+}
+.comp-list-row:hover {
+    background: var(--surface-2);
+}
+.comp-list-row .nic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.comp-list-row .lbl {
+    flex: 1;
+}
+.comp-list-row .lbl-count {
+    color: var(--color-text-muted);
+    font-size: var(--text-micro);
+    font-family: var(--mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSERT GRID CARDS — SSOT
+   ═══════════════════════════════════════════════════════════════ */
+.bs-insert-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+}
+.bs-insert-cell {
+    display: grid;
+    gap: var(--space-3);
+    place-items: center;
+    padding: var(--space-6) var(--space-3);   /* 12px 6px */
+    border: var(--border-thin) solid var(--color-border-default);
+    border-radius: var(--radius-btn);
+    background: var(--color-surface-control);
+    color: var(--color-text-secondary);
+    font-family: var(--font);
+    font-size: var(--text-caption-sm);
+    cursor: grab;
+    transition: var(--transition-fast);
+    text-align: center;
+    user-select: none;
+}
+.bs-insert-cell svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-muted);
+}
+.bs-insert-cell:hover {
+    border-color: var(--teal-hex);
+    background: var(--teal-wash-hex);
+    color: var(--teal-hex);
+}
+.bs-insert-cell:hover svg { color: var(--teal-hex); }
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT LIST — SSOT
+   ═══════════════════════════════════════════════════════════════ */
+.bs-comp-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-4);
+    border-radius: var(--radius-btn);
+    transition: var(--transition-fast);
+    cursor: pointer;
+}
+.bs-comp-item:hover { background: var(--color-surface-hover); }
+
+.bs-comp-item__ic {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-input);
+    background: var(--color-surface-control);
+    display: grid;
+    place-items: center;
+    color: var(--teal-hex);
+    border: var(--border-thin) solid var(--color-border-default);
+    flex-shrink: 0;
+}
+.bs-comp-item__ic svg { width: 15px; height: 15px; }
+
+.bs-comp-item__nm {
+    font-family: var(--font);
+    font-size: var(--text-caption);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+}
+.bs-comp-item__mt {
+    font-family: var(--mono);
+    font-size: var(--text-micro);
+    color: var(--color-text-muted);
+}
+.bs-comp-item__badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: var(--text-micro);
+    color: var(--amber-hex);
+}
+
+/* Template cards — SSOT tokens */
+.bs-template-card {
+    padding: var(--space-6);
+    background: var(--color-surface-card);
+    border: var(--border-thin) solid var(--color-border-default);
+    border-radius: var(--radius-btn);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: var(--transition-fast);
+}
+.bs-template-card:hover { border-color: var(--color-border-strong); }
+.bs-template-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bs-template-card-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-family: var(--font);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-caption);
+    color: var(--color-text-primary);
+}
+.bs-template-badge {
+    font-family: var(--mono);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-bold);
+    padding: 2px var(--space-4);
+    border-radius: var(--radius-badge);
+    letter-spacing: var(--tracking-wide);
+}
+.bs-template-badge--featured {
+    background: var(--teal-wash-hex);
+    color: var(--teal-hex);
+}
+.bs-template-badge--default {
+    background: var(--color-surface-control);
+    color: var(--color-text-muted);
+}
+.bs-template-desc {
+    font-family: var(--font);
+    font-size: var(--text-caption-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+.bs-template-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    border-top: var(--border-thin) solid var(--color-border-subtle);
+}
+.bs-template-meta {
+    font-family: var(--font);
+    font-size: var(--text-caption-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+}
+.bs-template-import-btn {
+    padding: var(--space-2) var(--space-5);
+    font-family: var(--font);
+    font-size: var(--text-caption-sm);
+    font-weight: var(--weight-semibold);
+    border-radius: var(--radius-btn);
+    background: linear-gradient(155deg, var(--accent-br), var(--accent));
+    color: var(--color-text-on-accent);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.bs-template-import-btn:hover { filter: brightness(1.12); }
+

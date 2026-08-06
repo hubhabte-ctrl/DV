@@ -1,0 +1,861 @@
+/* =============================================================
+ * dom-studio.css — DOM (Web Design) Studio identity & chrome
+ * Spec 07 §3, Plan 06 §3.4 — co-located with studio code.
+ *
+ * Studio identity: --studio-accent: indigo/blue
+ *   [data-studio='dom'] sets --studio-accent on the shell root.
+ *
+ * Contents:
+ *   · DOMProfileBar (zoom, grid, snap, guides toolbar)
+ *   · DOM canvas overlay chrome (drop-line, resize handles, selection guides)
+ *   · DOMFlowStrip (purpose-driven bottom surface for DOM Studio)
+ *   · DOM-specific status bar info pills
+ *
+ * All values from design tokens — no raw literals.
+ * ============================================================= */
+
+/* ── DOM Studio accent & identity ─────────────────────────── */
+[data-studio='dom'] {
+  --studio-accent:      oklch(0.55 0.16 258);   /* indigo-blue */
+  --studio-accent-soft: oklch(0.55 0.16 258 / 0.12);
+  --studio-accent-hi:   oklch(0.72 0.14 258);
+  --studio-accent-lo:   oklch(0.78 0.10 258);
+}
+
+/* ── DOMProfileBar ─────────────────────────────────────── */
+/* The slim toolbar above the DOM canvas: zoom, grid, snap, guides, rulers */
+.bs-profile-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-3);
+  height: 36px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 30;
+  position: relative;
+}
+.bs-profile-bar__sep {
+  width: 1px;
+  height: 16px;
+  background: var(--border-2);
+  margin: 0 var(--sp-1);
+}
+.bs-profile-bar__zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-00);
+  color: var(--ink-2);
+  min-width: 52px;
+}
+.bs-profile-bar__zoom-val {
+  min-width: 38px;
+  text-align: right;
+  color: var(--ink);
+  font-weight: 550;
+}
+
+/* ── DOM Canvas Workspace ──────────────────────────────────── */
+/* The infinite canvas host that contains DOM nodes */
+.bs-dom-canvas {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--surface);
+  /* Subtle cross-hatch pattern for the infinite canvas background */
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center center;
+}
+.bs-dom-canvas--norulers {
+  margin-top: 0;
+  margin-left: 0;
+}
+
+/* ── DOM Selection Overlay ─────────────────────────────────── */
+/* Blue outline + corner handles on hover/selected DOM nodes */
+.bs-selection-frame {
+  position: absolute;
+  pointer-events: none;
+  border: 1.5px solid var(--studio-accent);
+  border-radius: 1px;
+  z-index: 200;
+}
+.bs-selection-frame__handle {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: var(--surface);
+  border: 1.5px solid var(--studio-accent);
+  border-radius: 1px;
+  pointer-events: auto;
+  cursor: nwse-resize;
+}
+.bs-selection-frame__handle--tl { top: -4px; left: -4px; cursor: nw-resize; }
+.bs-selection-frame__handle--tr { top: -4px; right: -4px; cursor: ne-resize; }
+.bs-selection-frame__handle--bl { bottom: -4px; left: -4px; cursor: sw-resize; }
+.bs-selection-frame__handle--br { bottom: -4px; right: -4px; cursor: se-resize; }
+.bs-selection-frame__handle--tm { top: -4px; left: calc(50% - 3px); cursor: n-resize; }
+.bs-selection-frame__handle--bm { bottom: -4px; left: calc(50% - 3px); cursor: s-resize; }
+.bs-selection-frame__handle--ml { left: -4px; top: calc(50% - 3px); cursor: w-resize; }
+.bs-selection-frame__handle--mr { right: -4px; top: calc(50% - 3px); cursor: e-resize; }
+
+/* DOM hover outline (before selection) */
+.bs-dom-hover {
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid var(--studio-accent-lo);
+  border-radius: 1px;
+  z-index: 199;
+}
+
+/* ── DOMFlowStrip (DOM Studio bottom surface) ─────────────────── */
+/* Inherits from purpose-driven-surfaces.css — accent override only */
+.bs-flowstrip {
+  border-top-color: var(--studio-accent, var(--border));
+}
+.bs-flowstrip__tab--on {
+  color: var(--studio-accent);
+  border-bottom-color: var(--studio-accent);
+}
+
+/* ── DOM Node label badges (on-canvas) ─────────────────────── */
+.bs-dom-label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 600;
+  color: var(--surface);
+  background: var(--studio-accent);
+  border-radius: var(--r-xs) var(--r-xs) 0 0;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+
+/* ── Snap & alignment guides ───────────────────────────────── */
+.bs-guide {
+  position: absolute;
+  pointer-events: none;
+  z-index: 201;
+}
+.bs-guide--h {
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--studio-accent);
+}
+.bs-guide--v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--studio-accent);
+}
+.bs-guide--center {
+  background: oklch(0.65 0.20 30); /* orange snap line */
+}
+
+/* ── DOM Studio scrollbars (minimal) ──────────────────────── */
+.bs-dom-canvas ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.bs-dom-canvas ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.bs-dom-canvas ::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 3px;
+}
+
+/* ===================================================================
+ * CanvasChrome.css
+ * Pixel rulers, minimap, FPS badge, timeline chrome, context menus, device shell frames
+ *
+ * Auto-split from src/shared/shell.css (Plan 06 §3.3 modularisation).
+ * Total lines: 3519
+ * =================================================================== */
+
+/* ── Ruler strips (Figma/Webflow-style pixel rulers) ─────────── */
+/* Both rulers are absolutely positioned over the canvas. The scroller
+   is already inset top/left by 20px so content area is not covered. */
+.bs-ruler {
+    position: absolute;
+    z-index: 12;
+    pointer-events: auto;
+    user-select: none;
+}
+
+/* Horizontal ruler — 20px strip along the very top of .bs-domcanvas */
+.bs-ruler--h {
+    top: 0;
+    left: 20px;
+    /* starts after the V ruler corner */
+    right: 0;
+    height: 20px;
+    overflow: hidden;
+}
+
+/* Vertical ruler — 20px strip along the very left of .bs-domcanvas */
+.bs-ruler--v {
+    top: 20px;
+    /* starts after H ruler corner */
+    left: 0;
+    width: 20px;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/* The <canvas> inside each ruler fills the strip exactly */
+.bs-ruler__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Corner square at the ruler origin (top-left intersection) */
+.bs-ruler__corner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--bs-ruler-bg, oklch(12% 0.01 262));
+    border-right: 1px solid var(--bs-ruler-border, oklch(26% 0.02 262));
+    border-bottom: 1px solid var(--bs-ruler-border, oklch(26% 0.02 262));
+    z-index: 13;
+}
+
+/* Cursor crosshair lines — one per ruler, updated via JS on pointermove */
+.bs-ruler__cursor {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+    background: var(--color-guide);
+    z-index: 27;
+    opacity: 1;
+}
+
+.bs-ruler__cursor--h {
+    /* vertical line on the H ruler tracking X position */
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+.bs-ruler__cursor--v {
+    /* horizontal line on the V ruler tracking Y position */
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+}
+
+.bs-domnode__tag {
+    position: absolute;
+    top: -19px;
+    left: 0;
+    font: 600 9.5px var(--bs-typography-fontFamily-mono);
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: var(--bs-color-bg-overlay);
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 3;
+    white-space: nowrap;
+}
+
+/* Section minimap (matches reference .minimap) */
+.bs-minimap {
+    position: absolute;
+    bottom: 84px;
+    left: 34px;
+    display: flex;
+    gap: 3px;
+    padding: 7px;
+    border-radius: 10px;
+    background: var(--bs-color-bg-overlay);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    z-index: 5;
+}
+
+.bs-minimap__cell {
+    width: 16px;
+    height: 26px;
+    border-radius: 3px;
+    background: var(--surface-2);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    transition: background var(--bs-motion-duration-fast) var(--bs-motion-easing-standard);
+}
+
+.bs-minimap__cell:hover {
+    background: var(--border-2);
+}
+
+.bs-minimap__cell.on {
+    background: var(--accent);
+}
+
+/* Scroll progress rail (matches reference .scroll-rail) */
+.bs-scrollrail {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 24px;
+    background: linear-gradient(0deg, var(--shell), transparent);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.bs-scrollrail__pct {
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-label);
+    color: var(--ink-3);
+    min-width: 36px;
+}
+
+.bs-scrollrail__track {
+    flex: 1;
+    height: 4px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: none;
+}
+
+.bs-scrollrail__fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--accent);
+    border-radius: 4px;
+    width: 0%;
+}
+
+.bs-scrollrail__knob {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--on-accent);
+    box-shadow: var(--shadow-md);
+    cursor: grab;
+}
+
+.bs-scrollrail__knob:active {
+    cursor: grabbing;
+}
+
+.bs-scrollrail__ticks {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.bs-scrollrail__ticks span {
+    width: 1px;
+    height: 8px;
+    align-self: center;
+    background: var(--border-2);
+}
+
+
+
+/* ── Waypoint card on canvas (reference .wp-card) ── */
+.bs-wp-card {
+    position: absolute;
+    background: oklch(27% 0.02 262 / 0.94);
+    border: 1px solid oklch(50% 0.06 210);
+    border-radius: var(--bs-radius-sm);
+    padding: 7px 10px;
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+}
+
+.bs-wp-card__t {
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-nano);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bs-color-accent-waypoint, oklch(70% 0.12 210));
+}
+
+.bs-wp-card__d {
+    font-size: var(--text-label-sm);
+    color: var(--ink);
+    margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DOMProfileBar — compact icon-only device profile switcher
+   Floats at top-center of the DOM / Preview canvas.
+   No dark overlay — blends into the canvas chrome.
+   ═══════════════════════════════════════════════════════════════ */
+.bs-canvas-profile-bar {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bs-color-bg-panel);
+    border: 1px solid var(--bs-color-border-default);
+    border-radius: 8px;
+    padding: 3px 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    pointer-events: all;
+    user-select: none;
+}
+
+[data-theme='light'] .bs-canvas-profile-bar {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--bs-color-border-default);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    color: var(--bs-color-text-primary);
+}
+
+/* Icon-only profile pill */
+.bs-canvas-profile-pill {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    color: var(--bs-color-text-secondary);
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+    flex-shrink: 0;
+}
+
+.bs-canvas-profile-pill svg {
+    width: 14px;
+    height: 14px;
+}
+
+.bs-canvas-profile-pill:hover {
+    background: oklch(38% 0.04 262 / 0.7);
+    color: var(--ink);
+}
+
+.bs-canvas-profile-pill--active {
+    background: oklch(42% 0.09 262);
+    color: var(--ink);
+    box-shadow: 0 0 0 1.5px oklch(60% 0.14 262 / 0.5);
+}
+
+/* Separator */
+.bs-canvas-profile-bar__sep {
+    width: 1px;
+    height: 16px;
+    background: oklch(55% 0.04 262 / 0.3);
+    margin: 0 3px;
+    flex-shrink: 0;
+}
+
+/* GPU quality chip — compact mono text */
+.bs-canvas-profile-bar__gpu {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px;
+    height: 28px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
+    color: var(--ink-3);
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-micro);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 120ms ease,
+        color 120ms ease;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+}
+
+.bs-canvas-profile-bar__gpu:hover {
+    background: oklch(38% 0.04 262 / 0.7);
+    color: var(--ink);
+}
+
+.bs-canvas-profile-bar__gpu-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.bs-canvas-profile-bar__gpu-dot[data-quality='High'] {
+    background: oklch(68% 0.16 140);
+    box-shadow: 0 0 5px oklch(68% 0.16 140 / 0.5);
+}
+
+.bs-canvas-profile-bar__gpu-dot[data-quality='Medium'] {
+    background: oklch(72% 0.16 60);
+    box-shadow: 0 0 5px oklch(72% 0.16 60 / 0.5);
+}
+
+.bs-canvas-profile-bar__gpu-dot[data-quality='Low'] {
+    background: oklch(60% 0.18 25);
+    box-shadow: 0 0 5px oklch(60% 0.18 25 / 0.5);
+}
+
+
+/* ── DOMContextMenu: DOM Studio Context Menu ── */
+.bs-contextmenu {
+    position: fixed;
+    z-index: 10000;
+    min-width: 200px;
+    background: var(--bs-color-bg-panel);
+    border: 1px solid var(--bs-color-border-subtle, oklch(35% 0.04 260));
+    border-radius: var(--bs-radius-md);
+    padding: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.25);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    font-family: var(--bs-typography-fontFamily-ui);
+    user-select: none;
+    animation: bs-ctx-in 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bs-ctx-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.bs-contextmenu__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    font-size: var(--text-label);
+    font-weight: 600;
+    color: var(--bs-color-text-muted);
+    letter-spacing: 0.02em;
+}
+
+.bs-contextmenu__header-ic {
+    display: inline-flex;
+    align-items: center;
+    width: 14px;
+    height: 14px;
+    color: var(--bs-color-accent-clay, oklch(63% 0.15 44));
+}
+
+.bs-contextmenu__header-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bs-contextmenu__sep {
+    height: 1px;
+    background: var(--bs-color-border-subtle, oklch(25% 0.03 260));
+    margin: 3px 0;
+}
+
+.bs-contextmenu__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: var(--text-caption);
+    color: var(--bs-color-text-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    transition: background 0.1s ease, color 0.1s ease;
+}
+
+.bs-contextmenu__item:hover:not(:disabled) {
+    background: var(--bs-color-bg-active);
+    color: var(--on-accent);
+}
+
+.bs-contextmenu__item:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.bs-contextmenu__item--danger:hover:not(:disabled) {
+    background: var(--bs-color-state-danger);
+    color: var(--on-accent);
+}
+
+.bs-contextmenu__ic {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-size: var(--text-body-sm);
+    color: var(--bs-color-text-muted);
+    flex-shrink: 0;
+}
+
+.bs-contextmenu__item:hover .bs-contextmenu__ic {
+    color: inherit;
+}
+
+.bs-contextmenu__lbl {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.bs-contextmenu__kbd {
+    font-family: var(--bs-typography-fontFamily-mono);
+    font-size: var(--text-micro);
+    color: var(--bs-color-text-muted);
+    background: var(--bs-color-bg-panelRaised);
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid var(--bs-color-border-subtle);
+}
+
+.bs-contextmenu__arrow {
+    font-size: var(--text-micro);
+    color: var(--bs-color-text-muted);
+    margin-left: auto;
+}
+
+.bs-contextmenu__item--has-sub {
+    position: relative;
+}
+
+.bs-contextmenu__sub {
+    position: absolute;
+    top: -4px;
+    left: 100%;
+    margin-left: 4px;
+    min-width: 180px;
+    background: var(--bs-color-bg-panel);
+    border: 1px solid var(--bs-color-border-subtle, oklch(35% 0.04 260));
+    border-radius: var(--bs-radius-md);
+    padding: 4px;
+    box-shadow: var(--shadow-lg);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+
+
+/* =============================================================
+ * PURPOSE-DRIVEN BOTTOM SURFACES (Spec 07 §3/§4 — stage R3)
+ *   • DOMFlowStrip — DOM Studio scroll storyboard
+ *   • Scene3DShotBar   — 3D Studio cinematography strip
+ *
+ * Extracted from `packages/ui-kit/src/tokens/global.css` per Plan 06
+ * Phase 3 §3.4 — CSS boundary split.
+ *
+ * Owner note: these blocks still live under `src/shell/` because
+ * `DOMFlowStrip.tsx` and `Scene3DShotBar.tsx` themselves have not yet moved into
+ * `studios/dom-studio/**` / `studios/scene3d-studio/**` (Phase 4 —
+ * DOM/3D studio folder migrations). When those moves land, this file
+ * will split further into per-studio sheets colocated with the moved
+ * components; until then, keeping the two blocks together preserves
+ * the shared `.bs-flowstrip__play,.bs-shotbar__play` selector chain
+ * without duplication.
+ *
+ * All values from tokens. Per-studio identity via `--studio-accent`
+ * (waypoint blue for DOM, teal for 3D — set by `[data-studio='dom']`
+ * / `[data-studio='3d']` in `global.css` §T3).
+ * ============================================================= */
+
+/* ── DOMFlowStrip — DOM Studio scroll storyboard ── */
+.bs-flowstrip {
+  display: flex;
+  align-items: stretch;
+  gap: var(--sp-4);
+  height: 100%;
+  padding: var(--sp-4) var(--sp-6);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.bs-flowstrip__transport {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex: 0 0 auto;
+}
+.bs-flowstrip__play,
+.bs-shotbar__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--bs-size-controlH);
+  height: var(--bs-size-controlH);
+  border-radius: var(--r-sm);
+  color: var(--ink-2);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.bs-flowstrip__play:hover,
+.bs-shotbar__play:hover {
+  background: var(--bs-color-bg-hover);
+  color: var(--ink);
+}
+.bs-flowstrip__readout,
+.bs-shotbar__readout {
+  font-family: var(--font-mono);
+  font-size: var(--fs-0);
+  color: var(--ink-3);
+  min-width: 44px;
+  align-self: center;
+}
+.bs-flowstrip__band {
+  position: relative;
+  flex: 1 1 auto;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: ew-resize;
+}
+.bs-flowstrip__band:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+.bs-flowstrip__section {
+  position: absolute;
+  top: var(--sp-2);
+  bottom: var(--sp-2);
+  left: var(--flow-left);
+  width: var(--flow-width);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-4);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-3);
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.bs-flowstrip__section--active {
+  border-color: var(--studio-accent);
+  background: var(--studio-accent-soft);
+}
+.bs-flowstrip__section-name {
+  font-size: var(--fs-00);
+  font-weight: 550;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bs-flowstrip__section--active .bs-flowstrip__section-name {
+  color: var(--ink);
+}
+.bs-flowstrip__animate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-xs);
+  color: var(--ink-3);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.bs-flowstrip__section:hover .bs-flowstrip__animate {
+  opacity: 1;
+}
+.bs-flowstrip__animate:hover {
+  color: var(--violet);
+}
+.bs-flowstrip__waypoint {
+  position: absolute;
+  top: 0;
+  left: var(--flow-left);
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%);
+  border-radius: var(--r-full);
+  background: var(--bs-color-accent-waypoint);
+  border: 1px solid var(--surface);
+  z-index: 2;
+}
+.bs-flowstrip__waypoint--unbound {
+  background: var(--warning);
+}
+.bs-flowstrip__waypoint--selected {
+  box-shadow: var(--shadow-focus);
+}
+.bs-flowstrip__playhead,
+.bs-shotbar__playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--flow-left);
+  width: 1.5px;
+  background: var(--studio-accent);
+  pointer-events: none;
+  z-index: 3;
+}
+
+
+/* ── DOMInspector: 4-sided spacing / radius grid (2 × 2) ── */
+.bs-spacing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 4px;
+    padding: 0 0 4px;
+}
+
+.bs-spacing-grid .uk-fieldrow {
+    padding: 2px 0;
+}
+
+/* ── Design token row ── */
+.bs-tokenrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.bs-tokenrow:last-child {
+    border-bottom: none;
+}
+
